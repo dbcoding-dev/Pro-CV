@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="author" content="elemis">
+    <title>İletişim</title>
+    <link rel="shortcut icon" href="/assets/favicon.ico">
+    <link rel="stylesheet" href="/assets/css/plugins.css">
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="/assets/css/main.css">
+    <link rel="preload" href="/assets/css/fonts/space.css" as="style" onload="this.rel='stylesheet'">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+
+<body>
+    <div class="content-wrapper bg-light">
+        <%- include('./components/header'); -%>
+
+            <section class="wrapper gradient-8 bg-lines">
+                <div class="container pt-17 pt-md-19 pb-18 text-center">
+                    <div class="row">
+                        <div class="col-lg-10 col-xl-9 col-xxl-8 mx-auto" data-cues="zoomIn" data-group="page-title"
+                            data-interval="-200" data-delay="500">
+                            <h1 class="display-1 fs-68 lh-xxs mb-8 text-white">
+                                İletişim
+                            </h1>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="wrapper bg-light">
+                <div class="container ">
+                    <div class="row gx-md-5 gy-5 mt-n19 mb-14 mb-md-17 mobile_blog">
+                        <div class="col-md-6 col-xl-4">
+                            <div class="card shadow-lg">
+                                <div class="card-body">
+                                    <img src="assets/img/icons/solid/edit.svg"
+                                        class="svg-inject icon-svg icon-svg-sm solid-mono text-fuchsia mb-3" alt="">
+                                    <h4>İletişim Formu</h4>
+                                    <p class="mb-2">Sorunuzu iletişim formumuz aracılığıyla gönderin; genellikle bir gün
+                                        içinde yanıt veririz.</p>
+                                    <a href="/contact-form" class="more hover link-fuchsia">İletişime geç</a>
+                                </div>
+                            </div>
+                            <!--/.card -->
+                        </div>
+                        <div class="col-md-6 col-xl-4">
+                            <div class="card shadow-lg">
+                                <div class="card-body">
+                                    <img src="assets/img/icons/solid/team.svg"
+                                        class="svg-inject icon-svg icon-svg-sm solid-mono text-violet mb-3" alt="">
+                                    <h4>Telefon desteği</h4>
+                                    <p class="mb-2">İptaller, faturalandırma veya diğer desteklerle ilgili sorularınız
+                                        için bizi arayın.</p>
+                                    <a href="tel:929 389 0532" class="more hover link-violet">929 389 0532</a>
+                                </div>
+                                <!--/.card-body -->
+                            </div>
+                            <!--/.card -->
+                        </div>
+                        <div class="col-md-6 col-xl-4">
+                            <div class="card shadow-lg">
+                                <div class="card-body">
+                                    <img src="assets/img/icons/solid/lamp.svg"
+                                        class="svg-inject icon-svg icon-svg-sm solid-mono text-orange mb-3" alt="">
+                                    <h4>Aboneliği iptal et </h4>
+                                    <p class="mb-2">Bu basit formu kullanarak desteğimizi beklemeden aboneliğinizi iptal
+                                        ettirin.</p>
+                                    <a href="#" class="more hover link-orange">Aboneliği iptal et</a>
+                                </div>
+                                <!--/.card-body -->
+                            </div>
+                            <!--/.card -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="wrapper bg-light">
+                <div class="container pb-md-16">
+                    <div class="d-flex flex-column justify-content-center">
+                        <h1 class="pb-2 text-center">Sıkça Sorulan Sorular</h1>
+                        <p class="text-center">Sık sorulan soruların yanıtlarını aşağıda kolayca bulabilirsiniz.
+                        </p>
+                    </div>
+                    <div class="row gx-lg-8 gx-xl-12 gy-10">
+                        <div class="col-lg-12">
+                            <div id="accordion-3" class="accordion-wrapper">
+                                <% faqList.forEach(blog=> { %>
+                                    <div class="card accordion-item shadow-lg">
+                                        <div class="card-header" id="accordion-heading-3-1">
+                                            <button class="collapsed" data-bs-toggle="collapse"
+                                                data-bs-target="#<%=blog.order %>" aria-expanded="false"
+                                                aria-controls="accordion-collapse-3-1">
+                                                <%=blog.title %>
+                                            </button>
+                                        </div>
+                                        <div id="<%=blog.order %>" class="collapse"
+                                            aria-labelledby="accordion-heading-3-1" data-bs-target="#accordion-3">
+                                            <div class="card-body">
+                                                <p>
+                                                    <%=blog.desc %>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <% }); %>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="overflow-hidden">
+                    <div class="divider text-navy mx-n2">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 1440 100">
+                            <path fill="currentColor"
+                                d="M1260,1.65c-60-5.07-119.82,2.47-179.83,10.13s-120,11.48-180,9.57-120-7.66-180-6.42c-60,1.63-120,11.21-180,16a1129.52,1129.52,0,0,1-180,0c-60-4.78-120-14.36-180-19.14S60,7,30,7H0v93H1440V30.89C1380.07,23.2,1319.93,6.15,1260,1.65Z">
+                            </path>
+                        </svg>
+                    </div>
+                </div>
+            </section>
+    </div>
+    <%- include('./components/footer'); -%>
+        <%- include('./components/script'); -%>
+</body>
+
+</html>

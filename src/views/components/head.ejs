@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <% if (setSiteList && setSiteList.length> 0) { %>
+    <meta name="description" content="<%= setSiteList[0].site_desc %>">
+    <% } else { %>
+      <meta name="description" content="Default Description">
+      <% } %>
+        <meta name="author" content="elemis">
+        <% if (setSiteList && setSiteList.length> 0) { %>
+          <title>
+            <%= setSiteList[0].site_title %>
+          </title>
+          <% } else { %>
+            <title> Pro Cv </title>
+            <% } %>
+              <link rel="shortcut icon" href="/assets/favicon.ico">
+              <link rel="stylesheet" href="/assets/css/plugins.css">
+              <link rel="stylesheet" href="/assets/css/style.css">
+              <link rel="stylesheet" href="/assets/css/main.css">
+              <link rel="preload" href="/assets/css/fonts/space.css" as="style" onload="this.rel='stylesheet'">
+              <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+              <meta name="google-site-verification" content="xs05U06NOOXQlk1NAv2z8mDYkDPZf_SP8fSQ41edZU4" />
+              <link rel="stylesheet"
+                href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+              <link rel="stylesheet"
+                href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
+</head>

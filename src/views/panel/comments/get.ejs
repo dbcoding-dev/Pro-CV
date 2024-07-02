@@ -1,0 +1,141 @@
+<%- include('../components/head'); -%>
+
+<body>
+  <%- include('../components/preloader'); -%>
+
+  <div id="main-wrapper">
+    <%- include('../components/nav'); -%> <%- include('../components/chatbox');
+    -%> <%- include('../components/header'); -%> <%-
+    include('../components/sidebar'); -%>
+    <div class="content-body">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-xl-12">
+            <div class="card dz-card" id="accordion-three">
+              <div class="card-header flex-wrap d-flex justify-content-between">
+                <div>
+                  <h4 class="card-title">Comment List</h4>
+                </div>
+                <ul class="nav nav-tabs dzm-tabs" id="myTab-2" role="tablist">
+                  <li class="nav-item" role="presentation">
+                    <a
+                      type="button"
+                      href="/panel/comment/add"
+                      class="btn btn-primary"
+                      ><span class="btn-icon-start text-primary"
+                        ><i class="fa fa-plus color-info"></i> </span
+                      >Add</a
+                    >
+                  </li>
+                </ul>
+              </div>
+              <div class="tab-content" id="myTabContent-2">
+                <div
+                  class="tab-pane fade show active"
+                  id="withoutSpace"
+                  role="tabpanel"
+                  aria-labelledby="home-tab-2"
+                >
+                  <div class="card-body pt-0">
+                    <div class="table-responsive">
+                      <table
+                        id="example3"
+                        class="display table"
+                        style="min-width: 845px"
+                      >
+                        <thead>
+                          <tr>
+                            <th>Name</th>
+                            <th>Position</th>
+                            <th>Desc</th>
+                            <th>Image</th>
+                            <th>Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <% commentList.forEach(faq=> { %>
+                          <tr>
+                            <td><%= faq.name %></td>
+                            <td><%= faq.position %></td>
+                            <td>
+                              <%= faq.desc.length> 50 ? faq.desc.slice(0, 50) +
+                              '...' : faq.desc %>
+                            </td>
+                            <td>
+                                <img src="/comments/<%=faq.img%>" alt="" class="rounded" width="50">
+                            </td>
+                            <td>
+                              <div class="d-flex">
+                                <a
+                                  href="/panel/comments/edit/<%= faq.id %>"
+                                  class="btn btn-primary shadow btn-xs sharp me-1"
+                                  ><i class="fas fa-pencil-alt"></i
+                                ></a>
+                                <a
+                                  href="#"
+                                  class="btn btn-danger shadow btn-xs sharp"
+                                  onclick="deleteBlog('<%= faq.id %>')"
+                                  ><i class="fa fa-trash"></i
+                                ></a>
+                              </div>
+                            </td>
+                          </tr>
+                          <% }); %>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <%- include('../components/footer'); -%>
+  </div>
+
+  <script>
+    function deleteBlog(blogId) {
+      const isConfirmed = confirm(
+        "Are you sure you want to delete this Comments?"
+      );
+
+      if (isConfirmed) {
+        fetch(`/panel/comments/${blogId}`, {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.success) {
+              Swal.fire({
+                icon: "success",
+                title: "Success",
+                text: "Comments has been deleted successfully!",
+              }).then(() => {
+                location.reload();
+              });
+            } else {
+              Swal.fire({
+                icon: "error",
+                title: "Error",
+                text: "Delete operation failed: " + data.message,
+              });
+            }
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+            Swal.fire({
+              icon: "error",
+              title: "Error",
+              text: "An error occurred during the delete operation.",
+            });
+          });
+      }
+    }
+  </script>
+  <%- include('../components/scripts'); -%>
+</body>

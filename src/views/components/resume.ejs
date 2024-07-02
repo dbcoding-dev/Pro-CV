@@ -1,0 +1,39 @@
+<script src="https://cdn.jsdelivr.net/npm/dompurify@2.3.3/dist/purify.min.js"></script>
+
+
+<section class="container pt-12">
+    <div class="">
+        <h1 class="text-center">CV (Özgeçmiş)</h1>
+        <p class="text-center pt-3">Özgeçmişinizle İlgili Bilgiler, Sıkça Sorulan Sorular ve İpuçları.</p>
+    </div>
+</section>
+
+<section class="wrapper bg-light pt-18">
+    <div class="container pb-14 pb-md-16">
+        <div class="row">
+            <div class="col-lg-10 mx-auto">
+                <div class="blog single mt-n17">
+                    <% setCirriculumList.forEach(blog=> { %>
+                        <div class="card shadow-lg my-3">
+                            <div class="card-body">
+                                <h2 class="h1 mb-3">
+                                    <%=blog.title %>
+                                </h2>
+                                <p id="blogDetailContent" >
+                                    <%=blog.desc %>
+                                </p>
+                            </div>
+                        </div>
+                        <% }); %>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+      var blogDetailContent = document.getElementById('blogDetailContent');
+      blogDetailContent.innerHTML = DOMPurify.sanitize(blogDetailContent.innerHTML);
+    });
+  </script>

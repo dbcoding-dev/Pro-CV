@@ -1,0 +1,76 @@
+<%- include('./components/head'); -%>
+
+  <body>
+    <div class="content-wrapper bg-light">
+      <%- include('./components/header'); -%>
+        <section class="wrapper gradient-8 bg-lines">
+          <div class="container pt-md-19 paddinB header__padding text-center">
+            <div class="row">
+              <div class="col-lg-10 col-xl-9 col-xxl-8 mx-auto" data-cues="zoomIn" data-group="page-title"
+                data-interval="-200" data-delay="500">
+                <h4 class="display-4 fs-54 lh-xxs mb-8 text-white">
+                  Profesyonel Özgeçmişinizi
+                  <p class="title pb-2"></p>
+                  <span class="underline-2 underline-gradient-6"><em class="pb-3">Pro CV</em></span>
+                  ile Oluşturun
+                </h4>
+                <p class="text-white">
+                  Kendi profesyonel özgeçmişinizi doldurun ve Hemen indirin.
+                </p>
+                <div class="pt-4 btn_ads">
+                  <a href="/create-cv" class="btn_dark">Özgeçmişinizi Oluşturun</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <div class="bnt-ads">
+          <div class="page--hero__background"></div>
+        </div>
+        <section class="btn_ads">
+          <div class="owl-carousel">
+            <% resumeList.forEach(blog=> { %>
+              <div>
+                <a href="/resume/<%=blog.img %>" data-glightbox="title:<%=blog.title %>" data-gallery="post">
+                  <img src="/resume/<%=blog.img %>" alt="<%=blog.title %>" class="p-5">
+                </a>
+              </div>
+              <% }); %>
+          </div>
+        </section>
+        <%- include('./components/card'); -%>
+
+          <%- include('./components/explore'); -%>
+            <div class="row pt-4 mobile_resume">
+              <div class="my-5">
+                <h1 class="text-center text-dark">Öne çıkan bir özgeçmiş hazırlayın</h1>
+                <p class="text-center ">
+                  Profesyonelce tasarlanmış özgeçmişimizle, özgeçmişinizi oluşturarak iş bulma şansınızı artırın.
+                </p>
+              </div>
+              <% resumeList.forEach(blog=> { %>
+                <div class="col-lg-4 col-md-6 col-sm-12">
+                  <div class="shadow-lg p-3 mb-5 bg-white rounded">
+                    <figure class="hover-scale rounded cursor-dark">
+                      <a href="/resume/<%=blog.img %>" data-glightbox="title:<%=blog.title %>" data-gallery="post">
+                        <img src="/resume/<%=blog.img %>" alt="" class="w-100 p-3">
+                      </a>
+                    </figure>
+                  </div>
+                </div>
+                <% }); %>
+
+                  <p class="text-center">Mevcut tüm profesyonel özgeçmiş örnek <a href="/resume-cv">şablonlarımızı</a>
+                    görüntüleyin.</p>
+
+            </div>
+            <%- include('./components/resume'); -%>
+              <%- include('./components/apply'); -%>
+                <%- include('./components/comments'); -%>
+    </div>
+    <%- include('./components/footer'); -%>
+      <%- include('./components/script'); -%>
+
+  </body>
+
+  </html>

@@ -1,0 +1,59 @@
+<%- include('../components/head'); -%>
+
+<body>
+
+  <%- include('../components/preloader'); -%>
+
+  <div id="main-wrapper">
+    <%- include('../components/nav'); -%>
+
+    <%- include('../components/chatbox'); -%>
+    <%- include('../components/header'); -%>
+
+
+    <%- include('../components/sidebar'); -%>
+
+    <div class="content-body">
+      <div class="container-fluid">
+        <div class="row">
+            <div class="col-xl-12 col-lg-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title">Comments Edit</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="basic-form">
+                            <form action="/panel/comments/<%= comment.id %>?_method=PUT" method="post" enctype="multipart/form-data">
+                                <div class="mb-3">
+                                    <label for="">User Name</label>
+                                    <input type="text" class="form-control input-default " name="name" value="<%= comment.name %>">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="">User position</label>
+                                    <input type="text" class="form-control input-default " name="position" value="<%= comment.position %>">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="">User Desctiption</label>
+                                    <textarea class="form-txtarea form-control" rows="8" id="comment" name="desc"><%= comment.desc %></textarea>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="formFile" class="form-label">Blog Image 1200 x 800</label>
+                                    <input class="form-control" type="file" id="formFile" name="img">
+                                  </div>
+                                  <div class="mb-3 w-100">
+                                    <img src="/comments/<%= comment.img %>?<%= Date.now() %>" alt="" class="w-50"> 
+                                  </div>
+                                  <div class="mb-3">
+                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                  </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div>
+    </div>
+    <%- include('../components/footer'); -%>
+  </div>
+  <%- include('../components/scripts'); -%>

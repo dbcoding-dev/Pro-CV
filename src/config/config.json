@@ -1,0 +1,38 @@
+{
+  "development": {
+    "username": "root",
+    "password": "yeni_sifre",
+    "database": "procv",
+    "host": "localhost",
+    "dialect": "mysql",
+    "define": {
+      "charset": "utf8mb4",
+      "collate": "utf8mb4_general_ci"
+    },
+    "logging": false
+  },
+  "test": {
+    "username": "root",
+    "password": null,
+    "database": "cv",
+    "host": "localhost",
+    "dialect": "mysql",
+    "define": {
+      "charset": "utf8mb4",
+      "collate": "utf8mb4_general_ci"
+    },
+    "logging": false
+  },
+  "production": {
+    "username": "root",
+    "password": null,
+    "database": "database_production",
+    "host": "127.0.0.1",
+    "dialect": "mysql",
+    "define": {
+      "charset": "utf8mb4",
+      "collate": "utf8mb4_general_ci"
+    },
+    "logging": false
+  }
+}

@@ -1,0 +1,68 @@
+<%- include('../components/head'); -%>
+
+<body>
+
+  <%- include('../components/preloader'); -%>
+
+  <div id="main-wrapper">
+    <%- include('../components/nav'); -%>
+
+    <%- include('../components/chatbox'); -%>
+    <%- include('../components/header'); -%>
+
+
+    <%- include('../components/sidebar'); -%>
+
+    <div class="content-body">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-xl-12 col-lg-12">
+            <div class="card">
+              <div class="card-header">
+                <h4 class="card-title">Site Edit</h4>
+              </div>
+              <div class="card-body">
+                <div class="basic-form">
+                  <form action="/panel/site/<%= blog.id %>?_method=PUT" method="post" enctype="multipart/form-data">
+                    <div class="mb-3">
+                      <label for="">Site Title</label>
+                      <input type="text" class="form-control input-default" name="site_title" value="<%= blog.site_title%>">
+                    </div>
+                    <div class="mb-3">
+                      <label for="">Site Desc</label>
+                      <input type="text" class="form-control input-default " name="site_desc" value="<%= blog.site_desc %>">
+                    </div>
+                    <div class="mb-3">
+                      <label for="">Number</label>
+                      <input type="number" class="form-control input-default" name="number" value="<%= blog.number %>">
+                    </div>
+                    <div class="mb-3">
+                      <label for="">Email</label>
+                      <input type="text" class="form-control input-default" name="email" value="<%= blog.email %>">
+                    </div>
+                    <div class="mb-3">
+                      <label for="">Address</label>
+                      <input type="text" class="form-control input-default" name="addres" value="<%= blog.addres %>">
+                    </div>
+                    <div class="mb-3">
+                      <label for="formFile" class="form-label">Site Image</label>
+                      <input class="form-control" type="file" id="formFile" name="fav_icon">
+                    </div>
+                    <div class="mb-3 w-100">
+                      <img src="/site/<%= blog.fav_icon %>?<%= Date.now() %>" alt="" class="w-25">
+                    </div>
+
+                    <div class="mb-3">
+                      <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <%- include('../components/footer'); -%>
+  </div>
+  <%- include('../components/scripts'); -%>

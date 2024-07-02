@@ -1,0 +1,103 @@
+<style>
+  .as {
+    justify-content: flex-end;
+  }
+
+  @media screen and (max-width: 768px) {
+    .as {
+      justify-content: start;
+    }
+  }
+</style>
+<footer class="wrapper bg-dark text-inverse">
+  <div class="container py-12 py-md-12 footer_ppading">
+    <div class="row gy-6 gy-lg-0">
+      <div class="col-md-3 col-lg-3">
+        <div class="widget">
+          <h4 class="widget-title text-white mb-3">Hizmet</h4>
+          <ul class="list-unstyled  mb-0">
+            <li><a href="/create-cv">Özgeçmiş Oluştur</a></li>
+            <li><a href="/price">CV Şablonu </a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-md-3 col-lg-3">
+        <div class="widget">
+          <h4 class="widget-title text-white mb-3">Destek</h4>
+          <ul class="list-unstyled  mb-0">
+            <li><a href="/about">Hakkımızda</a></li>
+            <li><a href="/contact">İletişim</a></li>
+            <li><a href="/sss">SSS</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-md-3 col-lg-3">
+        <div class="widget">
+          <h4 class="widget-title text-white mb-3">Pro CV</h4>
+          <ul class="list-unstyled  mb-0">
+            <li><a href="/price">Fiyatlandırma</a></li>
+            <li><a href="/cookie">Şartlar ve koşullar</a></li>
+            <li><a href="/kvkk">Kvkk</a></li>
+          </ul>
+        </div>
+      </div>
+      <!-- /column -->
+      <div class="col-md-3 col-lg-3">
+        <div class="widget">
+          <h4 class="widget-title text-white mb-3">Blog</h4>
+          <% if (blogFooterList && blogFooterList.length> 0) { %>
+            <div class="widget">
+              <% const lastThreeBlogs=blogFooterList.slice(-3); %>
+                <% lastThreeBlogs.forEach(blog=> { %>
+                  <% const maxLength=20; // Başlık maksimum karakter sınırı %>
+                    <% const truncatedTitle=blog.title.length> maxLength ? blog.title.substring(0, maxLength) + '...' :
+                      blog.title; %>
+                      <p class="mb-2"><a href="/blog/<%= blog.slug %>">
+                          <%= truncatedTitle %>
+                        </a></p>
+                      <% }) %>
+            </div>
+            <% } %>
+
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-6">
+        <div class="pt-10">
+          <div class="page-footer__inner">
+            <div style="float:left;">
+              2024 © Procv.com </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <nav class="nav social social-white pt-16 d-flex as">
+          <a href="https://www.instagram.com//"><i class="uil uil-instagram"></i></a>
+          <a href="https://www.facebook.com/"><i class="uil uil-facebook-f"></i></a>
+          <a href="https://www.tiktok.com/ "><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
+              viewBox="0 0 24 24">
+              <path fill="currentColor"
+                d="M16.6 5.82s.51.5 0 0A4.278 4.278 0 0 1 15.54 3h-3.09v12.4a2.592 2.592 0 0 1-2.59 2.5c-1.42 0-2.6-1.16-2.6-2.6c0-1.72 1.66-3.01 3.37-2.48V9.66c-3.45-.46-6.47 2.22-6.47 5.64c0 3.33 2.76 5.7 5.69 5.7c3.14 0 5.69-2.55 5.69-5.7V9.01a7.35 7.35 0 0 0 4.3 1.38V7.3s-1.88.09-3.24-1.48" />
+            </svg></a>
+        </nav>
+      </div>
+    </div>
+  </div>
+</footer>
+<div class="progress-wrap">
+  <svg class="progress-circle svg-content" width="100%" height="100%" viewbox="-1 -1 102 102">
+    <path d="M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98"></path>
+  </svg>
+</div>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-LRTKPMX83Z"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() { dataLayer.push(arguments); }
+  gtag('js', new Date());
+
+  gtag('config', 'G-LRTKPMX83Z');
+</script>

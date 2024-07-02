@@ -1,0 +1,33 @@
+<div class="container">
+    <h2 class="display-4 text-center text-white">Memnun müşteriler</h2>
+    <div class="grid">
+      <div class="row isotope">
+        <% setCommentList.forEach(blog=> { %>
+        <div class="item col-md-6 col-xl-4">
+          <div class="card shadow-lg">
+            <div class="card-body">
+              <span class="ratings five"></span>
+              <blockquote class="icon mb-0">
+                <p>
+                  <%=blog.desc%>
+                </p>
+                <div class="blockquote-details">
+                  <img class="rounded-circle w-12" src="/comments/<%=blog.img%>" alt="">
+                  <div class="info">
+                    <h5 class="mb-1">
+                      <%=blog.name%>
+                    </h5>
+                    <p class="mb-0">
+                      <%=blog.position%>
+                    </p>
+                  </div>
+                </div>
+              </blockquote>
+            </div>
+          </div>
+        </div>
+        <% }); %>
+
+      </div>
+    </div>
+  </div>

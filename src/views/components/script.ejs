@@ -1,0 +1,28 @@
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+<script data-cfasync="false" src="cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+<script src="/assets/js/plugins.js"></script>
+<script src="/assets/js/theme.js"></script>
+<script src="/assets/js/script.js"></script>
+<script>
+  $(document).ready(function(){
+    $('.owl-carousel').owlCarousel({
+      loop:true,
+      margin:10,
+      nav:false,
+      autoplay:true,
+      autoplayTimeout:3000, // 3 saniye
+      responsive:{
+        0:{
+          items:1
+        },
+        600:{
+          items:3
+        },
+        1000:{
+          items:5
+        }
+      }
+    });
+  });
+</script>

@@ -1,0 +1,112 @@
+<%- include('./components/head'); -%>
+<style>
+    .credit-card {
+    width: 100%;
+    perspective: 1000px;
+    height: 100vh;
+}
+
+.card-front, .card-back {
+    width: 100%;
+    position: absolute;
+    transform-style: preserve-3d;
+    transition: transform 0.6s;
+    backface-visibility: hidden;
+}
+
+.card-front {
+    background-color: #007bff2f;
+    border-radius: 10px;
+    padding: 40px;
+    margin: 10px;
+    color: #fff;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+.card-back {
+    background-color: #000000;
+    border-radius: 10px;
+    padding: 20px;
+    color: #333;
+    transform: rotateY(180deg);
+}
+
+.card-back:before {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 30px;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0) 100%);
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: 10px 10px 0 0;
+}
+
+.card-info {
+    margin-top: 20px;
+}
+
+.card-number-group {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.card-number-part {
+    width: 23%;
+    background-color: #000000;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+.card-info-item {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+input[type="text"],[type="number"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    outline: none;
+}
+</style>
+    <body>
+        <div class="content-wrapper bg-light">
+            <%- include('./components/header'); -%>
+                <section class="wrapper gradient-8 bg-lines">
+                    <div class="container pt-md-19 paddinB header__padding text-center">
+                        <div class="row">
+                            <div class="col-lg-10 col-xl-9 col-xxl-8 mx-auto" data-cues="zoomIn" data-group="page-title"
+                                data-interval="-200" data-delay="500">
+                                 <div>
+                                    <p class="text-white">
+                                        Sadece indirmek için aşakdaki CV indirden indirebilirsiniz.
+                                    </p>
+                                    <a class="add-btn p-3" href="/pdf/<%= fileName %>" download="/pdf/<%= fileName %>">
+                                        CV'yi İndir
+                                    </a>
+                                 </div>
+                            </div>
+                        </div>
+                    </div>
+
+              
+                </section>
+        </div>
+
+        <script>
+            
+        </script>
+        <%- include('./components/footer'); -%>
+            <%- include('./components/script'); -%>
+    </body>
+
+    </html>

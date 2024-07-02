@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pro Cv - Profile</title>
+    <link rel="shortcut icon" href="/assets/favicon.ico">
+    <link rel="stylesheet" href="/assets/css/plugins.css">
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="/assets/css/main.css">
+    <link rel="preload" href="/assets/css/fonts/space.css" as="style" onload="this.rel='stylesheet'">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <meta name="google-site-verification" content="xs05U06NOOXQlk1NAv2z8mDYkDPZf_SP8fSQ41edZU4" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
+</head>
+
+<body>
+    <div class="content-wrapper bg-light">
+        <%- include('../components/header'); -%>
+
+            <section class="wrapper gradient-8 bg-lines">
+                <div class="container pt-17 pt-md-19 mb-10 text-center">
+                    <div class="row">
+                        <div class="col-lg-10 col-xl-9 col-xxl-8 mx-auto" data-cues="zoomIn" data-group="page-title"
+                            data-interval="-200" data-delay="100">
+                            <h1 class="display-1 fs-68 lh-xxs mb-8 text-white">
+                                Profile
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="container">
+                <div class="row">
+                    <div class="col-lg-12 col-xl-12 mx-auto">
+                        <% if (typeof error !=='undefined' ) { %>
+                            <div class="alert alert-danger">
+                                <%= error %>
+                            </div>
+                            <% } %>
+                                <% if (typeof success !=='undefined' ) { %>
+                                    <div class="alert alert-success">
+                                        <%= success %>
+                                    </div>
+                                    <% } %>
+                                        <div class="row">
+                                            <div class="col-lg-6">
+                                                <div class="col-lg-10 col-sm-12">
+                                                    <form action="/profile/update" method="post">
+                                                        <div class="form-floating mb-4">
+                                                            <input type="text" class="form-control" id="username"
+                                                                name="username" value="<%= user.username %>" required>
+                                                            <label for="username">Kullanıcı Adı</label>
+                                                        </div>
+                                                        <div class="form-floating mb-4">
+                                                            <input type="email" class="form-control" id="email"
+                                                                name="email" value="<%= user.email %>" required>
+                                                            <label for="email">Eposta</label>
+                                                        </div>
+                                                        <div class="form-floating mb-4">
+                                                            <input type="password" class="form-control" id="password"
+                                                                name="password" placeholder="Yeni Parola">
+                                                            <label for="password">Yeni Parola</label>
+                                                        </div>
+                                                        <button type="submit"
+                                                            class="btn btn-primary w-100">Güncelle</button>
+                                                    </form>
+                                                </div>
+                                                <div class="col-lg-2 col-sm-12">
+                                                    <form id="delete-account-form" action="/profile/delete"
+                                                        method="post" class="mt-4">
+                                                        <button type="button" class="btn btn-danger w-100"
+                                                            onclick="confirmDelete()">Hesabı Sil</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                    </div>
+                </div>
+            </section>
+    </div>
+    <%- include('../components/footer'); -%>
+        <%- include('../components/script'); -%>
+            <script>
+                function confirmDelete() {
+                    Swal.fire({
+                        title: 'Hesabı Silmek İstediğinizden Emin misiniz?',
+                        text: "Bu işlemi geri alamazsınız!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#d33',
+                        cancelButtonColor: '#3085d6',
+                        confirmButtonText: 'Evet, Sil!',
+                        cancelButtonText: 'Hayır, İptal Et'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            document.getElementById('delete-account-form').submit();
+                        }
+                    });
+                }
+            </script>
+</body>
+
+</html>

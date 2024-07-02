@@ -1,0 +1,57 @@
+<%- include('../components/head'); -%>
+
+<body>
+
+  <%- include('../components/preloader'); -%>
+
+  <div id="main-wrapper">
+    <%- include('../components/nav'); -%>
+
+    <%- include('../components/chatbox'); -%>
+    <%- include('../components/header'); -%>
+
+    <%- include('../components/sidebar'); -%>
+    <div class="content-body">
+      <div class="container-fluid">
+        <div class="row">
+            <div class="col-xl-12 col-lg-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title">FAQ Edit</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="basic-form">
+                          <form action="/panel/faq/<%= blog.id %>?_method=PUT" method="post" >
+                            <div class="mb-3">
+                                <label for="">FAQ Order</label>
+                                <input type="number" class="form-control input-default" name="order" value="<%=blog.order%>">
+                            </div>
+                            <div class="mb-3">
+                                <label for="">FAQ Title</label>
+                                <input type="text" class="form-control input-default" name="title" value="<%=blog.title%>">
+                            </div>
+                            <div class="mb-3">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h4 class="card-title">FAQ Description</h4>
+                                    </div>
+                                    <div class="card-body custom-ekeditor">
+                                        <textarea class="form-txtarea form-control" rows="8" id="comment" name="desc"><%=blog.desc%></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                            </div>
+                        </form>
+                        
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div>
+    </div>
+    <%- include('../components/footer'); -%>
+  </div>
+  <%- include('../components/scripts'); -%>

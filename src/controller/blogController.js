@@ -8,7 +8,7 @@ const fs = require('fs');
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, 'uploads/blog')
+        cb(null, 'src/uploads/blog')
     },
     filename: (req, file, cb) => {
         cb(null, Date.now() + '-' + file.originalname)
@@ -40,6 +40,8 @@ class Blogs {
       
           const { order, title, desc, detail } = req.body;
           const img = req.file ? req.file.filename : null; 
+
+          console.log(req.body)
           Blog.create({
             order: order,
             title: title,
@@ -47,6 +49,7 @@ class Blogs {
             img: img,
             detail: detail
           })
+          
           .then(() => {
             req.flash('success', 'Blog yazısı başarıyla eklendi.');
             res.redirect('/panel/blog');

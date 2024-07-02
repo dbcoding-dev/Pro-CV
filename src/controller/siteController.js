@@ -6,7 +6,7 @@ const multer = require('multer');
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, 'uploads/comments')
+        cb(null, 'src/uploads/comments')
     },
     filename: (req, file, cb) => {
         cb(null, Date.now() + '-' + file.originalname)
@@ -18,7 +18,6 @@ const upload = multer({
         fieldSize: 1024 * 1024
     }
 });
-
 
 
 class SitesController{
@@ -33,13 +32,15 @@ class SitesController{
             return res.redirect('/panel/site');
           }
       
-          const { site_title, site_desc, number, email, addres } = req.body;
+          const { site_title, site_desc, number, analytic4, tagmanager, email, addres } = req.body;
           const fav_icon = req.file ? req.file.filename : null; 
           Site.create({
             site_title: site_title,
             site_desc: site_desc,
             number: number,
-            fav_icon: fav_icon,
+            analytic4: analytic4,
+            tagmanager: tagmanager,
+            fav_icon: fav_icon ,
             email: email,
             addres: addres
           })
@@ -102,7 +103,7 @@ class SitesController{
                     req.flash('error', 'Dosya yüklenirken bir hata oluştu: ' + err.message);
                     return res.redirect('/panel/site');
                 }
-                const { site_title, site_desc, number, email, addres } = req.body;
+                const { site_title, site_desc, number, analytic4, tagmanager, email, addres } = req.body;
                 const img = req.file ? req.file.filename : null;
                 const blog = await Site.findByPk(req.params.id);
                 if (!blog) {
@@ -120,6 +121,8 @@ class SitesController{
                     site_title: site_title,
                     site_desc: site_desc,
                     number: number,
+                    analytic4: analytic4,
+                    tagmanager: tagmanager,
                     fav_icon: img || blog.img,
                     email: email,
                     addres:addres

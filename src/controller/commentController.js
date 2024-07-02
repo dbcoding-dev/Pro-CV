@@ -7,7 +7,7 @@ const fs = require("fs")
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, 'uploads/comments')
+    cb(null, 'src/uploads/comments')
   },
   filename: (req, file, cb) => {
     cb(null, Date.now() + '-' + file.originalname)

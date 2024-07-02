@@ -1,25 +1,109 @@
 <%- include('./components/head'); -%>
 
-<body>
+	<body>
 
-  <%- include('./components/preloader'); -%>
+		<%- include('./components/preloader'); -%>
 
-  <div id="main-wrapper">
-    <%- include('./components/nav'); -%>
+			<div id="main-wrapper">
+				<%- include('./components/nav'); -%>
 
-    <%- include('./components/chatbox'); -%>
-    <%- include('./components/header'); -%>
+					<%- include('./components/chatbox'); -%>
+						<%- include('./components/header'); -%>
 
 
-    <%- include('./components/sidebar'); -%>
+							<%- include('./components/sidebar'); -%>
 
-    <div class="content-body">
-      <div class="container-fluid">
-        <div class="row">
-        
-        </div>
-      </div>
-    </div>
-    <%- include('./components/footer'); -%>
-  </div>
-  <%- include('./components/scripts'); -%>
+								<div class="content-body">
+									<div class="container-fluid">
+										<div class="row">
+											<div class="col-xl-12 col-lg-12">
+												<div class="row">
+													<div class="col-xl-3 col-sm-12">
+														<div class="card">
+															<div
+																class="card-body d-flex justify-content-between align-items-center">
+																<div class="d-flex">
+																	<div
+																		class="icon-box icon-box-md bg-danger-light me-1">
+																		<i
+																			class="fa-brands fa-salesforce text-danger"></i>
+																	</div>
+																	<div class="ms-2">
+																		<h4>
+																			<%= totalBlog %>
+																		</h4>
+																		<p class="mb-0">Blog</p>
+																	</div>
+																</div>
+																<a href="/panel/blog"><i
+																		class="fa-solid fa-chevron-right text-danger"></i></a>
+															</div>
+														</div>
+													</div>
+													<div class="col-xl-3 col-sm-6">
+														<div class="card">
+															<div
+																class="card-body d-flex justify-content-between align-items-center">
+																<div class="d-flex">
+																	<div
+																		class="icon-box icon-box-md bg-primary-light me-1">
+																		<i class="fa-solid fa-user text-primary"></i>
+																	</div>
+																	<div class="ms-2">
+																		<h4>
+																			<%= totalUser %>
+																		</h4>
+																		<p class="mb-0">Users</p>
+																	</div>
+																</div>
+																<a href="javascript:void(0)"><i
+																		class="fa-solid fa-chevron-right text-primary"></i></a>
+															</div>
+														</div>
+													</div>
+													<div class="col-xl-3 col-sm-6">
+														<div class="card">
+															<div
+																class="card-body d-flex justify-content-between align-items-center">
+																<div class="d-flex">
+																	<div
+																		class="icon-box icon-box-md bg-info-light me-1">
+																		<i class="fa-solid fa-box text-info"></i>
+																	</div>
+																	<div class="ms-2">
+																		<h4>1,536k</h4>
+																		<p class="mb-0">Products</p>
+																	</div>
+																</div>
+																<a href="javascript:void(0)"><i
+																		class="fa-solid fa-chevron-right text-info"></i></a>
+															</div>
+														</div>
+													</div>
+													<div class="col-xl-3 col-sm-6">
+														<div class="card">
+															<div
+																class="card-body d-flex justify-content-between align-items-center">
+																<div class="d-flex">
+																	<div
+																		class="icon-box icon-box-md bg-secondary-light me-1">
+																		<i class="fa-solid fa-user text-secondary"></i>
+																	</div>
+																	<div class="ms-2">
+																		<h4>1,536k</h4>
+																		<p class="mb-0">Profit</p>
+																	</div>
+																</div>
+																<a href="javascript:void(0)"><i
+																		class="fa-solid fa-chevron-right text-secondary"></i></a>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<%- include('./components/footer'); -%>
+			</div>
+			<%- include('./components/scripts'); -%>

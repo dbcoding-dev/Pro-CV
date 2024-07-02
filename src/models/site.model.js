@@ -17,6 +17,14 @@ module.exports = (sequelize, DataTypes) => {
                 type: DataTypes.STRING,
                 allowNull: false,
             },
+            analytic4:{
+                type: DataTypes.TEXT,
+                allowNull: false,
+            },
+            tagmanager:{
+                type: DataTypes.TEXT,
+                allowNull: false,
+            },
             addres: {
                 type: DataTypes.STRING,
                 allowNull: false,

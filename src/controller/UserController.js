@@ -10,7 +10,7 @@ const failedAttempts = {};
 class UserController {
     static async RegisterUser(req, res) {
         try {
-            const { username, email, password, role, permissions } = req.body;
+            const { username, email, password} = req.body;
             if (!username || !email || !password) {
                 return res.status(400).render('register', { error: 'Lütfen tüm alanları doldurunuz!' });
             }
@@ -19,13 +19,14 @@ class UserController {
                 return res.status(400).render('register', { error: 'Bu email ile kayıtlı bir kullanıcı zaten var' });
             }
             const hashedPassword = await bcrypt.hash(password, 10);
-            const newUser = await User.create({ username, email, password: hashedPassword, role: role || 'user', permissions: permissions || [] });
+            const newUser = await User.create({ username, email, password: hashedPassword});
             res.redirect('/register-success');
         } catch (error) {
             console.error(error);
             res.status(500).json({ error: 'Internal Server Error' });
         }
     }
+
     static async LoginUser(req, res) {
         const ip = req.ip;
         if (blockedIPs[ip]) {
@@ -231,9 +232,62 @@ class UserController {
         }
     }
 
-    static async DeleteAccount(req, res) {
+    static async RequestDeleteAccount(req, res) {
         try {
-            await User.destroy({ where: { id: req.session.user.id } });
+            const user = await User.findByPk(req.session.user.id);
+            if (!user) {
+                return res.status(400).json({ error: 'Kullanıcı bulunamadı.' });
+            }
+    
+            const token = Math.floor(100000 + Math.random() * 900000).toString(); // 6 haneli doğrulama kodu
+            const deleteAccountExpires = Date.now() + 3600000; // 1 saat
+    
+            await User.update(
+                { deleteAccountToken: token, deleteAccountExpires },
+                { where: { id: req.session.user.id } }
+            );
+    
+            const transporter = nodemailer.createTransport({
+                service: process.env.EMAIL_SERVICE,
+                auth: {
+                    user: process.env.EMAIL_USER,
+                    pass: process.env.EMAIL_PASS,
+                },
+            });
+    
+            const mailOptions = {
+                to: user.email,
+                from: process.env.EMAIL_USER,
+                subject: `Hesap Silme Talebi`,
+                text: `Hesabınızı silmek için doğrulama kodunu kullanın:\n\n` +
+                    `Doğrulama Kodu: ${token}\n\n` +
+                    `Eğer bu talebi siz yapmadıysanız, lütfen bu e-postayı dikkate almayın.\n`
+            };
+    
+            await transporter.sendMail(mailOptions);
+            res.status(200).render('profile/delete-account-verify', { success: 'Hesap silme doğrulama kodu e-postası gönderildi.' });
+        } catch (error) {
+            console.error(error);
+            res.status(500).render('profile/delete-account-verify', { error: 'Sunucu hatası.' });
+        }
+    }
+    
+    static async ConfirmDeleteAccount(req, res) {
+        const { token } = req.body;
+        try {
+            const user = await User.findOne({
+                where: {
+                    deleteAccountToken: token,
+                    deleteAccountExpires: { [Op.gt]: Date.now() }
+                }
+            });
+    
+            if (!user) {
+                return res.status(400).render('profile/delete-account-verify', { error: 'Hesap silme doğrulama kodu geçersiz veya süresi dolmuş.' });
+            }
+    
+            await User.destroy({ where: { id: user.id } });
+    
             req.session.destroy(err => {
                 if (err) {
                     console.error(err);
@@ -244,9 +298,10 @@ class UserController {
             });
         } catch (error) {
             console.error(error);
-            res.status(500).json({ error: 'Sunucu hatası.' });
+            res.status(500).render('profile/delete-account-verify', { error: 'Sunucu hatası.' });
         }
     }
+
     static async GetRegisterSuccess(req, res) {
         res.render('password/register-success');
     }

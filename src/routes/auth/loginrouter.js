@@ -7,6 +7,7 @@ const { preventAuthenticatedAccess, ensureAuthenticated } = require("../../middl
 const {
     SiteController
 } = require("../../controller/adminController.js")
+
 // User
 router.get('/register', preventAuthenticatedAccess, UserController.GetRegister);
 router.post('/register', preventAuthenticatedAccess, rateLimiter, UserController.RegisterUser);
@@ -15,13 +16,12 @@ router.get('/login', preventAuthenticatedAccess, SiteController.getLogin)
 router.get('/logout', ensureAuthenticated, UserController.LogoutUser);
 router.get('/forgot', preventAuthenticatedAccess, UserController.GetForgotPassword);
 router.post('/auth/forgot', preventAuthenticatedAccess, UserController.requestPasswordReset);
-router.get('/auth/reset/:token', preventAuthenticatedAccess, UserController.resetPassword);
-router.post('/auth/reset/:token', preventAuthenticatedAccess, UserController.updatePassword);
+router.post('/auth/delete/:token', preventAuthenticatedAccess, UserController.ConfirmDeleteAccount);
+router.post('/request-delete-account', ensureAuthenticated, UserController.RequestDeleteAccount); // ensureAuthenticated eklendi
+router.post('/confirm-delete-account', ensureAuthenticated, UserController.ConfirmDeleteAccount); 
 router.get('/profile', ensureAuthenticated, UserController.Getprofile);
 router.post('/profile/update', ensureAuthenticated, UserController.UpdateProfile);
-router.post('/profile/delete', ensureAuthenticated, UserController.DeleteAccount);
+router.post('/profile/delete', ensureAuthenticated, UserController.RequestDeleteAccount); // RequestDeleteAccount eklendi
 router.get('/register-success', preventAuthenticatedAccess, UserController.GetRegisterSuccess);
-
-
 
 module.exports = router;

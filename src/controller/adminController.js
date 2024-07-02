@@ -2,6 +2,7 @@ const { DataTypes } = require("sequelize");
 const { sequelize } = require("../models");
 const Blog = require("../models/blog.model")(sequelize, DataTypes);
 const User = require("../models/user.model")(sequelize, DataTypes);
+const UserPdf = require("../models/pdfuser.model")(sequelize, DataTypes);
 const Resume = require("../models/resume.model")(sequelize, DataTypes);
 const Faq = require("../models/faq.model")(sequelize, DataTypes);
 const Cirriculum = require("../models/curriculum.model")(sequelize, DataTypes);
@@ -19,7 +20,7 @@ const DOMPurify = createDOMPurify(window);
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, 'uploads/resume')
+        cb(null, 'src/uploads/resume')
     },
     filename: (req, file, cb) => {
         cb(null, Date.now() + '-' + file.originalname)
@@ -185,8 +186,13 @@ class SiteController {
 }
 
 class AdminController {
-    static getPanel(req, res) {
-        res.render("panel/index")
+    static async getPanel(req, res) {
+        const totalBlog = await Blog.count();
+        const totalUser = await UserPdf.count();
+        res.render("panel/index", {
+            totalBlog: totalBlog,
+            totalUser: totalUser
+        })
     }
     static getBlog(req, res) {
         res.render("panel/blog/get")

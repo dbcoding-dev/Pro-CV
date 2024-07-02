@@ -13,15 +13,6 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false,
         },
-        role: {
-            type: DataTypes.STRING,
-            allowNull: false,
-            defaultValue: 'user',
-        },
-        permissions: {
-            type: DataTypes.JSON,
-            allowNull: true,
-        },
         resetPasswordToken: {
             type: DataTypes.STRING,
             allowNull: true,
@@ -29,7 +20,15 @@ module.exports = (sequelize, DataTypes) => {
         resetPasswordExpires: {
             type: DataTypes.DATE,
             allowNull: true,
-        }
+        },
+        deleteAccountToken: {
+            type: DataTypes.STRING,
+            allowNull: true
+          },
+          deleteAccountExpires: {
+            type: DataTypes.DATE,
+            allowNull: true
+          }
     });
 
     User.associate = (models) => {

@@ -17,7 +17,7 @@ const GlobalDataMiddleware = require("./middleware/varMiddleware.js");
 const methodOverride = require('method-override');
 const { IpDeniedError } = require('./middleware/ipfilter'); // Doğru import
 const { authenticateUser } = require('./middleware/authenticate.js');
-const csrfUtil = require('./middleware/csrf.js');
+const csrfUtil = require('./utils/csrf.js');
 
 
 const PORT = process.env.PORT || 3005;
@@ -62,7 +62,6 @@ app.set('view engine', 'ejs');
 // CSRF middleware'lerini kullanın
 app.use(csrfUtil.generateCsrfToken);
 app.use(csrfUtil.verifyCsrfToken);
-app.use(csrfUtil.setCsrfTokenInLocals);
 
 
 app.use(
@@ -74,7 +73,7 @@ app.use(
 );
 app.use(authenticateUser);
 
-
+app.use(csrfUtil.setCsrfTokenInLocals);
 // Kullanıcı bilgilerini tüm şablonlara erişilebilir hale getirin
 app.use((req, res, next) => {
   res.locals.user = req.session.user;

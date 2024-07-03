@@ -14,7 +14,7 @@ var YashAdmin = function(){
 		setTimeout(function() {
 			jQuery('#preloader').remove();
 			$('#main-wrapper').addClass('show');
-		},800);	
+		},1000);	
 		
 	}
 

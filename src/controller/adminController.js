@@ -17,7 +17,6 @@ const { window } = new JSDOM('');
 const DOMPurify = createDOMPurify(window);
 
 
-
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
         cb(null, 'src/uploads/resume')
@@ -189,9 +188,11 @@ class AdminController {
     static async getPanel(req, res) {
         const totalBlog = await Blog.count();
         const totalUser = await UserPdf.count();
+        const totalPanelUsers = await User.count();
         res.render("panel/index", {
             totalBlog: totalBlog,
-            totalUser: totalUser
+            totalUser: totalUser,
+            totalPanelUsers: totalPanelUsers
         })
     }
     static getBlog(req, res) {
@@ -214,7 +215,6 @@ class AuthController {
                     email: email,
                 },
             });
-
             if (!existingUser || !(await bcrypt.compare(password, existingUser.password))) {
                 res.locals.error = 'Invalid email or password';
                 return res.status(401).render('auth/login');
@@ -225,7 +225,7 @@ class AuthController {
             if (existingUser.role === 'admin') {
                 return res.redirect('/panel');
             } else {
-                return res.redirect('/panel'); // Kullanıcı yönlendirmesini buraya ekleyin
+                return res.redirect('/panel'); 
             }
         } catch (error) {
             console.error(error);
@@ -268,13 +268,73 @@ class AuthController {
                 email: email,
                 password: hashedPassword,
             });
-
-            res.redirect('/panel/login');
+            res.redirect('/panel/users');
+            
         } catch (error) {
             console.error(error);
             res.status(500).json({ error: 'Internal Server Error' });
         }
     }
+    static async getRegisterUser(req, res) {
+        res.render("panel/panelusers/add")
+    }
+    static async getPanelUsers(req, res) {
+        try {
+            const users = await User.findAll();
+            res.render('panel/panelusers/get', { userList: users });
+        } catch (error) {
+            console.error(error);
+            res.status(500).send('Internal Server Error');
+        }
+    }
+    static async deleteUser(req, res) {
+        try {
+            const userToDelete = await User.findByPk(req.params.id);
+
+            if (!userToDelete) {
+                return res.status(404).json({ success: false, message: 'User not found' });
+            }
+            await userToDelete.destroy();
+            res.json({ success: true, message: 'Deleted Successfully' });
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ success: false, message: 'Internal Server Error', error: error.message });
+        }
+    }
+    static async updateUser(req, res) {
+        try {
+            const { name, email, password } = req.body;
+            const user = await User.findByPk(req.params.id);
+            if (!user) {
+                return res.status(404).send('User not found');
+            }
+            const hashedPassword = await bcrypt.hash(password, 10);
+            await user.update({
+                name: name,
+                email: email,
+                password: hashedPassword,
+            });
+            req.flash('success', 'User updated successfully');
+            res.redirect('/panel/users');
+        } catch (error) {
+            console.error(error);
+            req.flash('error', 'An error occurred: ' + error.message);
+            res.redirect('/panel/users');
+        }
+    }
+    static async getUpdate(req, res) {
+        try {
+            const user = await User.findByPk(req.params.id);
+            if (!user) {
+                return res.status(404).send('User not found');
+            }
+            res.render('panel/panelusers/edit', { user: user });
+        } catch (error) {
+            console.error(error);
+            res.status(500).send('Internal Server Error');
+        }
+    }
+
 }
 
 class ResumeController {
@@ -417,7 +477,6 @@ class ResumeController {
             res.redirect('/panel/resume');
         }
     }
-    
 }
 
 class FaqController {

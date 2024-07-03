@@ -21,7 +21,10 @@ const {
 } = require("../controller/adminController.js")
 const { Kvkks } = require("../controller/kvkkController.js")
 
+// Admin login
 router.use(authenticateUser);
+// Admin login
+router.use(adminloginRouter);
 
 // Admin comment
 router.use(commentRouter);
@@ -43,9 +46,6 @@ router.use(cookieRouter);
 
 // Admin faq
 router.use(faqRouter);
-
-// Admin login
-router.use(adminloginRouter);
 
 // Admin resume
 router.use(resumeRouter);

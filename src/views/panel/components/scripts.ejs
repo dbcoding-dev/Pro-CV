@@ -36,7 +36,7 @@
       })
       .then(response => {
         if (response.redirected) {
-          window.location.href = response.url;
+          window.location.href = '/panel/login';
         } else {
           console.log('Logout successful');
         }

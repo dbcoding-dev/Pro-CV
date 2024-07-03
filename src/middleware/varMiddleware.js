@@ -5,9 +5,28 @@ const Site = require("../models/site.model")(sequelize, DataTypes);
 const Cirriculum = require("../models/curriculum.model")(sequelize, DataTypes);
 const Comments = require("../models/comment.model")(sequelize, DataTypes);
 const Seo = require("../models/seo.model")(sequelize, DataTypes);
+const Users = require("../models/user.model")(sequelize, DataTypes);
 
 
 class GlobalDataMiddleware {
+  static async setUser(req, res, next) {
+    if (req.session && req.session.user && req.session.user.id) {
+      try {
+        const user = await Users.findByPk(req.session.user.id);
+        if (user && user.name) {
+          res.locals.userInitials = user.name.substring(0, 2).toUpperCase();
+        } else {
+          res.locals.userInitials = null;
+        }
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+        res.locals.userInitials = null;
+      }
+    } else {
+      res.locals.userInitials = null;
+    }
+    next();
+  }
   static async setBlogFooterList(req, res, next) {
     try {
       const blogFooterList = await Blog.findAll();

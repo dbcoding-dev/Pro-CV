@@ -331,7 +331,7 @@ body {
   line-height: var(--bs-body-line-height);
   color: var(--bs-body-color);
   text-align: var(--bs-body-text-align);
-  background-color: var(--bs-body-bg);
+  background-color: #182237;
   -webkit-text-size-adjust: 100%;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0); }
 
@@ -9443,7 +9443,6 @@ label {
 
 /* Editable */
 #preloader {
-  background-color: #fff;
   padding: 0;
   margin: 0;
   height: 100%;
@@ -9453,9 +9452,6 @@ label {
   display: flex;
   align-items: center;
   justify-content: center; }
-
-[data-theme-version="dark"] #preloader {
-  background-color: #151C2C; }
 
 .footer {
   padding-left: 15rem;
@@ -9973,7 +9969,7 @@ svg.pulse-svg {
     margin: 0 5px;
     line-height: 41px;
     text-align: center;
-    border-radius: 0.375rem;
+    border-radius: 50%;
     background: #fff; }
     .header-right .notification_dropdown .nav-link i {
       font-size: 1.5rem; }

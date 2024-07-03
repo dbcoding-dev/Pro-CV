@@ -1,18 +1,46 @@
-const crypto = require('crypto');
+const csrf = require('csrf');
+const tokens = new csrf();
 
-module.exports = (req, res, next) => {
-    if (req.method === 'GET' || req.method === 'HEAD') {
-        const token = crypto.randomBytes(24).toString('hex');
-        res.locals.csrfToken = token;
-        console.log(`Generated CSRF Token: ${token}`);
-    } else if (['POST', 'PUT', 'DELETE'].includes(req.method)) {
-        const token = req.body._csrf || req.query._csrf || req.headers['csrf-token'];
-        console.log(`Received CSRF Token: ${token}`);
-        console.log(`Session CSRF Token: ${req.session.csrfToken}`);
-        if (!token || token !== req.session.csrfToken) {
-            console.log('CSRF token mismatch');
-            return res.status(403).send('CSRF token mismatch');
-        }
+const csrfSecret = 'dashboard';  // Bu anahtarı güvenli bir şekilde saklayın
+
+// CSRF token oluşturma middleware'i
+function generateCsrfToken(req, res, next) {
+    if (req.method === 'GET' || req.method === 'HEAD' || req.method === 'OPTIONS') {
+        // Güvenli HTTP yöntemleri için CSRF token oluşturmayı atla
+        return next();
     }
+
+    const token = req.cookies._csrf || tokens.create(csrfSecret);
+    if (!req.cookies._csrf) {
+        res.cookie('_csrf', token);
+    }
+    res.locals.csrfToken = token;
     next();
+}
+
+// CSRF token doğrulama middleware'i
+function verifyCsrfToken(req, res, next) {
+    if (req.method === 'GET' || req.method === 'HEAD' || req.method === 'OPTIONS') {
+        // Güvenli HTTP yöntemleri için CSRF token doğrulamayı atla
+        return next();
+    }
+
+    const token = req.cookies._csrf;
+    if (!tokens.verify(csrfSecret, token)) {
+        return res.status(403).send('Invalid CSRF token');
+    }
+
+    next();
+}
+
+// CSRF token'ı şablonlarda kullanılabilir hale getirme middleware'i
+function setCsrfTokenInLocals(req, res, next) {
+    res.locals.csrfToken = req.cookies._csrf;
+    next();
+}
+
+module.exports = {
+    generateCsrfToken,
+    verifyCsrfToken,
+    setCsrfTokenInLocals
 };

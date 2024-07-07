@@ -1,23 +1,32 @@
 (function($) {
-  "use strict" 
+    /* "use strict" */
 
 	
 	/* function draw() {
 		
 	} */
 
- var dlabSparkLine = function(){
-	let draw = Chart.controllers.line.__super__.draw; //draw shadow
+ var dzSparkLine = function(){
+	//let draw = Chart.controllers.line.__super__.draw; //draw shadow
+	
 	
 	var screenWidth = $(window).width();
 	
 	var barChart1 = function(){
 		if(jQuery('#barChart_1').length > 0 ){
 			const barChart_1 = document.getElementById("barChart_1").getContext('2d');
-    
+			
 			barChart_1.height = 100;
+			// Get the reference to the existing chart with ID 'barChart_1'
+			var existingChart = Chart.getChart(barChart_1.canvas.id);
 
-			new Chart(barChart_1, {
+			// Check if the chart exists
+			if (existingChart) {
+				// Destroy the existing chart
+				existingChart.destroy();
+			}
+
+			var config = {
 				type: 'bar',
 				data: {
 					defaultFontFamily: 'Poppins',
@@ -26,47 +35,54 @@
 						{
 							label: "My First dataset",
 							data: [65, 59, 80, 81, 56, 55, 40],
-							borderColor: '#fff',
+							borderColor: 'rgba(69, 43, 144,1)',
 							borderWidth: "0",
-							colors: '#fff',
-							backgroundColor: 'rgba(248,185,64,1)'
+							barThickness:40,
+							backgroundColor: 'rgba(69, 43, 144, 1)'
 						}
 					]
 				},
 				options: {
-					legend: false, 
-					
-					scales: {
-						yAxes: [{
-							//show: false,
-							//labelFontColor: '#fff',
-							ticks: {
-								beginAtZero: true,
-								//color: '#fff'
-								
-								fontColor:'#fff',
-							},
-							gridLines:{
-								color:"rgba(255, 255, 255, 0.1)"
-							}
-							
-							
-						}],
+					plugins:{
+							legend: false,
 						
-						xAxes: [{
-							// Change here
-							barPercentage: 0.5,
-							ticks:{
-								fontColor:	'#ffffff',
-							},
-							gridLines:{
-								color:"rgba(255, 255, 255, 0.1)"
-							}
-						}]
 					},
-					
+					 
+					scales: {
+						y: {
+							ticks: {
+								beginAtZero: true
+							}
+						},
+						x: {
+							// Change here
+							barPercentage: 0.5
+						}
+					}
 				}
-			});
+				
+			};
+			var barChart = new Chart(barChart_1, config);
+
+                var element = document.querySelector('body');
+                var observer = new MutationObserver(function(mutations) {
+                    mutations.forEach(function(mutation) {
+                        if(mutation.attributeName === "data-theme-version"){
+                            if($('body').attr('data-theme-version') === "dark"){
+                                config.options.scales.y.grid.color = '#3d3d4e'
+                                config.options.scales.x.grid.color = '#3d3d4e'
+                            }else{
+                                config.options.scales.y.grid.color = '#eee'
+                                config.options.scales.x.grid.color = '#eee'
+                            }
+                            barChart.update();
+                        }
+                    });
+                });
+                observer.observe(element, {
+                    attributes: true
+                });
+			
 		}
 	}
 	var barChart2 = function(){
@@ -76,12 +92,20 @@
 			const barChart_2 = document.getElementById("barChart_2").getContext('2d');
 			//generate gradient
 			const barChart_2gradientStroke = barChart_2.createLinearGradient(0, 0, 0, 250);
-			barChart_2gradientStroke.addColorStop(0, "rgba(248,185,64,1)");
-			barChart_2gradientStroke.addColorStop(1, "rgba(44, 44, 44, 0.5)");
+			barChart_2gradientStroke.addColorStop(0, "rgba(69, 43, 144, 1)");
+			barChart_2gradientStroke.addColorStop(1, "rgba(69, 43, 144, 0.5)");
 
 			barChart_2.height = 100;
+			// Get the reference to the existing chart with ID 'barChart_2'
+			var existingChart = Chart.getChart(barChart_2.canvas.id);
 
-			new Chart(barChart_2, {
+			// Check if the chart exists
+			if (existingChart) {
+				// Destroy the existing chart
+				existingChart.destroy();
+			}
+
+			var config = {
 				type: 'bar',
 				data: {
 					defaultFontFamily: 'Poppins',
@@ -92,37 +116,51 @@
 							data: [65, 59, 80, 81, 56, 55, 40],
 							borderColor: barChart_2gradientStroke,
 							borderWidth: "0",
-							backgroundColor: barChart_2gradientStroke, 
+							backgroundColor: barChart_2gradientStroke,
+							barThickness:40,
 							hoverBackgroundColor: barChart_2gradientStroke
 						}
 					]
 				},
 				options: {
-					legend: false, 
+					plugins:{
+							legend: false,
+						
+					},
+					 
 					scales: {
-						yAxes: [{
+						y: {
 							ticks: {
-								beginAtZero: true,
-								fontColor:	'#ffffff',
-								
-							},
-							gridLines:{
-								color:"rgba(255, 255, 255, 0.1)"
+								beginAtZero: true
 							}
-						}],
-						xAxes: [{
+						},
+						x: {
 							// Change here
-							barPercentage: 0.5,
-							ticks: {
-								fontColor:	'#ffffff',
-							},
-							gridLines:{
-								color:"rgba(255, 255, 255, 0.1)"
-							}
-						}]
+							barPercentage: 0.5
+						}
 					}
 				}
-			});
+			};
+			var barChart = new Chart(barChart_2, config);
+
+                var element = document.querySelector('body');
+                var observer = new MutationObserver(function(mutations) {
+                    mutations.forEach(function(mutation) {
+                        if(mutation.attributeName === "data-theme-version"){
+                            if($('body').attr('data-theme-version') === "dark"){
+                                config.options.scales.y.grid.color = '#3d3d4e'
+                                config.options.scales.x.grid.color = '#3d3d4e'
+                            }else{
+                                config.options.scales.y.grid.color = '#eee'
+                                config.options.scales.x.grid.color = '#eee'
+                            }
+                            barChart.update();
+                        }
+                    });
+                });
+                observer.observe(element, {
+                    attributes: true
+                });
 		}
 	}
 
@@ -132,18 +170,26 @@
 			const barChart_3 = document.getElementById("barChart_3").getContext('2d');
 			//generate gradient
 			const barChart_3gradientStroke = barChart_3.createLinearGradient(50, 100, 50, 50);
-			barChart_3gradientStroke.addColorStop(0, "rgba(248,185,64,1)");
-			barChart_3gradientStroke.addColorStop(1, "rgba(44, 44, 44, 0.5)");
+			barChart_3gradientStroke.addColorStop(0, "rgba(69, 43, 144, 1)");
+			barChart_3gradientStroke.addColorStop(1, "rgba(69, 43, 144, 0.5)");
 
 			const barChart_3gradientStroke2 = barChart_3.createLinearGradient(50, 100, 50, 50);
-			barChart_3gradientStroke2.addColorStop(0, "rgba(98, 126, 234, 1)");
-			barChart_3gradientStroke2.addColorStop(1, "rgba(98, 126, 234, 1)");
+			barChart_3gradientStroke2.addColorStop(0, "rgba(43, 193, 85, 1)");
+			barChart_3gradientStroke2.addColorStop(1, "rgba(43, 193, 85, 1)");
 
 			const barChart_3gradientStroke3 = barChart_3.createLinearGradient(50, 100, 50, 50);
-			barChart_3gradientStroke3.addColorStop(0, "rgba(238, 60, 60, 1)");
-			barChart_3gradientStroke3.addColorStop(1, "rgba(238, 60, 60, 1)");
+			barChart_3gradientStroke3.addColorStop(0, "rgba(139, 199, 64, 1)");
+			barChart_3gradientStroke3.addColorStop(1, "rgba(139, 199, 64, 1)");
 			
 			barChart_3.height = 100;
+			// Get the reference to the existing chart with ID 'barChart_3'
+			var existingChart = Chart.getChart(barChart_3.canvas.id);
+
+			// Check if the chart exists
+			if (existingChart) {
+				// Destroy the existing chart
+				existingChart.destroy();
+			}
 
 			let barChartData = {
 				defaultFontFamily: 'Poppins',
@@ -152,6 +198,7 @@
 					label: 'Red',
 					backgroundColor: barChart_3gradientStroke,
 					hoverBackgroundColor: barChart_3gradientStroke, 
+					barThickness:40,
 					data: [
 						'12',
 						'12',
@@ -164,7 +211,8 @@
 				}, {
 					label: 'Green',
 					backgroundColor: barChart_3gradientStroke2,
-					hoverBackgroundColor: barChart_3gradientStroke2, 
+					hoverBackgroundColor: barChart_3gradientStroke2,
+					barThickness:40,					
 					data: [
 						'12',
 						'12',
@@ -177,7 +225,8 @@
 				}, {
 					label: 'Blue',
 					backgroundColor: barChart_3gradientStroke3,
-					hoverBackgroundColor: barChart_3gradientStroke3, 
+					hoverBackgroundColor: barChart_3gradientStroke3,
+					barThickness:40,
 					data: [
 						'12',
 						'12',
@@ -191,43 +240,54 @@
 
 			};
 
-			new Chart(barChart_3, {
+			var config = {
 				type: 'bar',
 				data: barChartData,
 				options: {
-					legend: {
-						display: false
-					}, 
+					plugins:{
+						legend:false,
+						tooltip: {
+							mode: 'index',
+							intersect: false
+						},
+					},
 					title: {
 						display: false
 					},
-					tooltips: {
-						mode: 'index',
-						intersect: false
-					},
+					
 					responsive: true,
 					scales: {
-						xAxes: [{
+						x: {
 							stacked: true,
-							ticks: {
-								fontColor:	'#ffffff',
-							},
-							gridLines:{
-								color:"rgba(255, 255, 255, 0.1)"
-							}
-						}],
-						yAxes: [{
-							stacked: true,
-							ticks: {
-								fontColor:	'#ffffff',
-							},
-							gridLines:{
-								color:"rgba(255, 255, 255, 0.1)"
-							}
-						}]
+						},
+						y: {
+							stacked: true
+						}
 					}
 				}
+			};
+			var barChart = new Chart(barChart_3, config);
+
+			var element = document.querySelector('body');
+			var observer = new MutationObserver(function(mutations) {
+				mutations.forEach(function(mutation) {
+					if(mutation.attributeName === "data-theme-version"){
+						if($('body').attr('data-theme-version') === "dark"){
+							config.options.scales.y.grid.color = '#3d3d4e'
+							config.options.scales.x.grid.color = '#3d3d4e'
+						}else{
+							config.options.scales.y.grid.color = '#eee'
+							config.options.scales.x.grid.color = '#eee'
+						}
+						barChart.update();
+					}
+				});
 			});
+			observer.observe(element, {
+				attributes: true
+			});
+			
+
 		}
 	}
 	var lineChart1 = function(){
@@ -238,28 +298,50 @@
 
 		//basic line chart
 			const lineChart_1 = document.getElementById("lineChart_1").getContext('2d');
-
-			Chart.controllers.line = Chart.controllers.line.extend({
-				draw: function () {
-					draw.apply(this, arguments);
-					let nk = this.chart.chart.ctx;
-					let _stroke = nk.stroke;
-					nk.stroke = function () {
-						nk.save();
-						nk.shadowColor = 'rgba(255, 0, 0, .2)';
-						nk.shadowBlur = 10;
-						nk.shadowOffsetX = 0;
-						nk.shadowOffsetY = 10;
-						_stroke.apply(this, arguments)
-						nk.restore();
+			 class Custom extends Chart.LineController {
+				draw() {
+					// Call bubble controller method to draw all the points
+					super.draw(arguments);	
+					const ctx = this.chart.ctx;
+					let _stroke = ctx.stroke;
+					//ctx.strokeStyle = 'red';
+					//ctx.lineWidth = 1;
+					ctx.stroke = function(){
+						ctx.save();
+						ctx.shadowColor = 'rgba(69, 43, 144, 0.1)';
+						ctx.shadowBlur = 10;
+						ctx.shadowOffsetX = 0;
+						ctx.shadowOffsetY = 4;
+						_stroke.apply(this, arguments);
+						ctx.restore();
+						
 					}
 				}
-			});
+			};
+			Custom.id = 'shadowLine';
+			Custom.defaults = Chart.LineController.defaults;
+
+			// Stores the controller so that the chart initialization routine can look it up
+			Chart.register(Custom);
+			// Get the reference to the existing chart with ID 'lineChart_1'
+			var existingChart = Chart.getChart(lineChart_1.canvas.id);
+
+			// Check if the chart exists
+			if (existingChart) {
+				// Destroy the existing chart
+				existingChart.destroy();
+			}
+
+
+			
+
+		
+			
 			
 			lineChart_1.height = 100;
 
-			new Chart(lineChart_1, {
-				type: 'line',
+			var config = {
+				type: 'shadowLine',
 				data: {
 					defaultFontFamily: 'Poppins',
 					labels: ["Jan", "Febr", "Mar", "Apr", "May", "Jun", "Jul"],
@@ -267,44 +349,68 @@
 						{
 							label: "My First dataset",
 							data: [25, 20, 60, 41, 66, 45, 80],
-							borderColor: 'rgba(248,185,64,1)',
+							borderColor: 'rgba(69, 43, 144, 1)',
 							borderWidth: "2",
 							backgroundColor: 'transparent',  
-							pointBackgroundColor: 'rgba(248,185,64,1)'
+							
+							tension:0.5,
+							//fill:true,
+							pointBackgroundColor: 'rgba(69, 43, 144, 1)'
 						}
 					]
 				},
 				options: {
-					legend: false, 
+					plugins:{
+						
+							legend: false,
+					},
+					 
 					scales: {
-						yAxes: [{
-							ticks: {
-								beginAtZero: true, 
+						y: {
 								max: 100, 
 								min: 0, 
-								stepSize: 20, 
-								padding: 10,
-								fontColor:	'#ffffff',
-							},
-							gridLines:{
-								color:"rgba(255, 255, 255, 0.1)"
-							}
-						}],
-						xAxes: [{
 							ticks: {
-								padding: 5,
-								fontColor:	'#ffffff',
-							},
-							gridLines:{
-								color:"rgba(255, 255, 255, 0.1)"
+								stepSize: 20,
+								padding: 10,
+								beginAtZero: true, 
+								 
 							}
-						}]
+						},
+						x: {
+							ticks: {
+								padding: 5
+							}
+						}
 					}
 				}
-			});
+			};
+			var lineChart = new Chart(lineChart_1, config);
+
+                var element = document.querySelector('body');
+                var observer = new MutationObserver(function(mutations) {
+                    mutations.forEach(function(mutation) {
+                        if(mutation.attributeName === "data-theme-version"){
+                            if($('body').attr('data-theme-version') === "dark"){
+                                config.options.scales.y.grid.color = '#3d3d4e'
+                                config.options.scales.x.grid.color = '#3d3d4e'
+                            }else{
+                                config.options.scales.y.grid.color = '#eee'
+                                config.options.scales.x.grid.color = '#eee'
+                            }
+                            lineChart.update();
+                        }
+                    });
+                });
+                observer.observe(element, {
+                    attributes: true
+                });
 			
 		}
 	}
+	
+	/* var draw = function(){
+		
+	} */
 	
 	var lineChart2 = function(){
 		//gradient line chart
@@ -313,30 +419,51 @@
 			const lineChart_2 = document.getElementById("lineChart_2").getContext('2d');
 			//generate gradient
 			const lineChart_2gradientStroke = lineChart_2.createLinearGradient(500, 0, 100, 0);
-			lineChart_2gradientStroke.addColorStop(0, "rgba(248,185,64,1)");
-			lineChart_2gradientStroke.addColorStop(1, "rgba(44, 44, 44, 0.5)");
+			lineChart_2gradientStroke.addColorStop(0, "rgba(69, 43, 144, 1)");
+			lineChart_2gradientStroke.addColorStop(1, "rgba(69, 43, 144, 0.5)");
 
-			Chart.controllers.line = Chart.controllers.line.extend({
-				draw: function () {
-					draw.apply(this, arguments);
-					let nk = this.chart.chart.ctx;
-					let _stroke = nk.stroke;
-					nk.stroke = function () {
-						nk.save();
-						nk.shadowColor = 'rgba(0, 0, 128, .2)';
-						nk.shadowBlur = 10;
-						nk.shadowOffsetX = 0;
-						nk.shadowOffsetY = 10;
-						_stroke.apply(this, arguments)
-						nk.restore();
+			class Custom extends Chart.LineController {
+				draw() {
+					// Call bubble controller method to draw all the points
+					super.draw(arguments);	
+					const ctx = this.chart.ctx;
+					let _stroke = ctx.stroke;
+					//ctx.strokeStyle = 'red';
+					//ctx.lineWidth = 1;
+					ctx.stroke = function(){
+						ctx.save();
+						ctx.shadowColor = 'rgba(69, 43, 144, 0.2)';
+						ctx.shadowBlur = 10;
+						ctx.shadowOffsetX = 0;
+						ctx.shadowOffsetY = 4;
+						_stroke.apply(this, arguments);
+						ctx.restore();
+						
 					}
 				}
-			});
+			};
+			Custom.id = 'shadowLine';
+			Custom.defaults = Chart.LineController.defaults;
+
+			// Stores the controller so that the chart initialization routine can look it up
+			Chart.register(Custom);
+
+			// Get the reference to the existing chart with ID 'lineChart_2'
+			var existingChart = Chart.getChart(lineChart_2.canvas.id);
+
+			// Check if the chart exists
+			if (existingChart) {
+				// Destroy the existing chart
+				existingChart.destroy();
+			}
+			
+			
+				
 				
 			lineChart_2.height = 100;
 
-			new Chart(lineChart_2, {
-				type: 'line',
+			var config = {
+				type: 'shadowLine',
 				data: {
 					defaultFontFamily: 'Poppins',
 					labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul"],
@@ -347,38 +474,54 @@
 							borderColor: lineChart_2gradientStroke,
 							borderWidth: "2",
 							backgroundColor: 'transparent', 
-							pointBackgroundColor: 'rgba(44, 44, 44, 0.5)'
+							pointBackgroundColor: 'rgba(69, 43, 144, 0.5)',
+							tension:0.5,
 						}
 					]
 				},
 				options: {
-					legend: false, 
+					plugins:{
+						legend:false,
+						
+					},
 					scales: {
-						yAxes: [{
-							ticks: {
-								beginAtZero: true, 
+						y:{
 								max: 100, 
 								min: 0, 
-								stepSize: 20, 
 								padding: 10,
-								fontColor:	'#ffffff',
-							},
-							gridLines:{
-								color:"rgba(255, 255, 255, 0.1)"
-							}
-						}],
-						xAxes: [{ 
 							ticks: {
-								padding: 5,
-								fontColor:	'#ffffff',
-							},
-							gridLines:{
-								color:"rgba(255, 255, 255, 0.1)"
+								stepSize: 20, 
+								beginAtZero: true, 
 							}
-						}]
+						},
+						x:{ 
+							ticks: {
+								padding: 5
+							}
+						}
 					}
 				}
-			});
+			};
+			var lineChart = new Chart(lineChart_2, config);
+
+                var element = document.querySelector('body');
+                var observer = new MutationObserver(function(mutations) {
+                    mutations.forEach(function(mutation) {
+                        if(mutation.attributeName === "data-theme-version"){
+                            if($('body').attr('data-theme-version') === "dark"){
+                                config.options.scales.y.grid.color = '#3d3d4e'
+                                config.options.scales.x.grid.color = '#3d3d4e'
+                            }else{
+                                config.options.scales.y.grid.color = '#eee'
+                                config.options.scales.x.grid.color = '#eee'
+                            }
+                            lineChart.update();
+                        }
+                    });
+                });
+                observer.observe(element, {
+                    attributes: true
+                });
 		}
 	}
 	var lineChart3 = function(){
@@ -387,33 +530,50 @@
 			const lineChart_3 = document.getElementById("lineChart_3").getContext('2d');
 			//generate gradient
 			const lineChart_3gradientStroke1 = lineChart_3.createLinearGradient(500, 0, 100, 0);
-			lineChart_3gradientStroke1.addColorStop(0, "rgba(248,185,64,1)");
-			lineChart_3gradientStroke1.addColorStop(1, "rgba(44, 44, 44, 0.5)");
+			lineChart_3gradientStroke1.addColorStop(0, "rgba(69, 43, 144, 1)");
+			lineChart_3gradientStroke1.addColorStop(1, "rgba(69, 43, 144, 0.5)");
 
 			const lineChart_3gradientStroke2 = lineChart_3.createLinearGradient(500, 0, 100, 0);
-			lineChart_3gradientStroke2.addColorStop(0, "rgba(255, 92, 0, 1)");
-			lineChart_3gradientStroke2.addColorStop(1, "rgba(255, 92, 0, 1)");
+			lineChart_3gradientStroke2.addColorStop(0, "rgba(255, 149, 72, 1)");
+			lineChart_3gradientStroke2.addColorStop(1, "rgba(255, 149, 72, 1)");
 
-			Chart.controllers.line = Chart.controllers.line.extend({
-				draw: function () {
-					draw.apply(this, arguments);
-					let nk = this.chart.chart.ctx;
-					let _stroke = nk.stroke;
-					nk.stroke = function () {
-						nk.save();
-						nk.shadowColor = 'rgba(0, 0, 0, 0)';
-						nk.shadowBlur = 10;
-						nk.shadowOffsetX = 0;
-						nk.shadowOffsetY = 10;
-						_stroke.apply(this, arguments)
-						nk.restore();
+			class Custom extends Chart.LineController {
+				draw() {
+					// Call bubble controller method to draw all the points
+					super.draw(arguments);	
+					const ctx = this.chart.ctx;
+					let _stroke = ctx.stroke;
+					//ctx.strokeStyle = 'red';
+					//ctx.lineWidth = 1;
+					ctx.stroke = function(){
+						ctx.save();
+						ctx.shadowColor = 'rgba(0, 0, 0, 0)';
+						ctx.shadowBlur = 10;
+						ctx.shadowOffsetX = 0;
+						ctx.shadowOffsetY = 4;
+						_stroke.apply(this, arguments);
+						ctx.restore();
+						
 					}
 				}
-			});
+			};
+			Custom.id = 'shadowLine';
+			Custom.defaults = Chart.LineController.defaults;
+
+			// Stores the controller so that the chart initialization routine can look it up
+			Chart.register(Custom);
+			// Get the reference to the existing chart with ID 'lineChart_3'
+			var existingChart = Chart.getChart(lineChart_3.canvas.id);
+
+			// Check if the chart exists
+			if (existingChart) {
+				// Destroy the existing chart
+				existingChart.destroy();
+			}
 				
 			lineChart_3.height = 100;
 
-			new Chart(lineChart_3, {
+			var config = {
 				type: 'line',
 				data: {
 					defaultFontFamily: 'Poppins',
@@ -425,45 +585,62 @@
 							borderColor: lineChart_3gradientStroke1,
 							borderWidth: "2",
 							backgroundColor: 'transparent', 
-							pointBackgroundColor: 'rgba(44, 44, 44, 0.5)'
+							pointBackgroundColor: 'rgba(69, 43, 144, 0.5)',
+							tension:0.5,
 						}, {
 							label: "My First dataset",
 							data: [5, 20, 15, 41, 35, 65, 80],
 							borderColor: lineChart_3gradientStroke2,
 							borderWidth: "2",
 							backgroundColor: 'transparent', 
-							pointBackgroundColor: 'rgba(254, 176, 25, 1)'
+							pointBackgroundColor: 'rgba(254, 176, 25, 1)',
+							tension:0.5,
 						}
 					]
 				},
 				options: {
-					legend: false, 
+					plugins:{
+						legend:false,
+						
+					},
 					scales: {
-						yAxes: [{
+						y:{
+							max: 100,
+							min: 0,
 							ticks: {
-								beginAtZero: true, 
-								max: 100, 
-								min: 0, 
+								beginAtZero: true, 								
 								stepSize: 20, 
-								padding: 10,
-								fontColor:	'#ffffff',
-							},
-							gridLines:{
-								color:"rgba(255, 255, 255, 0.1)"
+								padding: 10
 							}
-						}],
-						xAxes: [{ 
+						},
+						x: { 
 							ticks: {
-								padding: 5,
-								fontColor:	'#ffffff',
-							},
-							gridLines:{
-								color:"rgba(255, 255, 255, 0.1)"
+								padding: 5
 							}
-						}]
+						}
 					}
 				}
-			});
+			};
+			var lineChart = new Chart(lineChart_3, config);
+
+                var element = document.querySelector('body');
+                var observer = new MutationObserver(function(mutations) {
+                    mutations.forEach(function(mutation) {
+                        if(mutation.attributeName === "data-theme-version"){
+                            if($('body').attr('data-theme-version') === "dark"){
+                                config.options.scales.y.grid.color = '#3d3d4e'
+                                config.options.scales.x.grid.color = '#3d3d4e'
+                            }else{
+                                config.options.scales.y.grid.color = '#eee'
+                                config.options.scales.x.grid.color = '#eee'
+                            }
+                            lineChart.update();
+                        }
+                    });
+                });
+                observer.observe(element, {
+                    attributes: true
+                });
 		}
 	}
 	var lineChart03 = function(){
@@ -521,11 +698,7 @@
 								max: 100, 
 								min: 0, 
 								stepSize: 20, 
-								padding: 10,
-								fontColor:	'#ffffff',
-							},
-							gridLines:{
-								color:"rgba(255, 255, 255, 0.1)"
+								padding: 10
 							},
 							borderWidth:3,
 							display:false,
@@ -533,12 +706,8 @@
 						}],
 						xAxes: [{ 
 							ticks: {
-								padding: 5,
-								fontColor:	'#ffffff',
+								padding: 5
 							},
-							gridLines:{
-								color:"rgba(255, 255, 255, 0.1)"
-							}
 							
 						}]
 					}
@@ -551,10 +720,17 @@
 		//basic area chart
 		if(jQuery('#areaChart_1').length > 0 ){
 			const areaChart_1 = document.getElementById("areaChart_1").getContext('2d');
-    
+			// Get the reference to the existing chart with ID 'areaChart_1'
+			var existingChart = Chart.getChart(areaChart_1.canvas.id);
+
+			// Check if the chart exists
+			if (existingChart) {
+				// Destroy the existing chart
+				existingChart.destroy();
+			}
 			areaChart_1.height = 100;
 
-			new Chart(areaChart_1, {
+			var config = {
 				type: 'line',
 				data: {
 					defaultFontFamily: 'Poppins',
@@ -565,39 +741,57 @@
 							data: [25, 20, 60, 41, 66, 45, 80],
 							borderColor: 'rgba(0, 0, 1128, .3)',
 							borderWidth: "1",
-							backgroundColor: 'rgba(248, 185, 64,1)', 
-							pointBackgroundColor: 'rgba(0, 0, 1128, .3)'
+							backgroundColor: 'rgba(69, 43, 144, .5)', 
+							pointBackgroundColor: 'rgba(0, 0, 1128, .3)',
+							tension:0.5,
+							fill:true,
 						}
 					]
 				},
 				options: {
-					legend: false, 
+					plugins:{
+							legend: false,
+						
+					},
+					 
 					scales: {
-						yAxes: [{
-							ticks: {
-								beginAtZero: true, 
+						y:{
 								max: 100, 
 								min: 0, 
-								stepSize: 20, 
-								padding: 10,
-								fontColor:	'#ffffff',
-							},
-							gridLines:{
-								color:"rgba(255, 255, 255, 0.1)"
-							}
-						}],
-						xAxes: [{ 
 							ticks: {
-								padding: 5,
-								fontColor:	'#ffffff',
-							},
-							gridLines:{
-								color:"rgba(255, 255, 255, 0.1)"
+								beginAtZero: true, 
+								stepSize: 20, 
+								padding: 10
 							}
-						}]
+						},
+						x: { 
+							ticks: {
+								padding: 5
+							}
+						}
 					}
 				}
-			});
+			};
+			var areaChart = new Chart(areaChart_1, config);
+
+                var element = document.querySelector('body');
+                var observer = new MutationObserver(function(mutations) {
+                    mutations.forEach(function(mutation) {
+                        if(mutation.attributeName === "data-theme-version"){
+                            if($('body').attr('data-theme-version') === "dark"){
+                                config.options.scales.y.grid.color = '#3d3d4e'
+                                config.options.scales.x.grid.color = '#3d3d4e'
+                            }else{
+                                config.options.scales.y.grid.color = '#eee'
+                                config.options.scales.x.grid.color = '#eee'
+                            }
+                            areaChart.update();
+                        }
+                    });
+                });
+                observer.observe(element, {
+                    attributes: true
+                });
 		}
 	}
 	var areaChart2 = function(){	
@@ -606,12 +800,21 @@
 			const areaChart_2 = document.getElementById("areaChart_2").getContext('2d');
 			//generate gradient
 			const areaChart_2gradientStroke = areaChart_2.createLinearGradient(0, 1, 0, 500);
-			areaChart_2gradientStroke.addColorStop(0, "rgba(238, 60, 60, 0.2)");
-			areaChart_2gradientStroke.addColorStop(1, "rgba(238, 60, 60, 0)");
+			areaChart_2gradientStroke.addColorStop(0, "rgba(139, 199, 64, 0.2)");
+			areaChart_2gradientStroke.addColorStop(1, "rgba(139, 199, 64, 0)");
+
+			// Get the reference to the existing chart with ID 'areaChart_2'
+			var existingChart = Chart.getChart(areaChart_2.canvas.id);
+
+			// Check if the chart exists
+			if (existingChart) {
+				// Destroy the existing chart
+				existingChart.destroy();
+			}
 			
 			areaChart_2.height = 100;
 
-			new Chart(areaChart_2, {
+			var config =  {
 				type: 'line',
 				data: {
 					defaultFontFamily: 'Poppins',
@@ -620,40 +823,58 @@
 						{
 							label: "My First dataset",
 							data: [25, 20, 60, 41, 66, 45, 80],
-							borderColor: "#ff2625",
+							borderColor: "#FF2E2E",
 							borderWidth: "4",
-							backgroundColor: areaChart_2gradientStroke
+							backgroundColor: areaChart_2gradientStroke,
+							tension:0.5,
+							fill:true,	
 						}
 					]
 				},
 				options: {
-					legend: false, 
+					plugins:{
+							legend: false,
+						
+					},
+					 
 					scales: {
-						yAxes: [{
-							ticks: {
-								beginAtZero: true, 
+						y: {
 								max: 100, 
 								min: 0, 
-								stepSize: 20, 
-								padding: 5,
-								fontColor:	'#ffffff',
-							},
-							gridLines:{
-								color:"rgba(255, 255, 255, 0.1)"
-							}
-						}],
-						xAxes: [{ 
 							ticks: {
-								padding: 5,
-								fontColor:	'#ffffff',
-							},
-							gridLines:{
-								color:"rgba(255, 255, 255, 0.1)"
+								beginAtZero: true, 
+								stepSize: 20, 
+								padding: 5
 							}
-						}]
+						},
+						x: { 
+							ticks: {
+								padding: 5
+							}
+						}
 					}
 				}
-			});
+			};
+			var areaChart = new Chart(areaChart_2, config);
+
+                var element = document.querySelector('body');
+                var observer = new MutationObserver(function(mutations) {
+                    mutations.forEach(function(mutation) {
+                        if(mutation.attributeName === "data-theme-version"){
+                            if($('body').attr('data-theme-version') === "dark"){
+                                config.options.scales.y.grid.color = '#3d3d4e'
+                                config.options.scales.x.grid.color = '#3d3d4e'
+                            }else{
+                                config.options.scales.y.grid.color = '#eee'
+                                config.options.scales.x.grid.color = '#eee'
+                            }
+                            areaChart.update();
+                        }
+                    });
+                });
+                observer.observe(element, {
+                    attributes: true
+                });
 		}    
 	}    
 
@@ -661,10 +882,19 @@
 		//gradient area chart
 		if(jQuery('#areaChart_3').length > 0 ){
 			const areaChart_3 = document.getElementById("areaChart_3").getContext('2d');
-    
+
+			// Get the reference to the existing chart with ID 'areaChart_3'
+			var existingChart = Chart.getChart(areaChart_3.canvas.id);
+
+			// Check if the chart exists
+			if (existingChart) {
+				// Destroy the existing chart
+				existingChart.destroy();
+			}
+			
 			areaChart_3.height = 100;
 
-			new Chart(areaChart_3, {
+			var config = {
 				type: 'line',
 				data: {
 					defaultFontFamily: 'Poppins',
@@ -673,46 +903,66 @@
 						{
 							label: "My First dataset",
 							data: [25, 20, 60, 41, 66, 45, 80],
-							borderColor: 'rgb(44, 44, 44)',
+							borderColor: 'rgb(30, 170, 231)',
 							borderWidth: "1",
-							backgroundColor: 'rgba(44, 44, 44,1)'
+							backgroundColor: 'rgba(69, 43, 144, .5)',
+							tension:0.5,
+							fill:true,
 						}, 
 						{
 							label: "My First dataset",
 							data: [5, 25, 20, 41, 36, 75, 70],
-							borderColor: 'rgb(255, 92, 0)',
+							borderColor: 'rgb(255, 149, 72)',
 							borderWidth: "1",
-							backgroundColor: 'rgba(255, 92, 0, .5)'
+							backgroundColor: 'rgba(255, 149, 72, .5)',
+							tension:0.5,
+							fill:true,
 						}
 					]
 				},
 				options: {
-					legend: false, 
+					plugins:{
+						legend: false,
+						
+					},
+					 
 					scales: {
-						yAxes: [{
-							ticks: {
-								beginAtZero: true, 
+						y: {
 								max: 100, 
 								min: 0, 
-								stepSize: 20, 
-								padding: 10,
-								fontColor:	'#ffffff',
-							},
-							gridLines:{
-								color:"rgba(255, 255, 255, 0.1)"
-							}
-						}],
-						xAxes: [{ 
 							ticks: {
-								padding: 5,
-								fontColor:	'#ffffff',
-							},
-							gridLines:{
-								color:"rgba(255, 255, 255, 0.1)"
+								beginAtZero: true, 
+								stepSize: 20, 
+								padding: 10
 							}
-						}]
+						},
+						x: { 
+							ticks: {
+								padding: 5
+							}
+						}
 					}
 				}
+			};
+			var areaChart = new Chart(areaChart_3, config);
+
+			var element = document.querySelector('body');
+			var observer = new MutationObserver(function(mutations) {
+				mutations.forEach(function(mutation) {
+					if(mutation.attributeName === "data-theme-version"){
+						if($('body').attr('data-theme-version') === "dark"){
+							config.options.scales.y.grid.color = '#3d3d4e'
+							config.options.scales.x.grid.color = '#3d3d4e'
+						}else{
+							config.options.scales.y.grid.color = '#eee'
+							config.options.scales.x.grid.color = '#eee'
+						}
+						areaChart.update();
+					}
+				});
+			});
+			observer.observe(element, {
+				attributes: true
 			});
 		}
 	}
@@ -729,7 +979,14 @@
 			const radar_chartgradientStroke2 = radar_chart.createLinearGradient(500, 0, 100, 0);
 			radar_chartgradientStroke2.addColorStop(0, "rgba(68, 0, 235, .5");
 			radar_chartgradientStroke2.addColorStop(1, "rgba(68, 236, 245, .5");
+			// Get the reference to the existing chart with ID 'areaChart_3'
+			var existingChart = Chart.getChart(radar_chart.canvas.id);
 
+			// Check if the chart exists
+			if (existingChart) {
+				// Destroy the existing chart
+				existingChart.destroy();
+			}
 			// radar_chart.height = 100;
 			new Chart(radar_chart, {
 				type: 'radar',
@@ -740,30 +997,29 @@
 						{
 							label: "My First dataset",
 							data: [65, 59, 66, 45, 56, 55, 40],
-							borderColor: '#ffff',
+							borderColor: '#f21780',
 							borderWidth: "1",
 							backgroundColor: radar_chartgradientStroke2
 						},
 						{
 							label: "My Second dataset",
 							data: [28, 12, 40, 19, 63, 27, 87],
-							borderColor: '#ffff',
+							borderColor: '#f21780',
 							borderWidth: "1",
 							backgroundColor: radar_chartgradientStroke1
 						}
 					]
 				},
 				options: {
-					legend: false,
-					//maintainAspectRatio: false, 
+					plugins:{
+						legend:false,
+						
+					},
+					maintainAspectRatio: false, 
 					scale: {
 						ticks: {
-							beginAtZero: true,
-							fontColor:'#ffffff',
-						},
-						gridLines:{
-								color:"rgba(255, 255, 255, 0.1)"
-							}
+							beginAtZero: true
+						}
 					}
 				}
 			});
@@ -774,6 +1030,14 @@
 		if(jQuery('#pie_chart').length > 0 ){
 			//pie chart
 			const pie_chart = document.getElementById("pie_chart").getContext('2d');
+			var existingChart = Chart.getChart(pie_chart.canvas.id);
+
+                // Check if the chart exists
+                if (existingChart) {
+                    // Destroy the existing chart
+                    existingChart.destroy();
+                }
+			
 			// pie_chart.height = 100;
 			new Chart(pie_chart, {
 				type: 'pie',
@@ -783,15 +1047,15 @@
 						data: [45, 25, 20, 10],
 						borderWidth: 0, 
 						backgroundColor: [
-							"rgba(44, 44, 44, .9)",
-							"rgba(44, 44, 44, .7)",
-							"rgba(44, 44, 44,1)",
+							"rgba(69, 43, 144, .9)",
+							"rgba(69, 43, 144, .7)",
+							"rgba(69, 43, 144, .5)",
 							"rgba(0,0,0,0.07)"
 						],
 						hoverBackgroundColor: [
-							"rgba(44, 44, 44, .9)",
-							"rgba(44, 44, 44, .7)",
-							"rgba(44, 44, 44,1)",
+							"rgba(69, 43, 144, .9)",
+							"rgba(69, 43, 144, .7)",
+							"rgba(69, 43, 144, .5)",
 							"rgba(0,0,0,0.07)"
 						]
 
@@ -804,9 +1068,15 @@
 					]
 				},
 				options: {
-					responsive: true, 
-					legend: false, 
+					plugins:{
+						legend:false,
+						responsive: true, 
+						
+					},
+					
+					//	legend: false, 
 					//maintainAspectRatio: false
+					aspectRatio:5,
 				}
 			});
 		}
@@ -815,6 +1085,15 @@
 		if(jQuery('#doughnut_chart').length > 0 ){
 			//doughut chart
 			const doughnut_chart = document.getElementById("doughnut_chart").getContext('2d');
+
+			// Get the reference to the existing chart with ID 'doughnut_chart'
+			var existingChart = Chart.getChart(doughnut_chart.canvas.id);
+
+			// Check if the chart exists
+			if (existingChart) {
+				// Destroy the existing chart
+				existingChart.destroy();
+			}
 			// doughnut_chart.height = 100;
 			new Chart(doughnut_chart, {
 				type: 'doughnut',
@@ -826,14 +1105,14 @@
 						borderWidth: 3, 
 						borderColor: "rgba(255,255,255,1)",
 						backgroundColor: [
-							"rgba(248,185,64,1)",
-							"rgba(98, 126, 234, 1)",
-							"rgba(238, 60, 60, 1)"
+							"rgba(69, 43, 144, 1)",
+							"rgba(43, 193, 85, 1)",
+							"rgba(139, 199, 64, 1)"
 						],
 						hoverBackgroundColor: [
-							"rgba(44, 44, 44, 0.9)",
-							"rgba(98, 126, 234, .9)",
-							"rgba(238, 60, 60, .9)"
+							"rgba(69, 43, 144, 0.9)",
+							"rgba(43, 193, 85, .9)",
+							"rgba(139, 199, 64, .9)"
 						]
 
 					}],
@@ -846,7 +1125,7 @@
 				},
 				options: {
 					weight: 1,	
-					 cutoutPercentage: 70,
+					 cutout: 30,
 					responsive: true,
 					maintainAspectRatio: false
 				}
@@ -857,6 +1136,15 @@
 		if(jQuery('#polar_chart').length > 0 ){
 			//polar chart
 			const polar_chart = document.getElementById("polar_chart").getContext('2d');
+
+			// Get the reference to the existing chart with ID 'polar_chart'
+			var existingChart = Chart.getChart(polar_chart.canvas.id);
+
+			// Check if the chart exists
+			if (existingChart) {
+				// Destroy the existing chart
+				existingChart.destroy();
+			}
 			// polar_chart.height = 100;
 			new Chart(polar_chart, {
 				type: 'polarArea',
@@ -866,11 +1154,11 @@
 						data: [15, 18, 9, 6, 19],
 						borderWidth: 0, 
 						backgroundColor: [
-							"rgba(248,185,64,1)",
-							"rgba(98, 126, 234, 1)",
-							"rgba(238, 60, 60, 1)",
-							"rgba(54, 147, 255, 1)",
-							"rgba(255, 92, 0, 1)"
+							"rgba(69, 43, 144, 1)",
+							"rgba(43, 193, 85, 1)",
+							"rgba(139, 199, 64, 1)",
+							"rgba(255, 46, 46, 1)",
+							"rgba(255, 149, 72, 1)"
 						]
 
 					}]
@@ -878,6 +1166,7 @@
 				options: {
 					responsive: true, 
 					//maintainAspectRatio: false
+					aspectRatio:5,
 				}
 			});
 
@@ -887,58 +1176,58 @@
 
 
 	/* Function ============ */
-	return {
-		init:function(){
-		},
-		
-		
-		load:function(){
-			barChart1();	
-			barChart2();
-			barChart3();	
-			lineChart1();	
-			lineChart2();		
-			lineChart3();
-			lineChart03();
-			areaChart1();
-			areaChart2();
-			areaChart3();
-			radarChart();
-			pieChart();
-			doughnutChart(); 
-			polarChart(); 
-		},
-		
-		resize:function(){
-			// barChart1();	
-			// barChart2();
-			// barChart3();	
-			// lineChart1();	
-			// lineChart2();		
-			// lineChart3();
-			// lineChart03();
-			// areaChart1();
-			// areaChart2();
-			// areaChart3();
-			// radarChart();
-			// pieChart();
-			// doughnutChart(); 
-			// polarChart(); 
+		return {
+			init:function(){
+			},
+			
+			
+			load:function(){
+				barChart1();	
+				barChart2();
+				barChart3();	
+				lineChart1();	
+				lineChart2();		
+				lineChart3();
+				lineChart03();
+				areaChart1();
+				areaChart2();
+				areaChart3();
+				radarChart();
+				pieChart();
+				doughnutChart(); 
+				polarChart(); 
+			},
+			
+			resize:function(){
+				// barChart1();	
+				// barChart2();
+				// barChart3();	
+				// lineChart1();	
+				// lineChart2();		
+				// lineChart3();
+				// lineChart03();
+				// areaChart1();
+				// areaChart2();
+				// areaChart3();
+				// radarChart();
+				// pieChart();
+				// doughnutChart(); 
+				// polarChart(); 
+			}
 		}
-	}
-
-}();
-
-jQuery(document).ready(function(){
-});
 	
-jQuery(window).on('load',function(){
-	dlabSparkLine.load();
-});
+	}();
 
-jQuery(window).on('resize',function(){
-	//dlabSparkLine.resize();
-	setTimeout(function(){ dlabSparkLine.resize(); }, 1000);
-});
-	
+	jQuery(document).ready(function(){
+	});
+		
+	jQuery(window).on('load',function(){
+		dzSparkLine.load();
+	});
+
+	jQuery(window).on('resize',function(){
+		dzSparkLine.resize();
+		
+	});     
+
 })(jQuery);

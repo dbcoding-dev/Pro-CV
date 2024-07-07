@@ -1,8 +1,9 @@
-const { ResumeController } = require("../controller/adminController.js")
+const ResumeController = require("../controller/resumeController.js")
 const express = require("express");
 const router = express.Router();
 const { authMiddleware } = require("../middleware/userMiddleware.js");
-// Resume 
+
+// Panel Resume 
 router.get('/panel/resume', authMiddleware, ResumeController.getResume)
 router.get('/panel/resume/add', authMiddleware, ResumeController.getResumeAdd)
 router.post('/panel/resumes', authMiddleware, ResumeController.addResume)

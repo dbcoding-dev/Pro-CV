@@ -1,12 +1,10 @@
 const express = require("express");
 const router = express.Router();
-const { UserController } = require("../../controller/UserController.js");
-const rateLimiter = require("../../middleware/ratemiddleware.js"); // Doğru import
+const { UserController } = require("../../controller/userController.js");
+const { SiteController } = require("../../controller/websiteController.js");
+const rateLimiter = require("../../middleware/ratemiddleware.js");
 const { preventAuthenticatedAccess, ensureAuthenticated } = require("../../middleware/authenticate.js");
 
-const {
-    SiteController
-} = require("../../controller/adminController.js")
 
 // User
 router.get('/register', preventAuthenticatedAccess, UserController.GetRegister);
@@ -18,7 +16,7 @@ router.get('/forgot', preventAuthenticatedAccess, UserController.GetForgotPasswo
 router.post('/auth/forgot', preventAuthenticatedAccess, UserController.requestPasswordReset);
 router.post('/auth/delete/:token', preventAuthenticatedAccess, UserController.ConfirmDeleteAccount);
 router.post('/request-delete-account', ensureAuthenticated, UserController.RequestDeleteAccount); // ensureAuthenticated eklendi
-router.post('/confirm-delete-account', ensureAuthenticated, UserController.ConfirmDeleteAccount); 
+router.post('/confirm-delete-account', ensureAuthenticated, UserController.ConfirmDeleteAccount);
 router.get('/profile', ensureAuthenticated, UserController.Getprofile);
 router.post('/profile/update', ensureAuthenticated, UserController.UpdateProfile);
 router.post('/profile/delete', ensureAuthenticated, UserController.RequestDeleteAccount); // RequestDeleteAccount eklendi

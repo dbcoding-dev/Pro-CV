@@ -1,0 +1,213 @@
+<%- include('../components/head'); -%>
+
+    <body>
+
+        <%- include('../components/preloader'); -%>
+
+            <div id="main-wrapper">
+                <%- include('../components/nav'); -%>
+
+                    <%- include('../components/chatbox'); -%>
+                        <%- include('../components/header'); -%>
+
+                            <%- include('../components/sidebar'); -%>
+                                <div class="content-body">
+                                    <div class="container-fluid">
+                                        <div class="row">
+                                            <div class="col-xl-12 col-sm-12">
+                                                <div class="card">
+                                                    <div class="card-header">
+                                                        <h4 class="card-title">Block Ip</h4>
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <% if (successMessage) { %>
+                                                            <div class="alert alert-success">
+                                                                <%= successMessage %>
+                                                            </div>
+                                                            <% } %>
+                                                                <% if (errorMessage) { %>
+                                                                    <div class="alert alert-danger">
+                                                                        <%= errorMessage %>
+                                                                    </div>
+                                                                    <% } %>
+                                                                        <div class="basic-form">
+                                                                            <form action="/panel/block-ip"
+                                                                                method="post">
+                                                                                <div class="mb-3">
+                                                                                    <label for="ip_address">IP
+                                                                                        Address:</label>
+                                                                                    <input type="text"
+                                                                                        class="form-control input-default "
+                                                                                        id="ip_address"
+                                                                                        name="ip_address" required>
+                                                                                </div>
+                                                                                <div class="mb-3">
+                                                                                    <button type="submit"
+                                                                                        class="btn btn-primary">Submit</button>
+                                                                                </div>
+                                                                            </form>
+                                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-12 col-sm-12">
+                                                <div class="card dz-card" id="accordion-three">
+                                                    <div class="card-header flex-wrap d-flex justify-content-between">
+                                                        <div>
+                                                            <h4 class="card-title">Block Ip List</h4>
+                                                        </div>
+                                                    </div>
+                                                    <div class="tab-content" id="myTabContent-2">
+                                                        <div class="tab-pane fade show active" id="withoutSpace"
+                                                            role="tabpanel" aria-labelledby="home-tab-2">
+                                                            <div class="card-body pt-0">
+                                                                <div class="table-responsive">
+                                                                    <table class="display table"
+                                                                        style="min-width: 845px">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th>ID</th>
+                                                                                <th>IP Address</th>
+                                                                                <th>Create At</th>
+                                                                                <th>Action</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            <% blockedIps.forEach((blockIp, index)=> {
+                                                                                %>
+                                                                                <tr>
+                                                                                    <td>
+                                                                                        <%= index + 1 %>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <%= blockIp.ip_address %>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <%= blockIp.createdAt %>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <div class="d-flex">
+                                                                                            <a href="#"
+                                                                                                class="btn btn-danger shadow btn-xs sharp"
+                                                                                                onclick="deleteBlog('<%= blockIp.id %>')"><i
+                                                                                                    class="fa fa-trash"></i></a>
+                                                                                        </div>
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <% }); %>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-12 col-sm-12">
+                                                <div class="card dz-card" id="accordion-three">
+                                                    <div class="card-header flex-wrap d-flex justify-content-between">
+                                                        <div>
+                                                            <h4 class="card-title">
+                                                                Logs
+                                                            </h4>
+                                                        </div>
+                                                    </div>
+                                                    <div class="tab-content" id="myTabContent-2">
+                                                        <div class="tab-pane fade show active" id="withoutSpace"
+                                                            role="tabpanel" aria-labelledby="home-tab-2">
+                                                            <div class="card-body pt-0">
+                                                                <div class="table-responsive">
+                                                                    <table id="empoloyees-tbl3" class="display table"
+                                                                        style="min-width: 845px">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th>ID</th>
+                                                                                <th>IP Address</th>
+                                                                                <th>Giriş</th>
+                                                                                <th>Çıkış</th>
+                                                                                <th>URL</th>
+                                                                                <th>Action</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            <% logs.forEach((blockIp, index)=> {
+                                                                                %>
+                                                                                <tr>
+                                                                                    <td>
+                                                                                        <%= blockIp.id %>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <%= blockIp.ip_address %>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <%= blockIp.entry_time %>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <%= blockIp.exit_time %>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <%= blockIp.url %>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <div class="d-flex">
+                                                                                            <a href="#"
+                                                                                                class="btn btn-danger shadow btn-xs sharp"
+                                                                                                onclick="deleteBlog('<%= blockIp.id %>')"><i
+                                                                                                    class="fa fa-trash"></i></a>
+                                                                                        </div>
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <% }); %>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <%- include('../components/footer'); -%>
+            </div>
+            <script>
+                function deleteBlog(blogId) {
+                    const isConfirmed = confirm("Are you sure you want to delete this IP?");
+
+                    if (isConfirmed) {
+                        fetch(`/panel/blocks/${blogId}`, {
+                            method: 'DELETE',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                        })
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.success) {
+                                    Swal.fire({
+                                        icon: 'success',
+                                        title: 'Success',
+                                        text: 'Ip has been deleted successfully!',
+                                    }).then(() => {
+                                        location.reload();
+                                    });
+                                } else {
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: 'Error',
+                                        text: 'Delete operation failed: ' + data.message,
+                                    });
+                                }
+                            })
+                            .catch(error => {
+                                console.error('Error:', error);
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Error',
+                                    text: 'An error occurred during the delete operation.',
+                                });
+                            });
+                    }
+                }
+
+            </script>
+            <%- include('../components/scripts'); -%>

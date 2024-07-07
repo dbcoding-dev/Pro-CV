@@ -1,10 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const { Blogs } = require("../controller/blogController.js")
-const {
-    AdminController,
-} = require("../controller/adminController.js")
+const { AdminController } = require("../controller/adminController.js")
 const { authMiddleware } = require("../middleware/userMiddleware.js");
+
 
 // Blog
 router.get("/panel", authMiddleware, AdminController.getPanel)

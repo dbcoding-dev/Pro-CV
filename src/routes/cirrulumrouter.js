@@ -1,8 +1,6 @@
-const {
-    CirriculumController
-} = require("../controller/adminController.js")
 const express = require("express");
 const router = express.Router();
+const CirriculumController = require("../controller/cirrulumController.js")
 const { authMiddleware } = require("../middleware/userMiddleware.js")
 
 

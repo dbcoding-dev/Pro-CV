@@ -3,7 +3,7 @@ const express = require("express");
 const router = express.Router();
 const { authMiddleware } = require("../middleware/userMiddleware.js")
 
-// Seo
+// Panel Seo
 router.get("/panel/seo", authMiddleware, SeoController.getSeo)
 router.post("/panel/seos", authMiddleware, SeoController.postSeo)
 router.get("/panel/seo/add", authMiddleware, SeoController.getSeoAdd)

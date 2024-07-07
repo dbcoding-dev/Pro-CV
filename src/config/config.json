@@ -1,7 +1,7 @@
 {
   "development": {
     "username": "root",
-    "password": "root",
+    "password": "yeni_sifre",
     "database": "procv",
     "host": "localhost",
     "dialect": "mysql",

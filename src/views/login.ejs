@@ -53,8 +53,6 @@
                     </div>
                     <% } %>
                       <form class="text-start mb-3" action="/login" method="post">
-                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-
                         <div class="form-floating mb-4">
                           <input type="email" class="form-control" placeholder="Eposta" name="email" required>
                           <label for="loginEmail">Eposta</label>

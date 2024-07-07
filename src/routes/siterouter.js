@@ -4,7 +4,7 @@ const router = express.Router();
 const { authMiddleware } = require("../middleware/userMiddleware.js");
 
 
-// Site Kontrol
+// Panel Site Kontrol
 router.get("/panel/site", authMiddleware, SitesController.Siteget)
 router.get("/panel/site/add", authMiddleware, SitesController.SiteAdd)
 router.post('/panel/sites', authMiddleware, SitesController.Sitepost)

@@ -914,7 +914,7 @@
 			gaugeChart();
 			differentSeriesChart();
 			svgDotAnimationChart();
-						biPol();
+						//biPol();
 			
 		}
 	}

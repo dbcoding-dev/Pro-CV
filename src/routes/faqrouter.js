@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { FaqController } = require("../controller/adminController.js")
+const FaqController = require("../controller/faqController.js")
 const { authMiddleware } = require("../middleware/userMiddleware.js");
 // Faq 
 router.post('/panel/faqs', authMiddleware, FaqController.addFaqiest)

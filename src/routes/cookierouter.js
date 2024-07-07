@@ -1,6 +1,6 @@
 const {
     CookieController,
-} = require("../controller/adminController.js")
+} = require("../controller/cookieController.js")
 const express = require("express");
 const router = express.Router();
 const { authMiddleware } = require("../middleware/userMiddleware.js");

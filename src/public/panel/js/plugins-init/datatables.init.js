@@ -78,7 +78,15 @@ let dataSet = [
 		},
 		
     });
-	
+	 var table = $('#responsiveTable').DataTable( {
+        responsive: true,
+		language: {
+			paginate: {
+				next: '<i class="fa fa-angle-double-right" aria-hidden="true"></i>',
+			  previous: '<i class="fa fa-angle-double-left" aria-hidden="true"></i>' 
+			}
+		}
+    });
 	var table = $('#projects-tbl1').DataTable({
 		//dom: 'Bfrtip',
 		'dom': 'ZBfrltip',
@@ -248,7 +256,7 @@ let dataSet = [
         ],
 		searching: false,
 		select: false,   
-        pageLength:7,			
+        pageLength:5,			
         lengthChange:false ,
 		language: {
 			paginate: {
@@ -294,6 +302,10 @@ let dataSet = [
 		select: false,   
         /* pageLength:5, */			
         lengthChange:false ,
+
+		"drawCallback": function( settings ) {
+			jQuery('.status-select').selectpicker();
+		},
 		language: {
 			paginate: {
 				next: '<i class="fa-solid fa-angle-right"></i>',

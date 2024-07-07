@@ -324,51 +324,53 @@
   // destroy selector
   $(".destroy-selector").select2();
 
-  $("#destroy-selector-trigger").click(function(){
-      $(".destroy-selector").select2("destroy");
+  $("#destroy-selector-trigger").on("click", function(){
+	  var selectDestroy = $(".destroy-selector").select2();
+	  selectDestroy.select2('destroy');
+    jQuery('.default-select').selectpicker();
   });
 
 
   // opening options
-  $(".opening-dropdown").select2();
-  $("#dropdown-trigger-open").click(function(){
-      $(".opening-dropdown").select2('open');
+  var selectOpen = $(".opening-dropdown").select2();
+  $("#dropdown-trigger-open").on("click", function(){
+	  selectOpen.select2('open');
   });
 
 
   // open or close dropdown
-  $(".open-close-dropdown").select2();
-  $("#opening-dropdown-trigger").click(function(){
-      $(".open-close-dropdown").select2('open');
+  var selectToggle = $(".open-close-dropdown").select2();
+  $("#opening-dropdown-trigger").on("click", function(){
+      selectToggle.select2('open');
   });
-  $("#closing-dropdown-trigger").click(function(){
-      $(".open-close-dropdown").select2('close');
+  $("#closing-dropdown-trigger").on("click", function(){
+      selectToggle.select2('close');
   });
 
 
   // select2 methods
-  var $singleUnbind = $(".single-event-unbind").select2();
+  var singleOption = $(".single-event-unbind").select2();
 
   $(".js-programmatic-set-val").on("click", function () {
-      $singleUnbind.val("CA").trigger("change");
+      singleOption.val("CA").trigger("change");
   });
   
   $(".js-programmatic-open").on("click", function () {
-      $singleUnbind.select2("open");
+      singleOption.select2("open");
   });
   
   $(".js-programmatic-close").on("click", function () {
-      $singleUnbind.select2("close");
+      singleOption.select2("close");
   });
   
   $(".js-programmatic-init").on("click", function () {
-      $singleUnbind.select2({
+      singleOption.select2({
           width: "400px"
       });
   });
   
   $(".js-programmatic-destroy").on("click", function () {
-      $singleUnbind.select2("destroy");
+      singleOption.select2("destroy");
   });
 
 

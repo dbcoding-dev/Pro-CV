@@ -3,37 +3,41 @@ const tokens = new csrf();
 
 const csrfSecret = 'dashboard';  // Bu anahtarı güvenli bir şekilde saklayın
 
-// CSRF token oluşturma middleware'i
 function generateCsrfToken(req, res, next) {
     if (req.method === 'GET' || req.method === 'HEAD' || req.method === 'OPTIONS') {
-        // Güvenli HTTP yöntemleri için CSRF token oluşturmayı atla
         return next();
     }
 
-    const token = req.cookies._csrf || tokens.create(csrfSecret);
-    if (!req.cookies._csrf) {
-        res.cookie('_csrf', token);
+    let token = req.cookies._csrf;
+    if (!token) {
+        token = tokens.create(csrfSecret);
+        res.cookie('_csrf', token, { httpOnly: true, secure: process.env.NODE_ENV === 'production' });
+        console.log('Yeni CSRF token oluşturuldu ve ayarlandı:', token);
+    } else {
+        console.log('Mevcut CSRF token bulundu:', token);
     }
     res.locals.csrfToken = token;
     next();
 }
 
-// CSRF token doğrulama middleware'i
 function verifyCsrfToken(req, res, next) {
     if (req.method === 'GET' || req.method === 'HEAD' || req.method === 'OPTIONS') {
-        // Güvenli HTTP yöntemleri için CSRF token doğrulamayı atla
         return next();
     }
 
     const token = req.cookies._csrf;
-    if (!tokens.verify(csrfSecret, token)) {
-        return res.status(403).send('Invalid CSRF token');
+    const formToken = req.body._csrf || req.query._csrf;
+    console.log('CSRF token doğrulanıyor:', token);
+    console.log('Formdan/gelen CSRF token:', formToken);
+
+    if (!token || !tokens.verify(csrfSecret, token) || token !== formToken) {
+        console.error('Geçersiz CSRF token:', token);
+        return res.status(403).send('Geçersiz CSRF token');
     }
 
     next();
 }
 
-// CSRF token'ı şablonlarda kullanılabilir hale getirme middleware'i
 function setCsrfTokenInLocals(req, res, next) {
     res.locals.csrfToken = req.cookies._csrf;
     next();

@@ -15,10 +15,9 @@ const dotenv = require('dotenv');
 dotenv.config();
 const GlobalDataMiddleware = require("./middleware/varMiddleware.js");
 const methodOverride = require('method-override');
-const { IpDeniedError } = require('./middleware/ipfilter'); // Doğru import
+const { IpDeniedError } = require('./middleware/ipfilter.js');
 const { authenticateUser } = require('./middleware/authenticate.js');
 const csrfUtil = require('./utils/csrf.js');
-
 
 const PORT = process.env.PORT || 3005;
 
@@ -41,7 +40,7 @@ app.use(session({
   saveUninitialized: false,
   store: sessionStore,
   cookie: {
-    secure: false, // Production'da true yapın
+    secure: process.env.NODE_ENV === 'production',
     httpOnly: true,
     rolling: true,
   },
@@ -49,20 +48,10 @@ app.use(session({
 
 app.use(flash());
 app.use(methodOverride('_method'));
-
-
-
 app.use('/', express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'uploads')));
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
-
-
-
-// CSRF middleware'lerini kullanın
-app.use(csrfUtil.generateCsrfToken);
-app.use(csrfUtil.verifyCsrfToken);
-
 
 app.use(
   GlobalDataMiddleware.setBlogFooterList,
@@ -73,16 +62,14 @@ app.use(
 );
 app.use(authenticateUser);
 
-app.use(csrfUtil.setCsrfTokenInLocals);
+
 // Kullanıcı bilgilerini tüm şablonlara erişilebilir hale getirin
 app.use((req, res, next) => {
   res.locals.user = req.session.user;
   next();
 });
 
-
 app.use("/", adminMenu);
-
 app.use('/', pdfGent);
 
 app.use((err, req, res, next) => {
@@ -94,12 +81,6 @@ app.use((err, req, res, next) => {
   next(err);
 });
 
-// error page
-app.use((err, req, res, next) => {
-  res.status(500).render('404', {
-    message: err.message
-  });
-});
 
 app.use((req, res) => {
   res.status(404).render('error/404');

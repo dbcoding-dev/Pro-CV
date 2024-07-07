@@ -28,38 +28,38 @@ class Blogs {
     static async Blogpost(req, res) {
         const maxSize = 1024 * 1024; // 1 MB
         upload.single('img')(req, res, (err) => {
-          if (err) {
-            req.flash('error', 'Dosya yüklenirken bir hata oluştu: ' + err.message);
-            return res.redirect('/panel/blog');
-          }
-      
-          if (req.file && req.file.size > maxSize) {
-            req.flash('error', 'Dosya boyutu 1 MB\'dan fazla olamaz.');
-            return res.redirect('/panel/blog');
-          }
-      
-          const { order, title, desc, detail } = req.body;
-          const img = req.file ? req.file.filename : null; 
+            if (err) {
+                req.flash('error', 'Dosya yüklenirken bir hata oluştu: ' + err.message);
+                return res.redirect('/panel/blog');
+            }
 
-          console.log(req.body)
-          Blog.create({
-            order: order,
-            title: title,
-            desc: desc,
-            img: img,
-            detail: detail
-          })
-          
-          .then(() => {
-            req.flash('success', 'Blog yazısı başarıyla eklendi.');
-            res.redirect('/panel/blog');
-          })
-          .catch((error) => {
-            req.flash('error', 'Bir hata oluştu: ' + error.message);
-            res.redirect('/panel/blog');
-          });
+            if (req.file && req.file.size > maxSize) {
+                req.flash('error', 'Dosya boyutu 1 MB\'dan fazla olamaz.');
+                return res.redirect('/panel/blog');
+            }
+
+            const { order, title, desc, detail } = req.body;
+            const img = req.file ? req.file.filename : null;
+
+            console.log(req.body)
+            Blog.create({
+                order: order,
+                title: title,
+                desc: desc,
+                img: img,
+                detail: detail
+            })
+
+                .then(() => {
+                    req.flash('success', 'Blog yazısı başarıyla eklendi.');
+                    res.redirect('/panel/blog');
+                })
+                .catch((error) => {
+                    req.flash('error', 'Bir hata oluştu: ' + error.message);
+                    res.redirect('/panel/blog');
+                });
         });
-      }
+    }
     static async Blogget(req, res) {
         try {
             const Blogiest = await Blog.findAll();
@@ -111,22 +111,22 @@ class Blogs {
                     req.flash('error', 'Dosya yüklenirken bir hata oluştu: ' + err.message);
                     return res.redirect('/panel/blog');
                 }
-    
+
                 const { order, title, desc, detail } = req.body;
                 const img = req.file ? req.file.filename : null;
-    
+
                 const blog = await Blog.findByPk(req.params.id);
                 if (!blog) {
                     return res.status(404).send('Blog not found');
                 }
-    
+
                 if (req.file && blog.img) {
                     const imgPath = `uploads/blog/${blog.img}`;
                     if (fs.existsSync(imgPath)) {
                         fs.unlinkSync(imgPath);
                     }
                 }
-    
+
                 await blog.update({
                     order: order,
                     title: title,
@@ -134,7 +134,7 @@ class Blogs {
                     img: img || blog.img,
                     detail: detail
                 });
-    
+
                 req.flash('success', 'Blog yazısı başarıyla güncellendi.');
                 res.redirect('/panel/blog');
             });

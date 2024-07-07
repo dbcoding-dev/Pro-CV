@@ -14,24 +14,28 @@
 				bars: {
 					show: true,
 					lineWidth: 0,
+					barWidth: 0.5,
+					tickColor: 'transparent',
 					fillColor: '#452b90'
 				}
 			},
 			grid: {
 				borderWidth: 1,
+				tickColor: 'transparent',
 				borderColor: 'transparent'
+
 			},
 			yaxis: {
-				tickColor: 'transparent',
+				tickLength:0,
 				font: {
-					color: '#858282',
+					fill: 'var(--text)',
 					size: 10
 				}
 			},
 			xaxis: {
-				tickColor: 'transparent',
+				tickLength:0,
 				font: {
-					color: '#858282',
+					fill: 'var(--text)',
 					size: 10
 				}
 			}
@@ -44,6 +48,7 @@
 			bars: {
 				show: true,
 				lineWidth: 0,
+				barWidth: 0.5,
 				fillColor: '#452b90'
 			}
 		}, {
@@ -51,25 +56,27 @@
 			bars: {
 				show: true,
 				lineWidth: 0,
+				barWidth: 0.5,
 				fillColor: '#ffaa2b'
 			}
 		}], 
 		{
 			grid: {
 				borderWidth: 1,
+				tickColor: 'transparent',
 				borderColor: 'transparent'
 			},
 			yaxis: {
-				tickColor: 'transparent',
+				tickLength:0,
 				font: {
-					color: '#858282',
+					fill: 'var(--text)',
 					size: 10
 				}
 			},
 			xaxis: {
-				tickColor: 'transparent',
+				tickLength:0,
 				font: {
-					color: '#858282',
+					fill: 'var(--text)',
 					size: 10
 				}
 			}
@@ -111,6 +118,7 @@
 				hoverable: true,
 				clickable: true,
 				borderColor: '#ddd',
+				tickColor: 'transparent',
 				borderWidth: 0,
 				labelMargin: 5,
 				backgroundColor: 'transparent'
@@ -121,14 +129,14 @@
 				color: 'transparent',
 				font: {
 					size: 10,
-					color: '#999'
+					fill: 'var(--text)'
 				}
 			},
 			xaxis: {
 				color: 'transparent',
 				font: {
 					size: 10,
-					color: '#999'
+					fill:'var(--text)'
 				}
 			}
 		});
@@ -176,6 +184,7 @@
 				borderColor: '#ddd',
 				borderWidth: 0,
 				labelMargin: 5,
+				tickColor: 'transparent',
 				backgroundColor: 'transparent'
 			},
 			yaxis: {
@@ -184,14 +193,14 @@
 				color: 'transparent',
 				font: {
 					size: 10,
-					color: '#858282'
+					fill:'var(--text)'
 				}
 			},
 			xaxis: {
 				color: 'transparent',
 				font: {
 					size: 10,
-					color: '#858282'
+					fill:'var(--text)'
 				}
 			}
 		});		
@@ -234,6 +243,7 @@
 				borderColor: '#ddd',
 				borderWidth: 0,
 				labelMargin: 5,
+				tickColor: 'transparent',
 				backgroundColor: 'transparent'
 			},
 			yaxis: {
@@ -242,14 +252,14 @@
 				color: 'transparent',
 				font: {
 					size: 10,
-					color: '#858282'
+					fill: 'var(--text)'
 				}
 			},
 			xaxis: {
 				color: 'transparent',
 				font: {
 					size: 10,
-					color: '#858282'
+					fill: 'var(--text)'
 				}
 			}
 		});
@@ -293,6 +303,7 @@
 				borderColor: '#ddd',
 				borderWidth: 0,
 				labelMargin: 5,
+				tickColor: 'transparent',
 				backgroundColor: 'transparent'
 			},
 			yaxis: {
@@ -301,14 +312,14 @@
 				color: 'transparent',
 				font: {
 					size: 10,
-					color: '#858282'
+					fill:'var(--text)'
 				}
 			},
 			xaxis: {
 				color: 'transparent',
 				font: {
 					size: 10,
-					color: '#858282'
+					fill:'var(--text)'
 				}
 			}
 		});
@@ -356,6 +367,7 @@
 				borderColor: '#ddd',
 				borderWidth: 0,
 				labelMargin: 5,
+				tickColor: 'transparent',
 				backgroundColor: 'transparent'
 			},
 			yaxis: {
@@ -364,14 +376,14 @@
 				color: 'transparent',
 				font: {
 					size: 10,
-					color: '#858282'
+					fill: 'var(--text)'
 				}
 			},
 			xaxis: {
 				color: 'transparent',
 				font: {
 					size: 10,
-					color: '#858282'
+					fill: 'var(--text)'
 				}
 			}
 		});
@@ -457,13 +469,14 @@
 			grid: {
 				borderColor: 'transparent',
 				borderWidth: 1,
+				tickColor: 'transparent',
 				labelMargin: 5
 			},
 			xaxis: {
 				color: 'transparent',
 				font: {
 					size: 10,
-					color: '#858282'
+					fill:"var(--text)"
 				}
 			},
 			yaxis: {
@@ -472,7 +485,7 @@
 				color: 'transparent',
 				font: {
 					size: 10,
-					color: '#858282'
+					fill:"var(--text)"
 				}
 			}
 		});
@@ -523,13 +536,14 @@
 			grid: {
 				borderColor: 'transparent',
 				borderWidth: 1,
+				tickColor: 'transparent',
 				labelMargin: 5
 			},
 			xaxis: {
 				color: 'transparent',
 				font: {
 					size: 10,
-					color: '#858282'
+					fill:"var(--text)"
 				}
 			},
 			yaxis: {
@@ -538,7 +552,7 @@
 				color: 'transparent',
 				font: {
 					size: 10,
-					color: '#858282'
+					fill:"var(--text)"
 				}
 			}
 		});
@@ -596,20 +610,28 @@
 					bars: {
 						show: bars,
 						lineWidth: 0,
-						barWidth: 0.6
+						barWidth: 0.5
 						
 					},
 					
 				},grid: {
 				borderWidth: 1,
+				tickColor: 'transparent',
 				borderColor: 'transparent'
 			},
-                yaxis: {
-                    tickColor: 'transparent',
-					
-                },
+			yaxis: {
+				tickLength:0,
+				font: {
+					fill: 'var(--text)',
+					size: 10
+				}
+			},
 				xaxis:{
-					tickColor:'transparent',
+					tickLength:0,
+						font: {
+							fill: 'var(--text)',
+							size: 10
+						}
 					
 					
 				}

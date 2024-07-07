@@ -1,85 +1,38 @@
 const express = require("express");
 const router = express.Router();
-const commentRouter = require("./commentrouter.js");
-const seoRouter = require("./seorouter.js");
-const cirriculumRouter = require("./cirrulumrouter.js");
-const aboutRouter = require("./aboutrouter.js");
-const siteRouter = require("./siterouter.js");
-const cookieRouter = require("./cookierouter.js");
-const faqRouter = require("./faqrouter.js");
-const adminloginRouter = require("./auth/adminloginrouter.js");
-const resumeRouter = require("./resumerouter.js");
-const blogRouter = require("./blogrouter.js");
-const kvkkRouter = require("./kvkkrouter.js");
-const contactRouter = require("./contactrouter.js");
-const LoginRouter = require("./auth/loginrouter.js");
-const { SitemapController } = require('../controller/sitemapController.js');
-const { authenticateUser, ensureAuthenticated } = require("../middleware/authenticate.js");
+const { authenticateUser } = require("../middleware/authenticate.js");
 
-const {
-    SiteController
-} = require("../controller/adminController.js")
-const { Kvkks } = require("../controller/kvkkController.js")
+// Rota yapılandırmalarını içeren dizi
+const routes = [
+    { path: '/', router: require("./pagerouter.js") },
+    { path: '/', router: require("./auth/adminloginrouter.js"), auth: true },
+    { path: '/', router: require("./commentrouter.js"), auth: true },
+    { path: '/', router: require("./seorouter.js"), auth: true },
+    { path: '/', router: require("./cirrulumrouter.js"), auth: true },
+    { path: '/', router: require("./aboutrouter.js"), auth: true },
+    { path: '/', router: require("./siterouter.js"), auth: true },
+    { path: '/', router: require("./cookierouter.js"), auth: true },
+    { path: '/', router: require("./faqrouter.js"), auth: true },
+    { path: '/', router: require("./resumerouter.js"), auth: true },
+    { path: '/', router: require("./blogrouter.js"), auth: true },
+    { path: '/', router: require("./kvkkrouter.js"), auth: true },
+    { path: '/', router: require("./contactrouter.js") },
+    { path: '/', router: require("./auth/loginrouter.js") },
+    { path: '/', router: require("./paymentrouter.js"), auth: true },
+    { path: '/', router: require("./iyzicorouter.js"), auth: true },
+    { path: '/', router: require("./googlerouter.js"), auth: true },
+    { path: '/', router: require("./websiterouter.js"), auth: true }
+];
 
-// Admin login
-router.use(authenticateUser);
-// Admin login
-router.use(adminloginRouter);
-
-// Admin comment
-router.use(commentRouter);
-
-// Admin seo
-router.use(seoRouter);
-
-// Admin cirrulum
-router.use(cirriculumRouter);
-
-// Admin about
-router.use(aboutRouter);
-
-// Admin site
-router.use(siteRouter);
-
-// Admin cookie
-router.use(cookieRouter);
-
-// Admin faq
-router.use(faqRouter);
-
-// Admin resume
-router.use(resumeRouter);
-
-// Admin blog
-router.use(blogRouter);
-
-// Admin kvkk
-router.use(kvkkRouter);
-
-// Contact
-router.use(contactRouter);
-
-// Login
-router.use(LoginRouter);
-
-// Site
-router.get('/', SiteController.getIndexpage);
-router.get('/', SiteController.getIndexFooter);
-router.get('/create-cv', ensureAuthenticated, SiteController.getCreate)
-router.get('/resume-cv', SiteController.getResume)
-router.get('/blog', SiteController.getBlog)
-router.get('/blog/:slug', SiteController.getSlugBlog)
-router.get("/sitemap.xml", SitemapController.generateSitemap)
-router.get("/contact", SiteController.getContact)
-router.get("/cookie", SiteController.getCookie)
-router.get("/about", SiteController.getAbout)
-router.get("/price", SiteController.getPrice)
-router.get("/contact-form", SiteController.getContactForm)
-router.get('/resume_service', SiteController.getResumService)
-router.get('/success', SiteController.getContactForm)
-router.get('/sss', SiteController.getSSS)
-router.get('/kvkk', Kvkks.getKvkk)
-
-
+// Rotaları ekleyen döngü
+routes.forEach(route => {
+    if (route.auth) {
+        // Eğer auth true ise, authenticateUser middleware'ini kullan
+        router.use(route.path, authenticateUser, route.router);
+    } else {
+        // Eğer auth yoksa veya false ise, sadece router'ı kullan
+        router.use(route.path, route.router);
+    }
+});
 
 module.exports = router;

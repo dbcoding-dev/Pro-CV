@@ -10,9 +10,9 @@ const Users = require("../models/user.model")(sequelize, DataTypes);
 
 class GlobalDataMiddleware {
   static async setUser(req, res, next) {
-    if (req.session && req.session.user && req.session.user.id) {
+    if (req.session && req.session.panelusers && req.session.panelusers.id) {
       try {
-        const user = await Users.findByPk(req.session.user.id);
+        const user = await Users.findByPk(req.session.panelusers.id);
         if (user && user.name) {
           res.locals.userInitials = user.name.substring(0, 2).toUpperCase();
         } else {
@@ -73,15 +73,15 @@ class GlobalDataMiddleware {
       const seoList = await Seo.findAll({
         order: [['createdAt', 'DESC']]
       });
-  
+
       const selectedSeo = seoList.filter(seo => seo.order === order);
-  
+
       res.locals.selectedSeo = {};
-  
+
       selectedSeo.forEach((seo, index) => {
         res.locals.selectedSeo[`selectedSeo${index + 1}`] = seo;
       });
-  
+
       next();
     } catch (error) {
       console.error(error);

@@ -2,12 +2,14 @@ const { DataTypes } = require("sequelize");
 const { sequelize } = require("../models");
 const Plan = require("../models/plan.model")(sequelize, DataTypes);
 const Subscription = require("../models/subscription.model")(sequelize, DataTypes);
+const Iyzico = require('../models/iyzico.model');
 const Iyzipay = require('iyzipay');
 const dotenv = require('dotenv');
 const { v4: uuidv4 } = require('uuid');
 dotenv.config();
 
 class PaymentController {
+
     constructor() {
         this.iyzipay = new Iyzipay({
             apiKey: process.env.IYZICO_API_KEY || "sandbox-dpPUlMuotXeh7y5PLJtRgPhYEaUjBQxS",

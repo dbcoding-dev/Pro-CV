@@ -3,7 +3,7 @@
 	<body>
 
 		<%- include('./components/preloader'); -%>
-
+			<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 			<div id="main-wrapper">
 				<%- include('./components/nav'); -%>
 
@@ -131,7 +131,9 @@
 										<div class="col-xl-12 col-lg-12">
 											<div class="card overflow-hidden">
 												<div class="card-header border-0 pb-0 flex-wrap">
-													<h4 class="heading mb-0">Projects Overview</h4>
+													<h4 class="heading mb-0">
+														Total Pages Visits
+													</h4>
 													<ul class="nav nav-pills mix-chart-tab" id="pills-tab"
 														role="tablist">
 														<li class="nav-item" role="presentation">
@@ -161,12 +163,83 @@
 													</ul>
 												</div>
 												<div class="card-body custome-tooltip p-0">
-													<div id="overiewChart"></div>
+													<div id="overviewChart"></div>
 												</div>
 											</div>
 										</div>
 									</div>
 								</div>
+
+								<script>
+									const groupedLogs = JSON.parse('<%- groupedLogs %>');
+
+									function getChartData(url) {
+										if (groupedLogs[url]) {
+											return groupedLogs[url].length;
+										} else {
+											return 0;
+										}
+									}
+
+									var options = {
+										series: [{
+											name: 'Number of Visits',
+											data: Object.keys(groupedLogs).map(url => getChartData(url))
+										}],
+										chart: {
+											type: 'bar',
+											height: 300
+										},
+										plotOptions: {
+											bar: {
+												horizontal: false,
+												columnWidth: '55%',
+												endingShape: 'rounded'
+											},
+										},
+										dataLabels: {
+											enabled: false
+										},
+										stroke: {
+											show: true,
+											width: 2,
+											colors: ['transparent']
+										},
+										xaxis: {
+											categories: Object.keys(groupedLogs),
+										},
+										yaxis: {
+											title: {
+												text: 'Number of Visits'
+											}
+										},
+										fill: {
+											opacity: 1
+										},
+										tooltip: {
+											y: {
+												formatter: function (val) {
+													return val + " visits";
+												}
+											}
+										}
+									};
+
+									var chart = new ApexCharts(document.querySelector("#overviewChart"), options);
+									chart.render();
+
+									$(".mix-chart-tab .nav-link").on('click', function () {
+										var seriesType = $(this).attr('data-series');
+										var newData = Object.keys(groupedLogs).map(url => getChartData(url));
+
+										chart.updateSeries([{
+											name: "Number of Visits",
+											data: newData
+										}]);
+									});
+								</script>
+
+
 								<%- include('./components/footer'); -%>
 			</div>
 

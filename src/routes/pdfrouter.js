@@ -23,12 +23,21 @@ const Skill = require("../models/skils.model")(sequelize, DataTypes);
 const Lang = require("../models/lang.model")(sequelize, DataTypes);
 const Experience = require("../models/work.model")(sequelize, DataTypes);
 
-const storage = multer.memoryStorage();
-const upload = multer({ storage: storage });
+
+// Multer storage ayarı
+const storages = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, 'src/uploads/cv');
+    },
+    filename: (req, file, cb) => {
+        cb(null, Date.now() + path.extname(file.originalname)); // Dosya ismi
+    }
+});
+const uploads = multer({ storage: storages });
 
 const pdfDirectory = path.join(__dirname, '../uploads/pdf');
 
-router.post('/create-cv-pdf', upload.single('photo'), async (req, res) => {
+router.post('/create-cv-pdf', uploads.single('photo'), async (req, res) => {
     const transaction = await sequelize.transaction();
     try {
         const {
@@ -51,7 +60,8 @@ router.post('/create-cv-pdf', upload.single('photo'), async (req, res) => {
             gender
         } = req.body;
 
-        const photoBuffer = req.file ? req.file.buffer : null;
+        const photoBuffer = req.file ? req.file.path : null;
+        const photoPath = req.file ? req.file.path : null; // Dosya yolunu al
 
         const experiences = typeof req.body.experiences === 'string' ? JSON.parse(req.body.experiences || '[]') : [];
         const skills = typeof req.body.skills === 'string' ? JSON.parse(req.body.skills || '[]') : [];
@@ -106,7 +116,7 @@ router.post('/create-cv-pdf', upload.single('photo'), async (req, res) => {
             surucu,
             medeni,
             gender,
-            photo: photoBuffer ? `uploads/${fileName}` : null,
+            photo: photoPath ? `${path.basename(photoPath)}` : null,
             userId
         }, { transaction });
 

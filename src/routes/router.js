@@ -21,7 +21,8 @@ const routes = [
     { path: '/', router: require("./paymentrouter.js"), auth: true },
     { path: '/', router: require("./iyzicorouter.js"), auth: true },
     { path: '/', router: require("./googlerouter.js"), auth: true },
-    { path: '/', router: require("./websiterouter.js"), auth: true }
+    { path: '/', router: require("./websiterouter.js"), auth: true },
+    { path: '/', router: require("./cvrouter.js"), auth: true },
 ];
 
 // Rotaları ekleyen döngü

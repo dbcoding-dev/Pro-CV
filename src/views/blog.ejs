@@ -33,9 +33,9 @@
             </section>
             <section class="container mx-auto mt-18 mb-18">
                 <div class="row mobile_blog">
-                    <div class="col-lg-10 mx-auto">
-                        <div class="blog classic-view mt-n17">
-                            <% for (let i=blogList.length - 1; i>= 0; i--) { %>
+                    <% for (let i=blogList.length - 1; i>= 0; i--) { %>
+                        <div class="col-lg-6 mx-auto">
+                            <div class="blog classic-view mt-n17">
                                 <article class="post">
                                     <div class="card">
                                         <figure class="card-img-top overlay overlay-1 hover-scale">
@@ -77,13 +77,14 @@
                                         </div>
                                     </div>
                                 </article>
-                                <% } %>
+                            </div>
                         </div>
-                    </div>
+                        <% } %>
                 </div>
             </section>
     </div>
     <%- include('./components/footer'); -%>
         <%- include('./components/script'); -%>
 </body>
-</html> 
+
+</html>

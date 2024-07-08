@@ -21,5 +21,6 @@ router.get('/profile', ensureAuthenticated, UserController.Getprofile);
 router.post('/profile/update', ensureAuthenticated, UserController.UpdateProfile);
 router.post('/profile/delete', ensureAuthenticated, UserController.RequestDeleteAccount); // RequestDeleteAccount eklendi
 router.get('/register-success', preventAuthenticatedAccess, UserController.GetRegisterSuccess);
+router.get('/profile/:id', ensureAuthenticated, UserController.GetProfileById);
 
 module.exports = router;

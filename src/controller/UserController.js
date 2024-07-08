@@ -10,7 +10,7 @@ const failedAttempts = {};
 class UserController {
     static async RegisterUser(req, res) {
         try {
-            const { username, email, password} = req.body;
+            const { username, email, password } = req.body;
             if (!username || !email || !password) {
                 return res.status(400).render('register', { error: 'Lütfen tüm alanları doldurunuz!' });
             }
@@ -19,7 +19,7 @@ class UserController {
                 return res.status(400).render('register', { error: 'Bu email ile kayıtlı bir kullanıcı zaten var' });
             }
             const hashedPassword = await bcrypt.hash(password, 10);
-            const newUser = await User.create({ username, email, password: hashedPassword});
+            const newUser = await User.create({ username, email, password: hashedPassword });
             res.redirect('/register-success');
         } catch (error) {
             console.error(error);
@@ -211,6 +211,20 @@ class UserController {
         res.render('profile/profile');
     }
 
+    static async GetProfileById(req, res) {
+        const userId = req.params.id;
+        try {
+            const user = await User.findByPk(userId);
+            if (!user) {
+                return res.status(404).render('profile/profile', { error: 'Kullanıcı bulunamadı.' });
+            }
+            res.render('profile/profile', { user });
+        } catch (error) {
+            console.error(error);
+            res.status(500).render('profile/profile', { error: 'Sunucu hatası.' });
+        }
+    }
+
     static async UpdateProfile(req, res) {
         const { username, email, password } = req.body;
         try {
@@ -238,15 +252,15 @@ class UserController {
             if (!user) {
                 return res.status(400).json({ error: 'Kullanıcı bulunamadı.' });
             }
-    
+
             const token = Math.floor(100000 + Math.random() * 900000).toString(); // 6 haneli doğrulama kodu
             const deleteAccountExpires = Date.now() + 3600000; // 1 saat
-    
+
             await User.update(
                 { deleteAccountToken: token, deleteAccountExpires },
                 { where: { id: req.session.user.id } }
             );
-    
+
             const transporter = nodemailer.createTransport({
                 service: process.env.EMAIL_SERVICE,
                 auth: {
@@ -254,7 +268,7 @@ class UserController {
                     pass: process.env.EMAIL_PASS,
                 },
             });
-    
+
             const mailOptions = {
                 to: user.email,
                 from: process.env.EMAIL_USER,
@@ -263,7 +277,7 @@ class UserController {
                     `Doğrulama Kodu: ${token}\n\n` +
                     `Eğer bu talebi siz yapmadıysanız, lütfen bu e-postayı dikkate almayın.\n`
             };
-    
+
             await transporter.sendMail(mailOptions);
             res.status(200).render('profile/delete-account-verify', { success: 'Hesap silme doğrulama kodu e-postası gönderildi.' });
         } catch (error) {
@@ -271,7 +285,7 @@ class UserController {
             res.status(500).render('profile/delete-account-verify', { error: 'Sunucu hatası.' });
         }
     }
-    
+
     static async ConfirmDeleteAccount(req, res) {
         const { token } = req.body;
         try {
@@ -281,13 +295,13 @@ class UserController {
                     deleteAccountExpires: { [Op.gt]: Date.now() }
                 }
             });
-    
+
             if (!user) {
                 return res.status(400).render('profile/delete-account-verify', { error: 'Hesap silme doğrulama kodu geçersiz veya süresi dolmuş.' });
             }
-    
+
             await User.destroy({ where: { id: user.id } });
-    
+
             req.session.destroy(err => {
                 if (err) {
                     console.error(err);

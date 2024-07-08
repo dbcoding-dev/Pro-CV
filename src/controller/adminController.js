@@ -3,6 +3,7 @@ const { sequelize } = require("../models");
 const Blog = require("../models/blog.model")(sequelize, DataTypes);
 const User = require("../models/user.model")(sequelize, DataTypes);
 const UserPdf = require("../models/pdfuser.model")(sequelize, DataTypes);
+const PageVisit = require("../models/page.model")(sequelize, DataTypes);
 const bcrypt = require("bcrypt");
 
 
@@ -12,24 +13,76 @@ class AdminController {
         const totalBlog = await Blog.count();
         const totalUser = await UserPdf.count();
         const totalPanelUsers = await User.count();
+
+        const urls = [
+            '/blog/',
+            '/create-cv',
+            '/contact',
+            '/about',
+            '/',
+            '/resume-cv',
+            '/sitemap.xml',
+            '/cookie',
+            '/price',
+            '/contact-form',
+            '/resume_service',
+            '/sss',
+            '/kvkk',
+            '/blog/:slug'
+        ];
+
+        // Retrieve all logs from the database
+        const logs = await PageVisit.findAll();
+
+        // Convert URLs to regex patterns
+        const urlRegexes = urls.map(url => {
+            const regexStr = url.replace(/:[^\s/]+/g, '([^\\s/]+)');
+            return new RegExp(`^${regexStr}$`);
+        });
+
+        // Filter logs based on the regex patterns
+        const filteredLogs = logs.filter(log =>
+            urlRegexes.some(regex => regex.test(log.url))
+        );
+
+        // Group logs by URL
+        const groupedLogs = AdminController.groupLogsByUrl(filteredLogs);
         res.render("panel/index", {
             totalBlog: totalBlog,
             totalUser: totalUser,
-            totalPanelUsers: totalPanelUsers
-        })
+            totalPanelUsers: totalPanelUsers,
+            urls: urls,
+            groupedLogs: JSON.stringify(groupedLogs)
+        });
     }
+
+    static groupLogsByUrl(logs) {
+        const grouped = logs.reduce((acc, log) => {
+            if (!acc[log.url]) {
+                acc[log.url] = [];
+            }
+            acc[log.url].push(log);
+            return acc;
+        }, {});
+        Object.keys(grouped).forEach(url => {
+            grouped[url].sort((a, b) => new Date(a.giris) - new Date(b.giris));
+        });
+        return grouped;
+    }
+
     static getBlog(req, res) {
-        res.render("panel/blog/get")
+        res.render("panel/blog/get");
     }
+
     static getAdminBlogEkle(req, res) {
         res.render("panel/blog/add");
     }
 }
-
 class AuthController {
     static getLogin(req, res) {
         res.render("auth/login")
     }
+
     static async LoginUser(req, res) {
         try {
             const { email, password } = req.body;

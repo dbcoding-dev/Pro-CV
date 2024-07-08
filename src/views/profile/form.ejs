@@ -1,4 +1,5 @@
-<form id="multiStepForm cvForm " method="post" action="/create-cv-pdf" enctype="multipart/form-data" class="form_bg">
+<form id="multiStepForm cvForm " method="post" action="/create-cv/<%= user.id %>" enctype="multipart/form-data"
+  class="form_bg">
   <ul class="progress-bar">
     <li class="active icon1 pb-6">Kişisel Bilgiler</li>
     <li class="icon2 pb-6">İş Bilgiler</li>
@@ -12,68 +13,74 @@
           <input type="file" id="photo" name="photo" accept="image/*" class="hidden-input"
             onchange="previewImage(event)">
           <label for="photo" class="foto_label">Fotoğraf Yükle (.jpg .png)</label>
-          <img id="preview" src="#" alt="Fotoğraf önizleme" style="display: none;">
+          <img id="preview" src="/cv/<%= user.photo %>" alt="Fotoğraf önizleme"
+            style="display: <%= user.photo ? 'block' : 'none' %>;">
         </div>
       </div>
       <div class="col-lg-9 col-sm-12">
         <div>
-          <input type="text" id="name" name="name" placeholder="Ad"
+          <input type="text" id="name" name="name" placeholder="Ad" value="<%= user.name %>"
             oninput="this.value = this.value.replace(/[^a-zA-ZğüşöçıĞÜŞÖÇİ\s]/g, '')" required>
           <input type="text" id="surname" name="surname" placeholder="Soyad"
-            oninput="this.value = this.value.replace(/[^a-zA-ZğüşöçıĞÜŞÖÇİ\s]/g, '')" required>
+            oninput="this.value = this.value.replace(/[^a-zA-ZğüşöçıĞÜŞÖÇİ\s]/g, '')" value="<%= user.surname %>"
+            required>
         </div>
       </div>
       <div class="col-lg-6 col-sm-12">
-        <input type="email" name="eposta" id="email" placeholder="E-posta Adresi" required>
+        <input type="email" name="eposta" id="email" placeholder="E-posta Adresi" required value="<%= user.eposta %>">
       </div>
       <div class="col-lg-6 col-sm-12">
-        <input type="text" name="phonenumber" id="phoneNumberInput" placeholder="Telefon Numarası">
+        <input type="text" name="phonenumber" id="phoneNumberInput" placeholder="Telefon Numarası"
+          value="<%= user.phonenumber %>">
       </div>
 
       <div class="col-lg-6 col-sm-12">
-        <input type="text" name="address" placeholder="Adres (Maksimum 50 karakter)" maxlength="50">
+        <input type="text" name="address" placeholder="Adres (Maksimum 50 karakter)" maxlength="50"
+          value="<%= user.address %>">
       </div>
       <div class="col-lg-6 col-sm-12">
-        <input type="number" name="posta" placeholder="Posta kodu">
+        <input type="number" name="posta" placeholder="Posta kodu" value="<%= user.posta %>">
       </div>
       <div class="col-lg-6 col-sm-12">
-        <input type="text" name="city" placeholder="Şehir/İlçe">
+        <input type="text" name="city" placeholder="Şehir/İlçe" value="<%= user.city %>">
       </div>
       <div id="ac_mobile" class="row">
         <div class="col-lg-6 col-sm-12">
           <label for="">Doğum tarihi</label>
-          <input type="date" name="date">
+          <input type="date" name="date" value="<%= user.date %>">
         </div>
         <div class="col-lg-6 col-sm-12">
           <label for="">Doğum yeri</label>
-          <input type="text" name="birth" placeholder="Doğum yeri"
+          <input type="text" name="birth" placeholder="Doğum yeri" value="<%= user.birth %>"
             oninput="this.value = this.value.replace(/[^a-zA-ZğüşöçıĞÜŞÖÇİ\s]/g, '')">
         </div>
         <div class="col-lg-6 col-sm-12">
-          <input type="text" name="asker" placeholder="Askerlik Durumu">
+          <input type="text" name="asker" value="<%= user.asker %>" placeholder="Askerlik Durumu">
         </div>
         <div class="col-lg-6 col-sm-12">
-          <input type="text" name="surucu" placeholder="Sürücü ehliyeti">
+          <input type="text" name="surucu" placeholder="Sürücü ehliyeti" value="<%= user.surucu %>">
         </div>
         <div class="col-lg-6 col-sm-12">
           <select name="medeni" id="medeni">
             <option value="sec"> Medeni durum </option>
-            <option value="evli"> Evli </option>
-            <option value="bekar"> Bekar </option>
+            <option value="evli" <%=user.medeni==='evli' ? 'selected' : '' %>> Evli </option>
+            <option value="bekar" <%=user.medeni==='bekar' ? 'selected' : '' %>> Bekar </option>
           </select>
+
         </div>
         <div class="col-lg-6 col-sm-12">
           <select name="gender" id="gender">
             <option value="sec"> Cinsiyet Seç </option>
-            <option value="Erkek"> Erkek </option>
-            <option value="Kadın"> Kadın </option>
+            <option value="Erkek" <%=user.gender==='Erkek' ? 'selected' : '' %>> Erkek </option>
+            <option value="Kadın" <%=user.gender==='Kadın' ? 'selected' : '' %>> Kadın </option>
           </select>
+
         </div>
         <div class="col-lg-6 col-sm-12">
-          <input type="text" name="site" placeholder="Web Sitesi">
+          <input type="text" name="site" placeholder="Web Sitesi" value="<%= user.site %>">
         </div>
         <div class="col-lg-6 col-sm-12">
-          <input type="text" name="position" placeholder="Çalışma Pozisyonu">
+          <input type="text" name="position" placeholder="Çalışma Pozisyonu" value="<%= user.position %>">
         </div>
       </div>
       <div class="col-lg-12 col-sm-12">
@@ -94,7 +101,7 @@
     <div class="section">
       <h3>Hakkında</h3>
       <textarea name="about" id="aboutTextarea" placeholder="Açıklama" rows="4" cols="50"
-        oninput="updateCharacterCount(this)"></textarea>
+        oninput="updateCharacterCount(this)"><%= user.about %></textarea>
       <p class="text-end" id="characterCount"></p>
     </div>
     <!-- İş Deneyimi -->
@@ -203,31 +210,31 @@
         <div class="col-lg-3">
           <label>
             <input type="radio" name="template" value="template1">
-            <img src="template/1.png" alt="Template 1" class="w-100">
+            <img src="../template/1.png" alt="Template 1" class="w-100">
           </label>
         </div>
         <div class="col-lg-3">
           <label>
             <input type="radio" name="template" value="template2">
-            <img src="template/2.png" alt="Template 2" class="w-100">
+            <img src="../template/2.png" alt="Template 2" class="w-100">
           </label>
         </div>
         <div class="col-lg-3">
           <label>
             <input type="radio" name="template" value="template3">
-            <img src="template/3.png" alt="Template 3" class="w-100">
+            <img src="../template/3.png" alt="Template 3" class="w-100">
           </label>
         </div>
         <div class="col-lg-3">
           <label>
             <input type="radio" name="template" value="template4">
-            <img src="template/4.png" alt="Template 4" class="w-100">
+            <img src="../template/4.png" alt="Template 4" class="w-100">
           </label>
         </div>
         <div class="col-lg-3">
           <label>
             <input type="radio" name="template" value="template5">
-            <img src="template/6.png" alt="Template 5" class="w-100">
+            <img src="../template/6.png" alt="Template 5" class="w-100">
           </label>
         </div>
         <div class="col-lg-3">
@@ -239,7 +246,7 @@
         <div class="col-lg-3">
           <label>
             <input type="radio" name="template" value="template7">
-            <img src="template/7.png" alt="Template 7" class="w-100">
+            <img src="../template/7.png" alt="Template 7" class="w-100">
           </label>
         </div>
       </div>

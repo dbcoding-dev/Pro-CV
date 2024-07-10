@@ -1,0 +1,66 @@
+<%- include('../components/head'); -%>
+
+  <body>
+
+    <%- include('../components/preloader'); -%>
+
+      <div id="main-wrapper">
+        <%- include('../components/nav'); -%>
+
+          <%- include('../components/chatbox'); -%>
+            <%- include('../components/header'); -%>
+
+
+              <%- include('../components/sidebar'); -%>
+
+                <div class="content-body">
+                  <div class="container-fluid">
+                    <div class="row">
+                      <div class="col-xl-12 col-lg-12">
+                        <div class="card">
+                          <div class="card-header">
+                            <h4 class="card-title">Payment Pos Edit</h4>
+                          </div>
+                          <div class="card-body">
+                            <div class="basic-form">
+                              <form action="/panel/pos/<%= pos.id %>?_method=PUT" method="post"
+                                enctype="multipart/form-data">
+                                <div class="mb-3">
+                                  <label for="">Name</label>
+                                  <input type="text" class="form-control input-default " name="name"
+                                    value="<%= pos.name %>" readonly>
+                                </div>
+                                <div class="mb-3">
+                                  <label for="">Url</label>
+                                  <input type="text" class="form-control input-default " name="url"
+                                    value="<%=pos.url %>" readonly>
+                                </div>
+                                <div class="mb-3">
+                                  <label for="formFile" class="form-label">Image</label>
+                                  <input class="form-control" type="hidden" id="formFile" name="img" readonly>
+                                </div>
+
+                                <div class="mb-3 w-100">
+                                  <img src="/pos/<%= pos.img %>?<%= Date.now() %>" alt="" class="w-50">
+                                </div>
+                                <div class="mb-5">
+                                  <label for="">Status</label>
+                                  <select class="form-select" name="status">
+                                    <option value="1" <% if(pos.status==1) { %> selected <% } %>>On</option>
+                                    <option value="0" <% if(pos.status==0) { %> selected <% } %>>Off</option>
+                                  </select>
+                                </div>
+                                <div class="mb-3">
+                                  <button type="submit" class="btn btn-primary">Submit</button>
+                                </div>
+                              </form>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <%- include('../components/footer'); -%>
+      </div>
+      <%- include('../components/scripts'); -%>

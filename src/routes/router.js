@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const { authenticateUser } = require("../middleware/authenticate.js");
+const { auth } = require("googleapis/build/src/apis/abusiveexperiencereport/index.js");
 
 // Rota yapılandırmalarını içeren dizi
 const routes = [
@@ -23,6 +24,8 @@ const routes = [
     { path: '/', router: require("./googlerouter.js"), auth: true },
     { path: '/', router: require("./websiterouter.js"), auth: true },
     { path: '/', router: require("./cvrouter.js"), auth: true },
+    { path: '/', router: require("./striperouter.js"), auth: true },
+    { path: '/', router: require("./posrouter.js"), auth: true },
 ];
 
 // Rotaları ekleyen döngü

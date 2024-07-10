@@ -24,11 +24,15 @@ module.exports = (sequelize, DataTypes) => {
         deleteAccountToken: {
             type: DataTypes.STRING,
             allowNull: true
-          },
-          deleteAccountExpires: {
+        },
+        deleteAccountExpires: {
             type: DataTypes.DATE,
             allowNull: true
-          }
+        },
+        status: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
     });
 
     User.associate = (models) => {

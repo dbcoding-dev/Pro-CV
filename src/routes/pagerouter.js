@@ -11,6 +11,7 @@ router.post('/panel/block-ip', authMiddleware, PageController.blockIp);
 router.post('/panel/unblock-ip', authMiddleware, PageController.unblockIp);
 router.get('/panel/blocks', authMiddleware, PageController.getBlockedIps);
 router.delete('/panel/blocks/:id', authMiddleware, PageController.deleteBlockedIp);
+router.post('/panel/blocks/delete-all-logs', authMiddleware, PageController.deleteAllLogs);
 
 
 module.exports = router;

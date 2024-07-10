@@ -9,8 +9,6 @@ const Skill = require("../models/skils.model")(sequelize, DataTypes);
 const Lang = require("../models/lang.model")(sequelize, DataTypes);
 const Experience = require("../models/work.model")(sequelize, DataTypes);
 const multer = require('multer');
-const path = require('path');
-const fs = require('fs');
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -103,6 +101,88 @@ class UsersProfil {
             }
         });
     }
+
+    // Delete Cv 
+    static async deleteProfil(req, res) {
+        const { id } = req.params;
+
+        try {
+            await Cv.destroy({
+                where: { id: id },
+                include: [
+                    { model: Academi },
+                    { model: Experience },
+                    { model: Lang },
+                    { model: Referance },
+                    { model: Skill }
+                ]
+            });
+            res.status(200).json({ success: true, message: 'CV and associated data deleted successfully' });
+        } catch (error) {
+            return res.status(500).json({ message: error.message });
+        }
+    }
+
+    // Get Cv 
+    static async getCv(req, res) {
+        try {
+            const users = await PdfUsers.findAll();
+            res.render('panel/resumelist/index', { PdfUsers: users });
+
+        } catch (error) {
+            return res.status(500).json({ message: error.message });
+        }
+    }
+
+    // Delete Cv
+    static async deleteUserAndAllData(req, res) {
+        const { userId } = req.params;
+
+        try {
+            // İlk olarak CV ve ilişkili tüm verileri sil
+            await Cv.destroy({
+                where: { userId: userId },
+                include: [
+                    { model: Academi },
+                    { model: Experience },
+                    { model: Lang },
+                    { model: Referance },
+                    { model: Skill }
+                ]
+            });
+
+            // Kullanıcıyı sil
+            await PdfUsers.destroy({
+                where: { id: userId }
+            });
+
+            res.status(200).json({ success: true, message: 'Kullanıcı ve ilişkili tüm veriler başarıyla silindi' });
+        } catch (error) {
+            return res.status(500).json({ message: error.message });
+        }
+    }
+    static async editUser(req, res) {
+        try {
+            const { userId } = req.params;
+            const user = await PdfUsers.findOne({ where: { id: userId } });
+            res.render('panel/resumelist/edit', { user });
+
+        } catch (error) {
+            return res.status(500).json({ message: error.message });
+        }
+    }
+
+    static async updateUser(req, res) {
+        try {
+            const { userId } = req.params;
+            const { name, surname, email, status } = req.body;
+            await PdfUsers.update({ name, surname, email, status }, { where: { id: userId } });
+            res.redirect('/panel/resumelist');
+        } catch (error) {
+            return res.status(500).json({ message: error.message });
+        }
+    }
+
 }
 
 module.exports = UsersProfil;

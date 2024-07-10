@@ -22,6 +22,12 @@
         top: 10px;
         right: 20px;
     }
+
+    .pencil2 {
+        position: absolute;
+        bottom: 10px;
+        right: 20px;
+    }
 </style>
 
 <body>
@@ -42,18 +48,33 @@
             <section class="wrapper container">
                 <div class="row pt-14 pb-md-16">
                     <% CvUser.forEach(cv=> { %>
-                        <div class="col-md-6 col-lg-4">
+                        <div class="col-md-6 col-lg-4 mb-4">
                             <div class="pricing card text-center">
                                 <div class="pencil">
-                                    <a href="/create-cv/<%=cv.id %>">
-                                        <img style="width: 20px;" src="/assets/img/icons/solid/marker.svg"
-                                            class="svg-inject icon-svg solid text-navy" alt="" />
-                                    </a>
+                                    <div>
+                                        <a href="/create-cv/<%= cv.id %>">
+                                            <img style="width: 20px;" src="/assets/img/icons/solid/marker.svg"
+                                                class="svg-inject icon-svg solid text-navy" alt="" />
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="pencil2">
+                                    <div>
+                                        <a href="#" class="text-white btn btn-dark btn-sm"
+                                            onclick="deleteBlog('<%= cv.id %>')">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="1rem" height="1rem"
+                                                viewBox="0 0 24 24">
+                                                <path fill="currentColor"
+                                                    d="M10 18a1 1 0 0 0 1-1v-6a1 1 0 0 0-2 0v6a1 1 0 0 0 1 1M20 6h-4V5a3 3 0 0 0-3-3h-2a3 3 0 0 0-3 3v1H4a1 1 0 0 0 0 2h1v11a3 3 0 0 0 3 3h8a3 3 0 0 0 3-3V8h1a1 1 0 0 0 0-2M10 5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v1h-4Zm7 14a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1V8h10Zm-3-1a1 1 0 0 0 1-1v-6a1 1 0 0 0-2 0v6a1 1 0 0 0 1 1" />
+                                            </svg>
+                                        </a>
+                                    </div>
                                 </div>
                                 <div class="card-body">
-                                    <div class="svg-bg bg-pale-primary rounded-xl"><img
-                                            src="/assets/img/icons/solid/content.svg"
-                                            class="svg-inject icon-svg solid text-navy" alt="" /></div>
+                                    <div class="svg-bg bg-pale-primary rounded-xl">
+                                        <img src="/assets/img/icons/solid/content.svg"
+                                            class="svg-inject icon-svg solid text-navy" alt="" />
+                                    </div>
 
                                     <h4 class="card-title pt-3 ">
                                         <%= cv.name %> - <%= cv.surname %>
@@ -61,14 +82,57 @@
                                     <p>
                                         <%= cv.position %>
                                     </p>
+
                                 </div>
                             </div>
                         </div>
                         <% }) %>
+
                 </div>
             </section>
 
     </div>
+    <script>
+        function deleteBlog(blogId) {
+            const isConfirmed = confirm("Are you sure you want to delete this Cv?");
+
+            if (isConfirmed) {
+                fetch(`/delete-cv/${blogId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Success',
+                                text: 'Cv has been deleted successfully!',
+                            }).then(() => {
+                                location.reload();
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: 'Delete operation failed: ' + data.message,
+                            });
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'An error occurred during the delete operation.',
+                        });
+                    });
+            }
+        }
+
+    </script>
     <%- include('../components/footer'); -%>
         <%- include('../components/script'); -%>
 </body>

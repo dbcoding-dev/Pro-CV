@@ -46,34 +46,51 @@
                                     </div>
                                     <% } %>
                                         <div class="row">
-                                            <div class="col-lg-6 col-sm-12">
-                                                <div class="col-lg-10 col-sm-12">
-                                                    <form action="/profile/update" method="post">
-                                                        <div class="form-floating mb-4">
-                                                            <input type="text" class="form-control" id="username"
-                                                                name="username" value="<%= user.username %>" required>
-                                                            <label for="username">Kullanıcı Adı</label>
+                                            <div class="col-lg-6 col-sm-12 pb-4">
+                                                <div class="pricing card">
+                                                    <div class="card-body">
+                                                        <div class="col-lg-10 col-sm-12">
+                                                            <form action="/profile/update" method="post">
+                                                                <div class="form-floating mb-4">
+                                                                    <input type="text" class="form-control"
+                                                                        id="username" name="username"
+                                                                        value="<%= user.username %>" required>
+                                                                    <label for="username">Kullanıcı Adı</label>
+                                                                </div>
+                                                                <div class="form-floating mb-4">
+                                                                    <input type="email" class="form-control" id="email"
+                                                                        name="email" value="<%= user.email %>" required>
+                                                                    <label for="email">Eposta</label>
+                                                                </div>
+                                                                <div class="form-floating mb-4">
+                                                                    <input type="password" class="form-control"
+                                                                        id="password" name="password"
+                                                                        placeholder="Yeni Parola">
+                                                                    <label for="password">Yeni Parola</label>
+                                                                </div>
+                                                                <div class="form-floating mb-4">
+                                                                    <select class="form-select" name="status"
+                                                                        aria-label="Default select example">
+                                                                        <option value="1" <%=user.status==1 ? 'selected'
+                                                                            : '' %>>Aktif</option>
+                                                                        <option value="0" <%=user.status==0 ? 'selected'
+                                                                            : '' %>>Pasif</option>
+                                                                    </select>
+                                                                    <label for="status">Durum</label>
+                                                                </div>
+                                                                <button type="submit"
+                                                                    class="btn btn-primary w-100">Güncelle</button>
+                                                            </form>
                                                         </div>
-                                                        <div class="form-floating mb-4">
-                                                            <input type="email" class="form-control" id="email"
-                                                                name="email" value="<%= user.email %>" required>
-                                                            <label for="email">Eposta</label>
+                                                        <div class="col-lg-2 col-sm-12">
+                                                            <form id="delete-account-form"
+                                                                action="/request-delete-account" method="post"
+                                                                class="mt-4">
+                                                                <button type="button" class="btn btn-danger w-100"
+                                                                    onclick="confirmDelete()">Hesabı Sil</button>
+                                                            </form>
                                                         </div>
-                                                        <div class="form-floating mb-4">
-                                                            <input type="password" class="form-control" id="password"
-                                                                name="password" placeholder="Yeni Parola">
-                                                            <label for="password">Yeni Parola</label>
-                                                        </div>
-                                                        <button type="submit"
-                                                            class="btn btn-primary w-100">Güncelle</button>
-                                                    </form>
-                                                </div>
-                                                <div class="col-lg-2 col-sm-12">
-                                                    <form id="delete-account-form" action="/request-delete-account"
-                                                        method="post" class="mt-4">
-                                                        <button type="button" class="btn btn-danger w-100"
-                                                            onclick="confirmDelete()">Hesabı Sil</button>
-                                                    </form>
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="col-lg-6 col-sm-12">

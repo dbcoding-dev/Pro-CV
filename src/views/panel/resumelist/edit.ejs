@@ -1,0 +1,71 @@
+<%- include('../components/head'); -%>
+
+    <body>
+
+        <%- include('../components/preloader'); -%>
+
+            <div id="main-wrapper">
+                <%- include('../components/nav'); -%>
+
+                    <%- include('../components/chatbox'); -%>
+                        <%- include('../components/header'); -%>
+
+
+                            <%- include('../components/sidebar'); -%>
+
+                                <div class="content-body">
+                                    <div class="container-fluid">
+                                        <div class="row">
+                                            <div class="col-xl-12 col-lg-12">
+                                                <div class="card">
+                                                    <div class="card-header">
+                                                        <h4 class="card-title">Users Edit</h4>
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <div class="basic-form">
+                                                            <form action="/panel/resumelist/<%= user.id %>?_method=PUT"
+                                                                method="post">
+                                                                <div class="mb-3">
+                                                                    <label for="">Username</label>
+                                                                    <input type="text"
+                                                                        class="form-control input-default "
+                                                                        name="username" value="<%= user.username %>"
+                                                                        readonly>
+                                                                </div>
+                                                                <div class="mb-3">
+                                                                    <label for="">Email</label>
+                                                                    <input type="email"
+                                                                        class="form-control input-default " name="email"
+                                                                        value="<%= user.email %>" readonly>
+                                                                </div>
+                                                                <div class="mb-3">
+                                                                    <label for="">Password</label>
+                                                                    <input type="password"
+                                                                        class="form-control input-default "
+                                                                        name="password" value="<%= user.password %>"
+                                                                        readonly>
+                                                                </div>
+                                                                <div class="mb-3">
+                                                                    <label for="">Status</label>
+                                                                    <select name="status" id="" class="form-control">
+                                                                        <option value="1" <%=user.status==1 ? 'selected'
+                                                                            : '' %>>Active</option>
+                                                                        <option value="0" <%=user.status==0 ? 'selected'
+                                                                            : '' %>>Passive</option>
+                                                                    </select>
+                                                                </div>
+                                                                <div class="mb-3">
+                                                                    <button type="submit"
+                                                                        class="btn btn-primary">Submit</button>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <%- include('../components/footer'); -%>
+            </div>
+            <%- include('../components/scripts'); -%>

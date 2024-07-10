@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Payment Page</title>
+</head>
+
+<body>
+    <h1>Choose Your Plan</h1>
+    <div id="iyzipay-checkout-form" class="responsive"></div>
+    <div id="iyzipay-checkout-form" class="popup"></div>
+    <form action="/v2/subscription/checkoutform/initialize" method="post">
+        <div>
+            <% plans.forEach(function(plan) { %>
+                <div>
+                    <h2>
+                        <%= plan.name %>
+                    </h2>
+                    <p>Price: $<%= plan.price %>
+                    </p>
+                    <p>Interval: <%= plan.interval %>
+                    </p>
+                    <input type="radio" name="pricingPlanReferenceCode" value="<%= plan.productReferenceCode %>"
+                        required> Select this plan
+                </div>
+                <% }) %>
+        </div>
+        <h2>Payment Details</h2>
+        <div>
+            <label for="cardHolderName">Card Holder Name:</label>
+            <input type="text" id="cardHolderName" name="cardHolderName" required>
+        </div>
+        <div>
+            <label for="cardNumber">Card Number:</label>
+            <input type="text" id="cardNumber" name="cardNumber" required>
+        </div>
+        <div>
+            <label for="expiryMonth">Expiry Month:</label>
+            <input type="text" id="expiryMonth" name="expiryMonth" required>
+        </div>
+        <div>
+            <label for="expiryYear">Expiry Year:</label>
+            <input type="text" id="expiryYear" name="expiryYear" required>
+        </div>
+        <div>
+            <label for="cvc">CVC:</label>
+            <input type="text" id="cvc" name="cvc" required>
+        </div>
+        <button type="submit">Subscribe</button>
+    </form>
+</body>
+
+</html>

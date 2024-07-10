@@ -92,7 +92,6 @@ class PageController {
             next(error);
         }
     }
-
     static async logExit(req, res, next) {
         res.on('finish', async () => {
             try {
@@ -122,6 +121,16 @@ class PageController {
         });
 
         next();
+    }
+    // all delete visit logs
+    static async deleteAllLogs(req, res) {
+        try {
+            await PageVisit.destroy({ where: {} });
+            res.redirect("/panel/blocks?success=All logs deleted successfully.");
+        } catch (error) {
+            console.error('Error deleting all logs:', error);
+            res.redirect("/panel/blocks?error=Error deleting all logs.");
+        }
     }
 }
 

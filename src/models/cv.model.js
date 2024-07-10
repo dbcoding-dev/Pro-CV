@@ -84,6 +84,11 @@ module.exports = (sequelize, DataTypes) => {
             },
             onDelete: 'RESTRICT',
         });
+        Cv_pdfcv.hasMany(models.cv_academi, { foreignKey: 'cvId', onDelete: 'CASCADE' });
+        Cv_pdfcv.hasMany(models.cv_work, { foreignKey: 'cvId', onDelete: 'CASCADE' });
+        Cv_pdfcv.hasMany(models.cv_lang, { foreignKey: 'cvId', onDelete: 'CASCADE' });
+        Cv_pdfcv.hasMany(models.cv_referance, { foreignKey: 'cvId', onDelete: 'CASCADE' });
+        Cv_pdfcv.hasMany(models.cv_skill, { foreignKey: 'cvId', onDelete: 'CASCADE' });
     };
 
     return Cv_pdfcv;

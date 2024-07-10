@@ -4,10 +4,10 @@ const { PaymentController } = require("../controller/paymentController.js");
 
 const paymentController = new PaymentController();
 
-router.get("/payment", PaymentController.createPayment);
-router.post("/api/plans", paymentController.createPlan.bind(paymentController));
-router.post("/api/subscribe", paymentController.createSubscription.bind(paymentController));
-router.get("/api/subscriptions/:userId", paymentController.getSubscription.bind(paymentController));
-
+// Abonelik İşlemleri
+router.get('/subscription', paymentController.createPayment.bind(paymentController));
+router.post('/subscription/plan', paymentController.createPlan.bind(paymentController));
+router.post('/v2/subscription/checkoutform/initialize', paymentController.createSubscription.bind(paymentController));
+router.get('/subscription/:userId', paymentController.getSubscription.bind(paymentController));
 
 module.exports = router;

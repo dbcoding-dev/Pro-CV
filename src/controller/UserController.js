@@ -19,7 +19,7 @@ class UserController {
                 return res.status(400).render('register', { error: 'Bu email ile kayıtlı bir kullanıcı zaten var' });
             }
             const hashedPassword = await bcrypt.hash(password, 10);
-            const newUser = await User.create({ username, email, password: hashedPassword });
+            const newUser = await User.create({ username, email, password: hashedPassword, status: 1 });
             res.redirect('/register-success');
         } catch (error) {
             console.error(error);
@@ -226,11 +226,12 @@ class UserController {
     }
 
     static async UpdateProfile(req, res) {
-        const { username, email, password } = req.body;
+        const { username, email, password, status } = req.body;
         try {
             const updatedData = {
                 username,
                 email,
+                status: status || 1
             };
             if (password) {
                 const hashedPassword = await bcrypt.hash(password, 10);

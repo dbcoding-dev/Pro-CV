@@ -49,20 +49,24 @@ class IyzicoController {
 
     static async createStripeapi(req, res) {
         try {
-            const { api_key, secret_key } = req.body;
+            const { api_key, secret_key, line_items, mode } = req.body;
             const stripe = await Stripe.findOne();
 
             if (stripe) {
                 // Mevcut kayıt varsa güncelle
                 stripe.api_key = api_key;
                 stripe.secret_key = secret_key;
+                stripe.line_items = line_items;
+                stripe.mode = mode;
                 await stripe.save();
                 res.redirect('/panel/payment?stripe=Stripe API updated successfully.');
             } else {
                 // Yeni kayıt oluştur
                 await Stripe.create({
                     api_key,
-                    secret_key
+                    secret_key,
+                    line_items,
+                    mode
                 });
                 res.redirect('/panel/payment?stripe=Stripe API created successfully.');
             }

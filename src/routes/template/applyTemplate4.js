@@ -74,7 +74,7 @@ function applyTemplate4(doc, name, surname,
     doc.y = contactInfoYY;
     doc.font(Roboto).fontSize(20).fillColor('#000000').text('HAKKINDA', { align: 'left' });
     const linesY = contactInfoYY + 25;
-    doc.lineWidth(1).moveTo(centerX - 15, linesY ).lineTo(contactInfoXX - 15, linesY).strokeColor('#000000').stroke();
+    doc.lineWidth(1).moveTo(centerX - 15, linesY).lineTo(contactInfoXX - 15, linesY).strokeColor('#000000').stroke();
     doc.fillColor('black').font(RobotoLight).fontSize(8).text(about, contactInfoXX, contactInfoYY + 30, { align: 'left', width: 170 });
 
     // Yetenekler
@@ -84,15 +84,18 @@ function applyTemplate4(doc, name, surname,
     doc.y = contactInfoYYY;
     const lineYY = contactInfoYYY + 10;
 
-    doc.font(Roboto).fontSize(20).fillColor('000000').text('BECERİLER', contactInfoXXX, doc.y + 10, { align: 'left' });
-    doc.lineWidth(1).moveTo(centerX - 15,  doc.y + 5).lineTo(contactInfoXXX - 15,  doc.y + 5).strokeColor('#000000').stroke();
+    doc.font(Roboto).fontSize(20).fillColor('#000000').text('BECERİLER', contactInfoXXX, doc.y + 10, { align: 'left' });
+    doc.lineWidth(1).moveTo(contactInfoXXX - 15, doc.y + 5).lineTo(contactInfoXXX + 190, doc.y + 5).strokeColor('#000000').stroke();
+
+    doc.moveDown(0.5);
+
     const maxSkillsToShow = 5;
 
     if (skilles && Array.isArray(skilles)) {
         for (let index = 0; index < Math.min(skilles.length, maxSkillsToShow); index++) {
             const skill = skilles[index];
-            if (skill && typeof skill === 'object' && skill.skil) {
-                const skillText = `${skill.skil}`;
+            if (skill && typeof skill === 'string') {
+                const skillText = `${skill}`;
                 const skillLines = skillText.split(',').map(line => line.trim());
                 doc.y = doc.y + 10;
                 doc.font(RobotoLight)
@@ -108,17 +111,17 @@ function applyTemplate4(doc, name, surname,
         console.error('Skills are not defined or not an array.');
     }
 
-    doc.font(Roboto).fontSize(20).fillColor('#000000').text('YABANCI DİL ', contactInfoXXX, doc.y + 5, { align: 'left' });
-    doc.lineWidth(1).moveTo(centerX - 15,  doc.y + 5).lineTo(contactInfoXXX - 15,  doc.y + 5).strokeColor('#000000').stroke();
 
+    doc.font(Roboto).fontSize(20).fillColor('#000000').text('YABANCI DİL ', contactInfoXXX, doc.y + 5, { align: 'left' });
+    doc.lineWidth(1).moveTo(centerX - 15, doc.y + 5).lineTo(contactInfoXXX - 15, doc.y + 5).strokeColor('#000000').stroke();
 
     const maxLanguagesToShow = 5;
     let displayedLanguages = 0;
 
     if (langs && Array.isArray(langs)) {
         langs.forEach((langg, index) => {
-            if (displayedLanguages < maxLanguagesToShow && langg && typeof langg === 'object' && langg.lang) {
-                const langText = `${langg.lang}`;
+            if (displayedLanguages < maxLanguagesToShow && typeof langg === 'string') {
+                const langText = langg;
                 const langLines = langText.split(',').map(line => line.trim());
                 doc.y = doc.y + 10;
                 doc.font(RobotoLight)
@@ -135,6 +138,7 @@ function applyTemplate4(doc, name, surname,
     } else {
         console.error('Languages are not defined or not an array.');
     }
+
     const contactRefX = 35;
     const contactRefY = 250;
     doc.x = contactRefX;

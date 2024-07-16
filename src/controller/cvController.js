@@ -8,6 +8,8 @@ const Referance = require("../models/referance.model")(sequelize, DataTypes);
 const Skill = require("../models/skils.model")(sequelize, DataTypes);
 const Lang = require("../models/lang.model")(sequelize, DataTypes);
 const Experience = require("../models/work.model")(sequelize, DataTypes);
+const Payment = require('../models/stripepayment.model')(sequelize, DataTypes);
+
 const multer = require('multer');
 
 const storage = multer.diskStorage({
@@ -127,7 +129,8 @@ class UsersProfil {
     static async getCv(req, res) {
         try {
             const users = await PdfUsers.findAll();
-            res.render('panel/resumelist/index', { PdfUsers: users });
+
+            res.render('panel/resumelist/index', { PdfUsers: users, });
 
         } catch (error) {
             return res.status(500).json({ message: error.message });

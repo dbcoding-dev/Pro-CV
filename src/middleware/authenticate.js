@@ -22,8 +22,20 @@ const preventAuthenticatedAccess = (req, res, next) => {
     next();
 };
 
+
+const sessionId = (req, res, next) => {
+    if (req.session && req.session.user) {
+        res.locals.userId = req.session.user.id;
+    } else {
+        res.locals.userId = null;
+    }
+    next();
+};
+
+
 module.exports = {
     authenticateUser,
     ensureAuthenticated,
-    preventAuthenticatedAccess
+    preventAuthenticatedAccess,
+    sessionId
 };

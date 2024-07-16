@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="author" content="elemis">
+    <title>Aboneliği İptal Et</title>
+    <link rel="shortcut icon" href="/assets/favicon.ico">
+    <link rel="stylesheet" href="/assets/css/plugins.css">
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="/assets/css/main.css">
+    <link rel="preload" href="/assets/css/fonts/space.css" as="style" onload="this.rel='stylesheet'">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+
+<body>
+    <div class="content-wrapper bg-light">
+        <%- include('./components/header'); -%>
+            <section class="wrapper gradient-8 bg-lines">
+                <div class="container pt-17 pt-md-19 pb-6 text-center">
+                    <div class="row">
+                        <div class="col-lg-10 col-xl-9 col-xxl-8 mx-auto">
+                            <h1 class="display-1 fs-68 lh-xxs mb-8 text-white">
+                                Aboneliği İptal Et
+                            </h1>
+                            <p class="text-white mb-8">Aboneliğinizi iptal etmek için aşağıdaki formu doldurun.
+                                İptal işlemi 24 saat içinde gerçekleşir.</p>
+                        </div>
+                    </div>
+            </section>
+            <section class="container py-10">
+                <div class="row">
+                    <div class="col-lg-12 col-sm-12">
+
+                        <form action="/cancel-subscription" method="POST">
+                            <div class="mx-auto px-22">
+                                <div class="card px-10">
+                                    <div class="pt-3">
+                                        <% if (messages.error) { %>
+                                            <div class="alert alert-danger">
+                                                <%= messages.error %>
+                                            </div>
+                                            <% } %>
+                                                <% if (messages.success) { %>
+                                                    <div class="alert alert-success">
+                                                        <%= messages.success %>
+                                                    </div>
+                                                    <% } %>
+                                    </div>
+                                    <div class="card-body">
+                                        <div>
+                                            <p>
+                                                Aboneliğinizi iptal etmek için üye olduğunuz e-posta
+                                                adresini girin.
+                                                İptal işlemi 24 saat içinde gerçekleşir.
+                                            </p>
+                                        </div>
+                                        <div class="form-floating mb-4">
+                                            <input id="form_email" type="email" name="email" class="form-control"
+                                                placeholder="ornek@gmail.com" required>
+                                            <label for="form_email">E-posta Adresiniz *</label>
+                                        </div>
+
+                                        <div class="col-12 text-center">
+                                            <input type="submit" class="btn btn-primary rounded-pill btn-send mb-3"
+                                                value="Üyeliği iptal et">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </section>
+    </div>
+    <%- include('./components/footer'); -%>
+        <%- include('./components/script'); -%>
+</body>
+
+</html>

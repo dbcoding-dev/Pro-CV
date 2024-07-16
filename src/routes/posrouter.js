@@ -5,6 +5,9 @@ const PosController = require('../controller/posController');
 const { authMiddleware } = require("../middleware/userMiddleware.js");
 const multer = require('multer');
 const path = require('path');
+const { ensureAuthenticated } = require("../middleware/authenticate.js");
+const GlobalDataMiddleware = require("../middleware/varMiddleware.js");
+
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -21,7 +24,7 @@ router.get('/panel/pos/add', authMiddleware, PosController.addPos);
 router.get('/panel/pos', authMiddleware, PosController.getPos);
 router.get('/panel/pos/edit/:id', authMiddleware, PosController.getPosById);
 router.put('/panel/pos/:id', authMiddleware, upload.single('img'), PosController.updatePos);
-router.get('/payment-methods', PosController.getData);
+router.get('/payment-methods', ensureAuthenticated, GlobalDataMiddleware.checkPayment, PosController.getData);
 
 
 module.exports = router;

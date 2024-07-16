@@ -95,9 +95,8 @@ function applyTemplate3(doc, name, surname,
     if (skilles && Array.isArray(skilles)) {
         for (let index = 0; index < Math.min(skilles.length, maxSkillsToShow); index++) {
             const skill = skilles[index];
-            if (skill && typeof skill === 'object' && skill.skil) {
-                const skillText = `${skill.skil}`;
-                const skillLines = skillText.split(',').map(line => line.trim());
+            if (skill && typeof skill === 'string') {
+                const skillLines = skill.split(',').map(line => line.trim());
                 doc.y = doc.y + 5;
                 doc.font(Roboto)
                     .fontSize(9)
@@ -112,6 +111,7 @@ function applyTemplate3(doc, name, surname,
         console.error('Skills are not defined or not an array.');
     }
 
+
     doc.font(RobotoBold).fontSize(14).fillColor('#3C3633').text('Yabancı Dil ', contactInfosX, doc.y + 10, { align: 'left' });
 
     const maxLanguagesToShow = 5;
@@ -119,11 +119,11 @@ function applyTemplate3(doc, name, surname,
 
     if (langs && Array.isArray(langs)) {
         langs.forEach((langg, index) => {
-            if (displayedLanguages < maxLanguagesToShow && langg && typeof langg === 'object' && langg.lang) {
+            if (displayedLanguages < maxLanguagesToShow && typeof langg === 'string') {
                 if (displayedLanguages !== 0) {
                     doc.moveDown(1);
                 }
-                const langText = `${langg.lang}`;
+                const langText = langg;
                 const langLines = langText.split(',').map(line => line.trim());
                 doc.y = doc.y + 5;
                 doc.font(Roboto)
@@ -142,7 +142,6 @@ function applyTemplate3(doc, name, surname,
     }
 
 
-
     const contactRefX = 40;
     const contactRefY = 300;
     doc.x = contactRefX;
@@ -154,7 +153,7 @@ function applyTemplate3(doc, name, surname,
         doc.font(Roboto).fontSize(20).fillColor('#000000').text(title.toUpperCase(), startX, startY, { align: 'left' });
         content();
         const endY = doc.y + 10;
-        doc.y = ( endY);
+        doc.y = (endY);
     };
 
     const addExperiencesSection = () => {
@@ -232,7 +231,7 @@ function applyTemplate3(doc, name, surname,
     addSection('Eğİtİm ve Nİtelİkler', addAcademiSection)
     addSection('Referanslar', addReferencesSection);
 
- 
+
 
 }
 

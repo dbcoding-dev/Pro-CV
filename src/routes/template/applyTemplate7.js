@@ -53,14 +53,14 @@ function applyTemplate7(doc, name, surname,
     const textWidth = doc.font(RobotoBold).widthOfString(text, { size: fontSize });
     const centerX = (doc.page.width - textWidth) / 2;
     const verticalOffset = 50;
-    doc.fillColor('black').fontSize(fontSize).text(text, centerX - 150, verticalOffset, { align: 'left',width:330 });
+    doc.fillColor('black').fontSize(fontSize).text(text, centerX - 150, verticalOffset, { align: 'left', width: 330 });
     doc.fillColor('black').font(Roboto).fontSize(16).text(position, centerX - 150, verticalOffset + 45, { align: 'left', });
-    doc.fillColor('black').font(Roboto).fontSize(9).text('Doğum Günü: '+ date, centerX - 150, verticalOffset + 65, { align: 'left', });
-    doc.fillColor('black').font(Roboto).fontSize(9).text('Doğum Yeri: '+ birth, centerX - 150, verticalOffset + 75, { align: 'left', });
-    doc.fillColor('black').font(Roboto).fontSize(9).text('Askerlik: '+ asker, centerX - 150, verticalOffset + 85, { align: 'left', });
-    doc.fillColor('black').font(Roboto).fontSize(9).text('Ehliyet: '+ surucu, centerX - 150, verticalOffset + 95, { align: 'left', });
-    doc.fillColor('black').font(Roboto).fontSize(9).text('Medeni Durum: '+ medeni, centerX - 150, verticalOffset + 105, { align: 'left', });
-    doc.fillColor('black').font(Roboto).fontSize(9).text('Cinsiyet: '+ gender, centerX - 150, verticalOffset + 115, { align: 'left', });
+    doc.fillColor('black').font(Roboto).fontSize(9).text('Doğum Günü: ' + date, centerX - 150, verticalOffset + 65, { align: 'left', });
+    doc.fillColor('black').font(Roboto).fontSize(9).text('Doğum Yeri: ' + birth, centerX - 150, verticalOffset + 75, { align: 'left', });
+    doc.fillColor('black').font(Roboto).fontSize(9).text('Askerlik: ' + asker, centerX - 150, verticalOffset + 85, { align: 'left', });
+    doc.fillColor('black').font(Roboto).fontSize(9).text('Ehliyet: ' + surucu, centerX - 150, verticalOffset + 95, { align: 'left', });
+    doc.fillColor('black').font(Roboto).fontSize(9).text('Medeni Durum: ' + medeni, centerX - 150, verticalOffset + 105, { align: 'left', });
+    doc.fillColor('black').font(Roboto).fontSize(9).text('Cinsiyet: ' + gender, centerX - 150, verticalOffset + 115, { align: 'left', });
 
 
 
@@ -116,11 +116,11 @@ function applyTemplate7(doc, name, surname,
     if (skilles && Array.isArray(skilles)) {
         for (let index = 0; index < Math.min(skilles.length, maxSkillsToShow); index++) {
             const skill = skilles[index];
-            if (skill && typeof skill === 'object' && skill.skil) {
+            if (skill && typeof skill === 'string') {
                 if (index !== 0) {
                     doc.moveDown(0.5);
                 }
-                const skillText = `${skill.skil}`;
+                const skillText = skill;
                 const skillLines = skillText.split(',').map(line => line.trim());
 
                 doc.font(RobotoLight)
@@ -143,11 +143,11 @@ function applyTemplate7(doc, name, surname,
 
     if (langs && Array.isArray(langs)) {
         langs.forEach((langg, index) => {
-            if (displayedLanguages < maxLanguagesToShow && langg && typeof langg === 'object' && langg.lang) {
+            if (displayedLanguages < maxLanguagesToShow && typeof langg === 'string') {
                 if (displayedLanguages !== 0) {
                     doc.moveDown(1);
                 }
-                const langText = `${langg.lang}`;
+                const langText = langg;
                 const langLines = langText.split(',').map(line => line.trim());
                 doc.font(RobotoLight)
                     .fontSize(10)
@@ -163,6 +163,7 @@ function applyTemplate7(doc, name, surname,
     } else {
         console.error('Languages are not defined or not an array.');
     }
+
 
     // İş deneyim ile Referanslar
 
@@ -255,11 +256,11 @@ function applyTemplate7(doc, name, surname,
                     const startDates = Array.isArray(academis.start) ? academis.start.join(', ') : academis.start || "";
                     const endDates = Array.isArray(academis.end) ? academis.end.join(', ') : academis.end || "";
                     const descriptions = Array.isArray(academis.desc) ? academis.desc.join('\n') : academis.desc || "";
-    
+
                     doc.font(RobotoBold).fontSize(11).fillColor('#000000').text(jobTitle, { align: 'left', width: 200 });
                     doc.font(RobotoBold).fontSize(9).fillColor('#000000').text(lisans, { align: 'left', width: 250 });
                     doc.font(RobotoBold).fontSize(9).fillColor('#000000').text(employers, { align: 'left', width: 250 });
-                    doc.font(RobotoItalic).fontSize(9).fillColor('#000000').text(`${startDates} - ${endDates}`, { align: 'left', width: 250});
+                    doc.font(RobotoItalic).fontSize(9).fillColor('#000000').text(`${startDates} - ${endDates}`, { align: 'left', width: 250 });
                     doc.font(Roboto).fontSize(9).fillColor('#000000').text(descriptions, { align: 'left', width: 250 });
                 } else {
                     console.error(`Invalid academic experience at index ${index}.`);

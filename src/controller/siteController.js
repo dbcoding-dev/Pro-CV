@@ -20,38 +20,39 @@ const upload = multer({
 });
 
 
-class SitesController{
+class SitesController {
     static async Sitepost(req, res) {
-        const maxSize = 1024 * 1024; 
+
+        const maxSize = 1024 * 1024;
         upload.single('fav_icon')(req, res, async (err) => {
             if (err) {
                 return res.redirect('/panel/site');
             }
-          if (req.file && req.file.size > maxSize) {
-            req.flash('error', 'Dosya boyutu 1 MB\'dan fazla olamaz.');
-            return res.redirect('/panel/site');
-          }
-      
-          const { site_title, site_desc, number, analytic4, tagmanager, email, addres } = req.body;
-          const fav_icon = req.file ? req.file.filename : null; 
-          Site.create({
-            site_title: site_title,
-            site_desc: site_desc,
-            number: number,
-            analytic4: analytic4,
-            tagmanager: tagmanager,
-            fav_icon: fav_icon ,
-            email: email,
-            addres: addres
-          })
-          .then(() => {
-            req.flash('success', 'Blog yazısı başarıyla eklendi.');
-            res.redirect('/panel/site');
-          })
-          .catch((error) => {
-            req.flash('error', 'Bir hata oluştu: ' + error.message);
-            res.redirect('/panel/site');
-          });
+            if (req.file && req.file.size > maxSize) {
+                req.flash('error', 'Dosya boyutu 1 MB\'dan fazla olamaz.');
+                return res.redirect('/panel/site');
+            }
+
+            const { site_title, site_desc, number, analytic4, tagmanager, email, addres } = req.body;
+            const fav_icon = req.file ? req.file.filename : null;
+            Site.create({
+                site_title: site_title,
+                site_desc: site_desc,
+                number: number,
+                analytic4: analytic4,
+                tagmanager: tagmanager,
+                fav_icon: fav_icon,
+                email: email,
+                addres: addres
+            })
+                .then(() => {
+                    req.flash('success', 'Blog yazısı başarıyla eklendi.');
+                    res.redirect('/panel/site');
+                })
+                .catch((error) => {
+                    req.flash('error', 'Bir hata oluştu: ' + error.message);
+                    res.redirect('/panel/site');
+                });
         });
     }
     static async Siteget(req, res) {
@@ -80,8 +81,18 @@ class SitesController{
             res.status(500).json({ success: false, message: 'Internal Server Error', error: error.message });
         }
     }
-    static SiteAdd(req, res) {
-        res.render("panel/site/add");
+    static async SiteAdd(req, res) {
+        try {
+            const SiteCount = await Site.count();
+            if (SiteCount >= 1) {
+                req.flash('error', 'Sadece bir adet "Site" girdisi oluşturabilirsiniz.');
+                return res.redirect('/panel/site/');
+            }
+            res.render("panel/site/add");
+
+        } catch (error) {
+
+        }
     }
     static async EditSite(req, res) {
         try {
@@ -109,14 +120,14 @@ class SitesController{
                 if (!blog) {
                     return res.status(404).send('Blog not found');
                 }
-    
+
                 if (req.file && blog.img) {
                     const imgPath = `uploads/site/${blog.img}`;
                     if (fs.existsSync(imgPath)) {
                         fs.unlinkSync(imgPath);
                     }
                 }
-    
+
                 await blog.update({
                     site_title: site_title,
                     site_desc: site_desc,
@@ -125,9 +136,9 @@ class SitesController{
                     tagmanager: tagmanager,
                     fav_icon: img || blog.img,
                     email: email,
-                    addres:addres
+                    addres: addres
                 });
-    
+
                 req.flash('success', 'Site yazısı başarıyla güncellendi.');
                 res.redirect('/panel/site');
             });
@@ -139,6 +150,6 @@ class SitesController{
     }
 }
 
-module.exports ={
+module.exports = {
     SitesController
 }

@@ -19,10 +19,7 @@ module.exports = (sequelize, DataTypes) => {
 
     Cv_skill.associate = (models) => {
         Cv_skill.belongsTo(models.cv_pdfcv, {
-            foreignKey: {
-                name: 'cvId',
-                allowNull: false
-            },
+            foreignKey: 'cvId',
             onDelete: 'CASCADE',
         });
     };

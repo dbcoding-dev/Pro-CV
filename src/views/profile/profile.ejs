@@ -94,38 +94,92 @@
                                                 </div>
                                             </div>
                                             <div class="col-lg-6 col-sm-12">
-                                                <div class="pricing card">
-                                                    <div class="card-body ">
-                                                        <div class="prices text-dark">
-                                                            <div class="price price-show justify-content-start">
-                                                                <h3>
-                                                                    <span class="price-currency">$</span>
-                                                                    <span class="price-amount">20</span>
-                                                                    <span class="price-period">/mo</span>
-                                                                </h3>
+                                                <% if (payment && payment.amount && payment.currency &&
+                                                    payment.paymentType==='stripe' ) { %>
+                                                    <div class="pricing card">
+                                                        <div class="card-body">
+                                                            <div>
+                                                                <div class="prices text-dark">
+                                                                    <div class="price price-show justify-content-start">
+                                                                        <h3>
+                                                                            <span class="price-currency">
+                                                                                <%= payment.currency.toUpperCase() %>
+                                                                            </span>
+                                                                            <span class="price-amount">
+                                                                                <%= (payment.amount / 100).toFixed(2) %>
+                                                                            </span>
+                                                                            <span class="price-period">/ay</span>
+                                                                        </h3>
+                                                                    </div>
+                                                                </div>
+                                                                <h4 class="card-title mt-2">
+                                                                    <span class="badge bg-primary">Ödeme
+                                                                        Bilgileri</span>
+                                                                </h4>
+                                                                <p>Abonelik durumu: <strong>Olundu</strong></p>
+                                                                <div>
+                                                                    <img src="/pos/img-1720556629530.png" alt=""
+                                                                        style="width: 100px;">
+                                                                </div>
+                                                            </div>
+                                                            <div>
+                                                                <a href="/cancel-subscription"
+                                                                    class="btn btn-danger w-100 mt-4">Aboneliği İptal
+                                                                    Et</a>
                                                             </div>
                                                         </div>
-                                                        <h4 class="card-title mt-2">Premium Plan
-                                                        </h4>
-                                                        <ul class="icon-list bullet-bg bullet-soft-primary mt-7 mb-8">
-                                                            <li><i class="uil uil-check"></i><span><strong>5</strong>
-                                                                    Projects </span></li>
-                                                            <li><i class="uil uil-check"></i><span><strong>100K</strong>
-                                                                    API Access </span></li>
-                                                            <li><i class="uil uil-check"></i><span><strong>200MB</strong>
-                                                                    Storage </span></li>
-                                                            <li><i class="uil uil-check"></i><span>
-                                                                    Weekly
-                                                                    <strong>Reports</strong></span>
-                                                            </li>
-                                                            <li><i class="uil uil-times bullet-soft-red"></i><span>
-                                                                    7/24
-                                                                    <strong>Support</strong></span>
-                                                            </li>
-                                                        </ul>
                                                     </div>
-                                                </div>
+                                                    <% } else if (payment && payment.amount && payment.currency &&
+                                                        payment.paymentType==='iyzico' ) { %>
+                                                        <div class="pricing card my-10">
+                                                            <div class="card-body">
+                                                                <div class="prices text-dark">
+                                                                    <div class="price price-show justify-content-start">
+                                                                        <h3>
+                                                                            <span class="price-currency">
+                                                                                <%= payment.currency.toUpperCase() %>
+                                                                            </span>
+                                                                            <span class="price-amount">
+                                                                                <%= (payment.amount / 100).toFixed(2) %>
+                                                                            </span>
+                                                                            <span class="price-period">/ay</span>
+                                                                        </h3>
+                                                                    </div>
+                                                                </div>
+                                                                <h4 class="card-title mt-2">
+                                                                    <span class="badge bg-primary">Ödeme
+                                                                        Bilgileri</span>
+                                                                </h4>
+                                                                <p>Abonelik durumu: <strong>Olundu</strong></p>
+                                                                <div>
+                                                                    <img src="/pos/img-1720559365812.png" alt=""
+                                                                        style="width: 100px;">
+                                                                </div>
+                                                                <div>
+                                                                    <a href="/cancel-subscription"
+                                                                        class="btn btn-danger w-100 mt-4">Aboneliği
+                                                                        İptal
+                                                                        Et</a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <% } else { %>
+                                                            <div class="pricing card">
+                                                                <div class="card-body">
+                                                                    <h4 class="card-title mt-2">
+                                                                        <span class="badge bg-primary">Ödeme
+                                                                            Bilgileri</span>
+                                                                    </h4>
+                                                                    <p>Abonelik durumu: <strong>Olunmadı</strong></p>
+                                                                    <div>
+                                                                        <img src="/pos/img-1720556629530.png" alt=""
+                                                                            style="width: 100px;">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <% } %>
                                             </div>
+
                                         </div>
                     </div>
             </section>

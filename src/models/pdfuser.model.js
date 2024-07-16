@@ -40,6 +40,11 @@ module.exports = (sequelize, DataTypes) => {
             foreignKey: 'userId',
             onDelete: 'CASCADE',
         });
+        User.hasMany(models.cv_payment, {
+            foreignKey: 'userId',
+            onDelete: 'CASCADE',
+        });
     };
+
     return User;
 };

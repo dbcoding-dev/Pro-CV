@@ -30,10 +30,10 @@ function applyTemplate6(doc, name, surname,
         const photoY = 120
         doc.image(Email, 200, photoY, { width: photoWidth, height: photoHeight });
     }
-        // Fotoğraf
-        if (photoBuffer) {
-            doc.image(photoBuffer, 50, 50, { width: 110, height: 110 });
-        }
+    // Fotoğraf
+    if (photoBuffer) {
+        doc.image(photoBuffer, 50, 50, { width: 110, height: 110 });
+    }
 
     const contactInfoXX = 215;
     const contactInfoYY = 120;
@@ -90,11 +90,11 @@ function applyTemplate6(doc, name, surname,
     if (skilles && Array.isArray(skilles)) {
         for (let index = 0; index < Math.min(skilles.length, maxSkillsToShow); index++) {
             const skill = skilles[index];
-            if (skill && typeof skill === 'object' && skill.skil) {
+            if (skill && typeof skill === 'string') {
                 if (index !== 0) {
                     doc.moveDown(0.5);
                 }
-                const skillText = `${skill.skil}`;
+                const skillText = skill;
                 const skillLines = skillText.split(',').map(line => line.trim());
 
                 doc.font(RobotoLight)
@@ -109,38 +109,41 @@ function applyTemplate6(doc, name, surname,
     } else {
         console.error('Skills are not defined or not an array.');
     }
-     // Dil Becerileri
-     doc.moveDown(1);
-     doc.font(RobotoBold).fontSize(13).fillColor('#000000').text('DİLLER ', 45, 470, { align: 'left' });
-     const maxLanguagesToShow = 5;
-     let displayedLanguages = 0;
-     if (langs && Array.isArray(langs)) {
-         langs.forEach((langg, index) => {
-             if (displayedLanguages < maxLanguagesToShow && langg && typeof langg === 'object' && langg.lang) {
-                 if (displayedLanguages !== 0) {
-                     doc.moveDown(1);
-                 }
-                 const langText = `${langg.lang}`;
-                 const langLines = langText.split(',').map(line => line.trim());
-                 doc.font(RobotoLight)
-                     .fontSize(10)
-                     .fillColor('#000000')
-                     .lineGap(6)
-                     .text(`• ${langLines.join('\n• ')}`, { align: 'left' });
- 
-                 displayedLanguages++;
-             } else {
-                 console.error(`Invalid lang at index ${index}.`);
-             }
-         });
-     } else {
-         console.error('Languages are not defined or not an array.');
-     }
- 
+
+    // Dil Becerileri
+    doc.moveDown(1);
+    doc.font(RobotoBold).fontSize(13).fillColor('#000000').text('DİLLER ', 45, 470, { align: 'left' });
+    const maxLanguagesToShow = 5;
+    let displayedLanguages = 0;
+
+    if (langs && Array.isArray(langs)) {
+        langs.forEach((langg, index) => {
+            if (displayedLanguages < maxLanguagesToShow && typeof langg === 'string') {
+                if (displayedLanguages !== 0) {
+                    doc.moveDown(1);
+                }
+                const langText = langg;
+                const langLines = langText.split(',').map(line => line.trim());
+                doc.font(RobotoLight)
+                    .fontSize(10)
+                    .fillColor('#000000')
+                    .lineGap(6)
+                    .text(`• ${langLines.join('\n• ')}`, { align: 'left' });
+
+                displayedLanguages++;
+            } else {
+                console.error(`Invalid lang at index ${index}.`);
+            }
+        });
+    } else {
+        console.error('Languages are not defined or not an array.');
+    }
+
+
     // Kişisel Bilgiler
     doc.font(RobotoBold).fontSize(13).fillColor('#000000').text('KİŞİSEL', 45, 610, { align: 'left' });
-    doc.font(RobotoLight).fontSize(9).fillColor('#3C3633').text('Doğum yeri: ' + birth.toLowerCase(),{ align: 'left', width: 180 });
-    doc.font(RobotoLight).fontSize(9).fillColor('#3C3633').text('Cinsiyet: ' + gender.toLowerCase(), { align: 'left', width: 180 });
+    doc.font(RobotoLight).fontSize(9).fillColor('#3C3633').text('Doğum yeri: ' + birth.toLowerCase(), { align: 'left', width: 180 });
+    doc.font(RobotoLight).fontSize(9).fillColor('#3C3633').text('Cinsiyet: ' + gender.toUpperCase(), { align: 'left', width: 180 });
     doc.font(RobotoLight).fontSize(9).fillColor('#3C3633').text('Ehliyet: ' + surucu.toLowerCase(), { align: 'left', width: 180 });
     doc.font(RobotoLight).fontSize(9).fillColor('#3C3633').text('Medeni Durumu: ' + medeni.toLowerCase(), { align: 'left', width: 180 });
     doc.font(RobotoLight).fontSize(9).fillColor('#3C3633').text('Askerlik: ' + asker.toLowerCase(), { align: 'left', width: 180 });
@@ -256,7 +259,7 @@ function applyTemplate6(doc, name, surname,
                     const startDates = Array.isArray(academis.start) ? academis.start.join(', ') : academis.start || "";
                     const endDates = Array.isArray(academis.end) ? academis.end.join(', ') : academis.end || "";
                     const descriptions = Array.isArray(academis.desc) ? academis.desc.join('\n') : academis.desc || "";
-    
+
                     doc.font(RobotoBold).fontSize(11).fillColor('black').text(jobTitle, { align: 'left', width: 200 });
                     doc.font(RobotoBold).fontSize(9).fillColor('black').text(lisans, { align: 'left', width: 250 });
                     doc.font(RobotoBold).fontSize(9).fillColor('black').text(employers, { align: 'left', width: 250 });

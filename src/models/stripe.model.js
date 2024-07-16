@@ -9,6 +9,14 @@ module.exports = (sequelize, DataTypes) => {
                 type: DataTypes.STRING,
                 allowNull: false,
             },
+            line_items: {
+                type: DataTypes.STRING,
+                allowNull: false,
+            },
+            mode: {
+                type: DataTypes.STRING,
+                allowNull: false,
+            },
         },
         {
             freezeTableName: true,

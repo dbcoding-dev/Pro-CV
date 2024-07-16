@@ -4,6 +4,7 @@ const Blog = require("../models/blog.model")(sequelize, DataTypes);
 const User = require("../models/user.model")(sequelize, DataTypes);
 const UserPdf = require("../models/pdfuser.model")(sequelize, DataTypes);
 const PageVisit = require("../models/page.model")(sequelize, DataTypes);
+const SubscriptionRequest = require("../models/subscriptionRequest.model")(sequelize, DataTypes);
 const bcrypt = require("bcrypt");
 
 
@@ -13,6 +14,7 @@ class AdminController {
         const totalBlog = await Blog.count();
         const totalUser = await UserPdf.count();
         const totalPanelUsers = await User.count();
+        const totalSubscriptionRequests = await SubscriptionRequest.count();
 
         const urls = [
             '/blog/',
@@ -51,6 +53,7 @@ class AdminController {
             totalBlog: totalBlog,
             totalUser: totalUser,
             totalPanelUsers: totalPanelUsers,
+            totalSubscriptionRequests: totalSubscriptionRequests,
             urls: urls,
             groupedLogs: JSON.stringify(groupedLogs)
         });

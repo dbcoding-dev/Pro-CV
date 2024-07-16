@@ -10,7 +10,8 @@ module.exports = (sequelize, DataTypes) => {
             references: {
                 model: 'cv_pdfcv',
                 key: 'id'
-            }
+            },
+            onDelete: 'CASCADE',
         }
     }, {
         freezeTableName: true,
@@ -18,11 +19,8 @@ module.exports = (sequelize, DataTypes) => {
 
     Cv_lang.associate = (models) => {
         Cv_lang.belongsTo(models.cv_pdfcv, {
-            foreignKey: {
-                name: 'cvId',
-                allowNull: false
-            },
-            onDelete: 'RESTRICT',
+            foreignKey: 'cvId',
+            onDelete: 'CASCADE',
         });
     };
 

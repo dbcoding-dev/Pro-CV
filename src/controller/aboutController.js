@@ -13,7 +13,6 @@ const aboutStorage = multer.diskStorage({
     }
 });
 
-
 const aboutUpload = multer({
     storage: aboutStorage,
     limits: {
@@ -21,67 +20,88 @@ const aboutUpload = multer({
     }
 }).single('img');
 
-
 class AboutController {
-    static getAbout(req, res) {
-        res.render("panel/about/get")
-    }
-    static getAboutAdd(req, res) {
-        res.render("panel/about/add")
-    }
-    static async addAbout(req, res) {
-        aboutUpload(req, res, (err) => {
-            if (err) {
-                req.flash('error', 'Dosya yüklenirken bir hata oluştu: ' + err.message);
-                return res.redirect('/panel/about');
-            }
-
-            if (!req.file) {
-                req.flash('error', 'Dosya yüklenemedi.');
-                return res.redirect('/panel/about');
-            }
-
-            const { order, title, desc } = req.body;
-            const img = req.file ? req.file.filename : null; // Dosya varsa filename, yoksa null
-            About.create({
-                order: order,
-                title: title,
-                desc: desc,
-                img: img,
-            })
-                .then(() => {
-                    req.flash('success', 'Resume başarıyla eklendi.');
-                    res.redirect('/panel/about');
-                })
-                .catch((error) => {
-                    req.flash('error', 'Bir hata oluştu: ' + error.message);
-                    res.redirect('/panel/about');
-                });
-        });
-    }
     static async getAbout(req, res) {
         try {
-            const Resumies = await About.findAll();
-            res.render('panel/about/get', { aboutList: Resumies });
+            const aboutList = await About.findAll();
+            res.render('panel/about/get', { aboutList: aboutList });
         } catch (error) {
             console.log(error);
             res.status(500).send('Internal Server Error');
         }
     }
-    static async deleteAbout(req, res) {
-        try {
-            const blogToDelete = await About.findByPk(req.params.id);
 
-            if (!blogToDelete) {
-                return res.status(404).json({ success: false, message: 'Blog not found' });
+    static async getAboutAdd(req, res) {
+        try {
+            const aboutCount = await About.count();
+            if (aboutCount >= 1) {
+                req.flash('error', 'Sadece bir adet "about" girdisi oluşturabilirsiniz.');
+                return res.redirect('/panel/about');
+            }
+            res.render("panel/about/add");
+        } catch (error) {
+            console.error(error);
+            res.status(500).send('Internal Server Error');
+        }
+    }
+
+    static async addAbout(req, res) {
+        try {
+            const aboutCount = await About.count();
+            if (aboutCount >= 1) {
+                req.flash('error', 'Sadece bir adet "about" girdisi oluşturabilirsiniz.');
+                return res.redirect('/panel/about');
             }
 
-            const imgPath = `uploads/about/${blogToDelete.img}`;
+            aboutUpload(req, res, (err) => {
+                if (err) {
+                    req.flash('error', 'Dosya yüklenirken bir hata oluştu: ' + err.message);
+                    return res.redirect('/panel/about');
+                }
+
+                if (!req.file) {
+                    req.flash('error', 'Dosya yüklenemedi.');
+                    return res.redirect('/panel/about');
+                }
+
+                const { order, title, desc } = req.body;
+                const img = req.file ? req.file.filename : null;
+                About.create({
+                    order: order,
+                    title: title,
+                    desc: desc,
+                    img: img,
+                })
+                    .then(() => {
+                        req.flash('success', 'About başarıyla eklendi.');
+                        res.redirect('/panel/about');
+                    })
+                    .catch((error) => {
+                        req.flash('error', 'Bir hata oluştu: ' + error.message);
+                        res.redirect('/panel/about');
+                    });
+            });
+        } catch (error) {
+            console.error(error);
+            req.flash('error', 'Bir hata oluştu: ' + error.message);
+            res.redirect('/panel/about');
+        }
+    }
+
+    static async deleteAbout(req, res) {
+        try {
+            const aboutToDelete = await About.findByPk(req.params.id);
+
+            if (!aboutToDelete) {
+                return res.status(404).json({ success: false, message: 'About not found' });
+            }
+
+            const imgPath = `src/uploads/about/${aboutToDelete.img}`;
 
             if (fs.existsSync(imgPath)) {
                 fs.unlinkSync(imgPath);
             }
-            await blogToDelete.destroy();
+            await aboutToDelete.destroy();
 
             res.json({ success: true, message: 'Deleted Successfully' });
         } catch (error) {
@@ -89,18 +109,20 @@ class AboutController {
             res.status(500).json({ success: false, message: 'Internal Server Error', error: error.message });
         }
     }
+
     static async editAbout(req, res) {
         try {
-            const blog = await About.findByPk(req.params.id);
-            if (!blog) {
+            const about = await About.findByPk(req.params.id);
+            if (!about) {
                 return res.status(404).send('Not Found');
             }
-            res.render('panel/about/edit', { blog: blog });
+            res.render('panel/about/edit', { about: about });
         } catch (error) {
             console.log(error);
             res.status(500).send('Internal Server Error');
         }
     }
+
     static async updateAbout(req, res) {
         try {
             aboutUpload(req, res, async (err) => {
@@ -112,26 +134,26 @@ class AboutController {
                 const { order, title, desc } = req.body;
                 const img = req.file ? req.file.filename : null;
 
-                const blog = await About.findByPk(req.params.id);
-                if (!blog) {
-                    return res.status(404).send('Blog not found');
+                const about = await About.findByPk(req.params.id);
+                if (!about) {
+                    return res.status(404).send('About not found');
                 }
 
-                if (req.file && blog.img) {
-                    const imgPath = `uploads/about/${blog.img}`;
+                if (req.file && about.img) {
+                    const imgPath = `src/uploads/about/${about.img}`;
                     if (fs.existsSync(imgPath)) {
                         fs.unlinkSync(imgPath);
                     }
                 }
 
-                await blog.update({
+                await about.update({
                     order: order,
                     title: title,
                     desc: desc,
-                    img: img || blog.img,
+                    img: img || about.img,
                 });
 
-                req.flash('success', 'Blog yazısı başarıyla güncellendi.');
+                req.flash('success', 'About yazısı başarıyla güncellendi.');
                 res.redirect('/panel/about');
             });
         } catch (error) {

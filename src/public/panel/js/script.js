@@ -264,10 +264,11 @@ function togglelangs() {
     } else {
         container.style.display = 'none';
         icon.innerText = '+';
+        localStorage.setItem('langsVisibility', 'hidden');
     }
 }
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     var container = document.getElementById('worklangs');
     container.style.display = 'none';
 });
@@ -385,10 +386,10 @@ function addDefaultReferanceExperience(container, index) {
 
 function addReferanceExperience() {
     var container = document.getElementById('referanceExperienceContainer');
-    
+
     if (container.children.length >= 2) {
         alert("En fazla 2 referans deneyimi ekleyebilirsiniz.");
-        return; 
+        return;
     }
 
     var newIndex = container.children.length;

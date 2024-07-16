@@ -250,6 +250,10 @@
     font-size: var(--bs-root-font-size)
 }
 
+button:hover {
+    box-shadow: none;
+}
+
 body {
     margin: 0;
     font-family: var(--bs-body-font-family);
@@ -40274,10 +40278,6 @@ button.hamburger:before {
 
 .accordion-wrapper .card-header button.collapsed:before {
     content: "\e92d"
-}
-
-.accordion-wrapper .card-header button:hover {
-    color: var(--bs-primary)
 }
 
 .accordion-item .card-body {

@@ -247,7 +247,7 @@ function addskills() {
   }
 
   var newEntry = container.lastElementChild.cloneNode(true);
-  newEntry.querySelector('input[name="skilles[0][skil]"]').value = "";
+  newEntry.querySelector('input').value = ""; // Find the first input element and clear its value
 
   var existingRemoveBtn = newEntry.querySelector(".remove-btn");
   if (existingRemoveBtn) {
@@ -262,8 +262,6 @@ function addskills() {
   newEntry.appendChild(removeBtn);
   container.appendChild(newEntry);
 
-  limitDisplayedItems(container, 7);
-
   saveSkillsToLocalStorage();
 }
 
@@ -271,7 +269,9 @@ function removeSkill(button) {
   var entry = button.parentNode;
   var container = entry.parentNode;
   container.removeChild(entry);
+  saveSkillsToLocalStorage();
 }
+
 
 // Languages
 
@@ -288,12 +288,10 @@ function togglelangs() {
     icon.innerText = "+";
   }
 }
-
 document.addEventListener("DOMContentLoaded", function () {
   var container = document.getElementById("worklangs");
   container.style.display = "none";
 });
-
 function addlangs() {
   var container = document.getElementById("worklangs");
   if (container.childElementCount >= 7) {
@@ -322,9 +320,9 @@ function addlangs() {
   saveLanguagesToLocalStorage();
 }
 function saveSkillsToLocalStorage() {
-  var skillsInputs = document.getElementsByName("skilles[0][skil]");
+  var skillsInputs = document.querySelectorAll('input[name^="skilles"]');
   var skillsData = [];
-  for (var i = 0; i < Math.min(skillsInputs.length, 5); i++) {
+  for (var i = 0; i < skillsInputs.length; i++) {
     skillsData.push(skillsInputs[i].value);
   }
   localStorage.setItem("skillsData", JSON.stringify(skillsData));
@@ -337,7 +335,6 @@ function saveLanguagesToLocalStorage() {
   }
   localStorage.setItem("langsData", JSON.stringify(langsData));
 }
-
 function removeLang(button) {
   var entry = button.parentNode;
   var container = entry.parentNode;
@@ -411,7 +408,7 @@ function addDefaultReferanceExperience(container, index) {
     var input = document.createElement("input");
     input.type = "text";
     input.name = "referance[" + index + "][" + name + "]";
-    input.placeholder = placeholders[i]; 
+    input.placeholder = placeholders[i];
     defaultEntry.appendChild(input);
   });
 
@@ -500,7 +497,7 @@ function addDefaultAcademiExperience(container, index) {
   ]
 
 
-  inputNames.forEach(function (name,i) {
+  inputNames.forEach(function (name, i) {
     var input = document.createElement("input");
     input.type = "text";
     input.name = "academi[" + index + "][" + name + "]";

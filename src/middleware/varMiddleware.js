@@ -6,9 +6,26 @@ const Cirriculum = require("../models/curriculum.model")(sequelize, DataTypes);
 const Comments = require("../models/comment.model")(sequelize, DataTypes);
 const Seo = require("../models/seo.model")(sequelize, DataTypes);
 const Users = require("../models/user.model")(sequelize, DataTypes);
+const Payment = require('../models/stripepayment.model')(sequelize, DataTypes);
 
 
 class GlobalDataMiddleware {
+  static async checkPayment(req, res, next) {
+    const userId = req.session.user ? req.session.user.id : null;
+    if (!userId) {
+      return res.redirect('/');
+    }
+    try {
+      const payment = await Payment.findOne({ where: { userId } });
+      if (payment) {
+        return res.redirect('/price');
+      }
+      next();
+    } catch (error) {
+      console.error(error);
+      res.status(500).render('error', { error: 'Sunucu hatası.' });
+    }
+  }
   static async setUser(req, res, next) {
     if (req.session && req.session.panelusers && req.session.panelusers.id) {
       try {
@@ -88,6 +105,7 @@ class GlobalDataMiddleware {
       res.status(500).send('Internal Server Error');
     }
   }
+
 }
 
 module.exports = GlobalDataMiddleware;

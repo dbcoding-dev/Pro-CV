@@ -61,7 +61,7 @@ function applyTemplate2(doc, name, surname,
     // Kişisel
     doc.font(RobotoBold).fontSize(14).fillColor('white').text('KİŞİSEL BİLGİLER', contactInfoX, doc.y + 10, { align: 'left' });
     doc.moveDown(0.5);
-    doc.font(RobotoBold).fontSize(9).fillColor('white').text('• ' + 'Doğum Yeri: ' + birth,{ align: 'left', width: 200 });
+    doc.font(RobotoBold).fontSize(9).fillColor('white').text('• ' + 'Doğum Yeri: ' + birth, { align: 'left', width: 200 });
     doc.font(RobotoBold).fontSize(9).fillColor('white').text('• ' + 'Askerlik: ' + asker.toLowerCase(), { align: 'left', width: 200 });
     doc.font(RobotoBold).fontSize(9).fillColor('white').text('• ' + 'Ehliyet: ' + surucu.toLowerCase(), { align: 'left', width: 200 });
     doc.font(RobotoBold).fontSize(9).fillColor('white').text('• ' + 'Medeni Durum: ' + medeni.toLowerCase(), { align: 'left', width: 200 });
@@ -69,60 +69,70 @@ function applyTemplate2(doc, name, surname,
     doc.font(RobotoBold).fontSize(9).fillColor('white').text('• ' + 'Doğum Günü: ' + date, { align: 'left', width: 200 });
 
 
-   // Yetenekler
-   doc.font(RobotoBold).fontSize(14).fillColor('white').text('YETENEKLER', contactInfoX, doc.y + 10, { align: 'left' });
-   const maxSkillsToShow = 5;
-   if (skilles && Array.isArray(skilles)) {
-       for (let index = 0; index < Math.min(skilles.length, maxSkillsToShow); index++) {
-           const skill = skilles[index];
-           if (skill && typeof skill === 'object' && skill.skil) {
-               if (index !== 0) {
-                   doc.moveDown(0.5);
-               }
-               const skillText = `${skill.skil}`;
-               const skillLines = skillText.split(',').map(line => line.trim());
-               doc.y = doc.y + 5;
-               doc.font(Roboto)
-                   .fontSize(12)
-                   .fillColor('white')
-                   .lineGap(6)
-                   .text(`- ${skillLines.join('\n- ')}`, { align: 'left' });
-           } else {
-               console.error(`Invalid skill at index ${index}.`);
-           }
-       }
-   } else {
-       console.error('Skills are not defined or not an array.');
-   }
+    // Yetenekler
+    doc.font(RobotoBold).fontSize(14).fillColor('white').text('YETENEKLER', contactInfoX, doc.y + 10, { align: 'left' });
+    const maxSkillsToShow = 5;
 
-   // Dil Becerileri
-   doc.font(RobotoBold).fontSize(14).fillColor('white').text('YABANCI DİL ', contactInfoX, doc.y + 10, { align: 'left' });
 
-   const maxLanguagesToShow = 5;
-   let displayedLanguages = 0;
+    if (skilles && Array.isArray(skilles)) {
+        for (let index = 0; index < Math.min(skilles.length, maxSkillsToShow); index++) {
+            const skill = skilles[index];
+            if (skill && typeof skill === 'string') {
+                if (index !== 0) {
+                    doc.moveDown(0.5);
+                }
+                const skillLines = skill.split(',').map(line => line.trim());
+                doc.y = doc.y + 5;
+                doc.font(Roboto)
+                    .fontSize(12)
+                    .fillColor('white')
+                    .lineGap(6)
+                    .text(`- ${skillLines.join('\n- ')}`, { align: 'left' });
+            } else {
+                console.error(`Invalid skill at index ${index}.`);
+            }
+        }
+    } else {
+        console.error('Skills are not defined or not an array.');
+    }
 
-   if (langs && Array.isArray(langs)) {
-       langs.forEach((langg, index) => {
-           if (displayedLanguages < maxLanguagesToShow && langg && typeof langg === 'object' && langg.lang) {
-               if (displayedLanguages !== 0) {
-                   doc.moveDown(1);
-               }
-               const langText = `${langg.lang}`;
-               const langLines = langText.split(',').map(line => line.trim());
-               doc.font(Roboto)
-                   .fontSize(12)
-                   .fillColor('white')
-                   .lineGap(6)
-                   .text(`- ${langLines.join('\n- ')}`, { align: 'left' });
+    // Dil Becerleri
+    doc.moveDown(1);
+    doc.font(RobotoBold).fontSize(14).fillColor('#4b30c9').text('Yabancı Dil', 400, 590, { align: 'left' });
+    doc.moveDown(0.5);
 
-               displayedLanguages++;
-           } else {
-               console.error(`Invalid lang at index ${index}.`);
-           }
-       });
-   } else {
-       console.error('Languages are not defined or not an array.');
-   }
+    if (langs && Array.isArray(langs)) {
+        langs.forEach((langg, index) => {
+            if (typeof langg === 'string') {
+                if (index !== 0) {
+                    doc.moveDown(1);
+                }
+                const langText = langg;
+                const langLines = langText.split(',').map(line => line.trim());
+                doc.font(RobotoBold)
+                    .fontSize(10)
+                    .fillColor('black')
+                    .lineGap(6)
+                    .text(`• ${langLines.join('\n• ')}`, { align: 'left', width: 200 });
+            } else if (typeof langg === 'object' && langg.lang) {
+                if (index !== 0) {
+                    doc.moveDown(1);
+                }
+                const langText = langg.lang;
+                const langLines = langText.split(',').map(line => line.trim());
+                doc.font(RobotoBold)
+                    .fontSize(10)
+                    .fillColor('black')
+                    .lineGap(6)
+                    .text(`• ${langLines.join('\n• ')}`, { align: 'left', width: 200 });
+            } else {
+                console.error(`Invalid lang at index ${index}.`);
+            }
+        });
+    } else {
+        console.error('Languages are not defined or not an array.');
+    }
+
 
 
     if (photoBuffer) {
@@ -140,7 +150,7 @@ function applyTemplate2(doc, name, surname,
         doc.font(Roboto).fontSize(20).fillColor('#000000').text(title.toUpperCase(), startX, startY, { align: 'left' });
         content();
         const endY = doc.y + 10;
-        doc.y = ( endY);
+        doc.y = (endY);
     };
 
     const addExperiencesSection = () => {
@@ -218,7 +228,7 @@ function applyTemplate2(doc, name, surname,
     addSection('Eğİtİm ve Nİtelİkler', addAcademiSection)
     addSection('Referanslar', addReferencesSection);
 
- 
+
 
 }
 

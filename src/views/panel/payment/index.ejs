@@ -109,6 +109,27 @@
                                                                                                 required>
                                                                                         </div>
                                                                                     </div>
+                                                                                    <div class="col-lg-6 col-sm-12">
+                                                                                        <div class="mb-3">
+                                                                                            <label for="">Subscription
+                                                                                                Token</label>
+                                                                                            <input type="text"
+                                                                                                class="form-control input-default"
+                                                                                                name="line_items"
+                                                                                                value="<%= stripe ? stripe.line_items : '' %>"
+                                                                                                required>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="col-lg-6 col-sm-12">
+                                                                                        <div class="mb-3">
+                                                                                            <label for="">Mode</label>
+                                                                                            <input type="text"
+                                                                                                class="form-control input-default"
+                                                                                                name="mode"
+                                                                                                value="<%= stripe ? stripe.mode : '' %>"
+                                                                                                required>
+                                                                                        </div>
+                                                                                    </div>
                                                                                 </div>
                                                                                 <div class="d-flex justify-content-end">
                                                                                     <div class="mb-3">

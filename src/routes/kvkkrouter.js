@@ -10,6 +10,7 @@ router.get("/panel/kvkk/add", authMiddleware, Kvkks.addKvkks)
 router.post('/panel/kvkkies', authMiddleware, Kvkks.addKvkk)
 router.get("/panel/kvkk/edit/:id", authMiddleware, Kvkks.KVKKEditPage);
 router.put('/panel/kvkk/:id', authMiddleware, Kvkks.updateKvkk);
+router.delete('/panel/kvkk/:id', authMiddleware, Kvkks.deleteKvkk);
 
 
 

@@ -86,11 +86,11 @@ function applyTemplate1(doc, name, surname,
 
     if (langs && Array.isArray(langs)) {
         langs.forEach((langg, index) => {
-            if (langg && typeof langg === 'object' && langg.lang) {
+            if (typeof langg === 'string') {
                 if (index !== 0) {
                     doc.moveDown(1);
                 }
-                const langText = `${langg.lang}`;
+                const langText = langg;
                 const langLines = langText.split(',').map(line => line.trim());
                 doc.font(RobotoBold)
                     .fontSize(10)
@@ -104,20 +104,20 @@ function applyTemplate1(doc, name, surname,
     } else {
         console.error('Languages are not defined or not an array.');
     }
+
     // Yetkinlikler
     doc.moveDown(1);
     doc.font(RobotoBold).fontSize(14).fillColor('#4b30c9').text('Yetkinlikler', 400, 490, { align: 'left', width: 100 });
 
     if (skilles && Array.isArray(skilles)) {
         skilles.forEach((skill, index) => {
-            if (skill && typeof skill === 'object' && skill.skil) {
+            if (skill && typeof skill === 'string') {
                 if (index !== 0) {
-                    doc.moveDown(1);
+                    doc.moveDown(0.5);
                 }
-                const skillText = `${skill.skil}`;
+                const skillText = skill.trim();
                 const skillLines = skillText.split(',').map(line => line.trim());
-
-                doc.font(RobotoBold)
+                doc.font(Roboto)
                     .fontSize(10)
                     .fillColor('black')
                     .lineGap(5)
@@ -210,7 +210,7 @@ function applyTemplate1(doc, name, surname,
                     const startDates = Array.isArray(academis.start) ? academis.start.join(', ') : academis.start || "";
                     const endDates = Array.isArray(academis.end) ? academis.end.join(', ') : academis.end || "";
                     const descriptions = Array.isArray(academis.desc) ? academis.desc.join('\n') : academis.desc || "";
-    
+
                     doc.font(RobotoBold).fontSize(11).fillColor('#4b30c9').text(jobTitle, { align: 'left', width: 200 });
                     doc.moveDown(0.1);
                     doc.font(RobotoBold).fontSize(9).fillColor('black').text(lisans, { align: 'left', width: 250 });
@@ -228,8 +228,8 @@ function applyTemplate1(doc, name, surname,
             console.error('Academic experiences are not defined or not an array.');
         }
     };
-    
-    
+
+
 
     addSection('Eğitim ve Nitelikler', addAcademiSection);
     addSection('İş Deneyimi', addExperiencesSection);

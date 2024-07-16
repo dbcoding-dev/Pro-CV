@@ -64,30 +64,30 @@ function applyTemplate5(doc, name, surname,
     doc.font(Roboto).fontSize(9).fillColor('#3C3633').text(site, { align: 'left' });
 
 
-     // Kişisel
-     doc.font(RobotoBold).fontSize(13).fillColor('#000000').text('KİŞİSEL', 40, doc.y + 10, { align: 'left' });
-     doc.lineWidth(1).moveTo(contactInfosX, doc.y + 5).lineTo(contactInfosX + 190, doc.y + 5).strokeColor('#000000').stroke();
- 
-     // Doğum Yeri
-     doc.moveDown(0.5);
-     doc.font(Roboto).fontSize(9).fillColor('#000000').text('Doğum Yeri :'+ birth.toLowerCase(), { align: 'left', width: 180 });
- 
-     // Doğum Gunu
-     doc.moveDown(0.5);
-     doc.font(Roboto).fontSize(9).fillColor('#000000').text('Doğum Günü :'+ date, { align: 'left', width: 180 });
-     // Ehliyet
-     doc.moveDown(0.5);
-     doc.font(Roboto).fontSize(9).fillColor('#000000').text('Ehliyet :'+surucu, { align: 'left', width: 180 });
-     // Cinsiyet
-     doc.moveDown(0.5);
-     doc.font(Roboto).fontSize(9).fillColor('#000000').text('Cinsiyet :'+ gender, { align: 'left', width: 180 });
-      // Medeni Durum
-      doc.moveDown(0.5);
-      doc.font(Roboto).fontSize(9).fillColor('#000000').text('Medeni Durum :'+ medeni, { align: 'left', width: 180 });
- 
-     // Askerlik
-     doc.moveDown(0.5);
-     doc.font(Roboto).fontSize(9).fillColor('#000000').text('Askerlik :'+ asker, { align: 'left', width: 180 });
+    // Kişisel
+    doc.font(RobotoBold).fontSize(13).fillColor('#000000').text('KİŞİSEL', 40, doc.y + 10, { align: 'left' });
+    doc.lineWidth(1).moveTo(contactInfosX, doc.y + 5).lineTo(contactInfosX + 190, doc.y + 5).strokeColor('#000000').stroke();
+
+    // Doğum Yeri
+    doc.moveDown(0.5);
+    doc.font(Roboto).fontSize(9).fillColor('#000000').text('Doğum Yeri :' + birth.toLowerCase(), { align: 'left', width: 180 });
+
+    // Doğum Gunu
+    doc.moveDown(0.5);
+    doc.font(Roboto).fontSize(9).fillColor('#000000').text('Doğum Günü :' + date, { align: 'left', width: 180 });
+    // Ehliyet
+    doc.moveDown(0.5);
+    doc.font(Roboto).fontSize(9).fillColor('#000000').text('Ehliyet :' + surucu, { align: 'left', width: 180 });
+    // Cinsiyet
+    doc.moveDown(0.5);
+    doc.font(Roboto).fontSize(9).fillColor('#000000').text('Cinsiyet :' + gender, { align: 'left', width: 180 });
+    // Medeni Durum
+    doc.moveDown(0.5);
+    doc.font(Roboto).fontSize(9).fillColor('#000000').text('Medeni Durum :' + medeni, { align: 'left', width: 180 });
+
+    // Askerlik
+    doc.moveDown(0.5);
+    doc.font(Roboto).fontSize(9).fillColor('#000000').text('Askerlik :' + asker, { align: 'left', width: 180 });
     // Yetenekler
     doc.moveDown(1);
     doc.font(RobotoBold).fontSize(13).fillColor('#000000').text('YETENEKLER', 40, doc.y + 10, { align: 'left' });
@@ -100,8 +100,8 @@ function applyTemplate5(doc, name, surname,
     if (skilles && Array.isArray(skilles)) {
         for (let index = 0; index < Math.min(skilles.length, maxSkillsToShow); index++) {
             const skill = skilles[index];
-            if (skill && typeof skill === 'object' && skill.skil) {
-                const skillText = `${skill.skil}`;
+            if (skill && typeof skill === 'string') {
+                const skillText = `${skill}`;
                 const skillLines = skillText.split(',').map(line => line.trim());
                 doc.y = doc.y + 10;
                 doc.font(RobotoLight)
@@ -116,16 +116,18 @@ function applyTemplate5(doc, name, surname,
     } else {
         console.error('Skills are not defined or not an array.');
     }
+
     // Dil Becerileri
     doc.moveDown(0.5);
     doc.font(RobotoBold).fontSize(13).fillColor('#000000').text('DİLLER ', 40, doc.y + 5, { align: 'left' });
     doc.lineWidth(1).moveTo(contactInfosX, doc.y + 3).lineTo(contactInfosX + 190, doc.y + 3).strokeColor('#000000').stroke();
     const maxLanguagesToShow = 5;
     let displayedLanguages = 0;
+
     if (langs && Array.isArray(langs)) {
         langs.forEach((langg, index) => {
-            if (displayedLanguages < maxLanguagesToShow && langg && typeof langg === 'object' && langg.lang) {
-                const langText = `${langg.lang}`;
+            if (displayedLanguages < maxLanguagesToShow && typeof langg === 'string') {
+                const langText = langg;
                 const langLines = langText.split(',').map(line => line.trim());
                 doc.y = doc.y + 10;
                 doc.font(RobotoLight)
@@ -143,7 +145,7 @@ function applyTemplate5(doc, name, surname,
         console.error('Languages are not defined or not an array.');
     }
 
-   
+
 
     const contactRefX = 200;
     const contactRefY = 300;
@@ -164,7 +166,7 @@ function applyTemplate5(doc, name, surname,
         doc.moveDown(0.5);
         content();
         const endY = doc.y + 10;
-        doc.y = ( endY);
+        doc.y = (endY);
     };
 
     const addExperiencesSection = () => {
@@ -210,7 +212,7 @@ function applyTemplate5(doc, name, surname,
                     const startDates = Array.isArray(academis.start) ? academis.start.join(', ') : academis.start || "";
                     const endDates = Array.isArray(academis.end) ? academis.end.join(', ') : academis.end || "";
                     const descriptions = Array.isArray(academis.desc) ? academis.desc.join('\n') : academis.desc || "";
-    
+
                     doc.font(RobotoBold).fontSize(11).fillColor('#000000').text(jobTitle, { align: 'left', width: 200 });
                     doc.moveDown(0.1);
                     doc.font(RobotoBold).fontSize(9).fillColor('black').text(lisans, { align: 'left', width: 250 });
@@ -256,7 +258,7 @@ function applyTemplate5(doc, name, surname,
     addSection('İş tecrübesi', addExperiencesSection);
     addSection('Referanslar', addReferencesSection);
     addSection('Eğitim ve Nitelikler ', addAcademiSection);
- 
+
 
 
 }

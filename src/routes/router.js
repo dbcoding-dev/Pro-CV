@@ -26,6 +26,7 @@ const routes = [
     { path: '/', router: require("./cvrouter.js"), auth: true },
     { path: '/', router: require("./striperouter.js"), auth: true },
     { path: '/', router: require("./posrouter.js"), auth: true },
+    { path: '/', router: require("./subscriptionrouter.js"), auth: true },
 ];
 
 // Rotaları ekleyen döngü

@@ -1,6 +1,7 @@
 const { DataTypes, Op } = require("sequelize");
 const { sequelize } = require("../models");
 const User = require("../models/pdfuser.model")(sequelize, DataTypes);
+const Payment = require('../models/stripepayment.model')(sequelize, DataTypes);
 const bcrypt = require("bcrypt");
 const crypto = require("crypto");
 const nodemailer = require("nodemailer");
@@ -214,11 +215,12 @@ class UserController {
     static async GetProfileById(req, res) {
         const userId = req.params.id;
         try {
+            const payment = await Payment.findOne({ where: { userId } });
             const user = await User.findByPk(userId);
             if (!user) {
                 return res.status(404).render('profile/profile', { error: 'Kullanıcı bulunamadı.' });
             }
-            res.render('profile/profile', { user });
+            res.render('profile/profile', { user, payment });
         } catch (error) {
             console.error(error);
             res.status(500).render('profile/profile', { error: 'Sunucu hatası.' });

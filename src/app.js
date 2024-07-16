@@ -16,7 +16,7 @@ dotenv.config();
 const GlobalDataMiddleware = require("./middleware/varMiddleware.js");
 const methodOverride = require('method-override');
 const { IpDeniedError } = require('./middleware/ipfilter.js');
-const { authenticateUser } = require('./middleware/authenticate.js');
+const { authenticateUser, sessionId } = require('./middleware/authenticate.js');
 const csrfUtil = require('./utils/csrf.js');
 
 const PORT = process.env.PORT || 3005;
@@ -61,16 +61,23 @@ app.use(
   GlobalDataMiddleware.setUser,
 );
 app.use(authenticateUser);
-
+app.use(sessionId);
 
 // Kullanıcı bilgilerini tüm şablonlara erişilebilir hale getirin
 app.use((req, res, next) => {
-  res.locals.user = req.session.user;
+  if (req.session.user) {
+    res.locals.user = req.session.user;
+  } else {
+    res.locals.user = null;
+  }
   next();
 });
 
+
+
 app.use("/", adminMenu);
 app.use('/', pdfGent);
+
 
 app.use((err, req, res, next) => {
   if (err instanceof IpDeniedError) {
@@ -78,14 +85,13 @@ app.use((err, req, res, next) => {
       error: err.message
     });
   }
-  next(err);
+  console.error(err); // Hatanın detaylarını loglayın
+  res.status(500).render('error/404', { error: 'Sunucu hatası.' });
 });
-
 
 app.use((req, res) => {
   res.status(404).render('error/404');
 });
-
 
 db.sequelize.sync({ force: false }).then(() => {
   app.listen(PORT, () => {

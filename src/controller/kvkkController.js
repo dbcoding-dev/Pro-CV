@@ -18,6 +18,11 @@ class Kvkks {
     }
     static async addKvkks(req, res) {
         try {
+            const KvkkCount = await Kvkk.count();
+            if (KvkkCount >= 1) {
+                req.flash('error', 'Sadece bir adet "kvkk" girdisi oluşturabilirsiniz.');
+                return res.redirect('/panel/kvkk');
+            }
             res.render('panel/kvkk/add');
         } catch (error) {
             console.log(error);
@@ -26,6 +31,7 @@ class Kvkks {
     }
     static async addKvkk(req, res) {
         try {
+
             const { order, title, desc } = req.body;
             const newAdd = await Kvkk.create({
                 order: order,
@@ -44,7 +50,6 @@ class Kvkks {
             res.status(500).json({ error: 'Internal Server Error' });
         }
     }
-
     static async KVKKEditPage(req, res) {
         try {
             const kvkk = await Kvkk.findByPk(req.params.id);
@@ -59,26 +64,39 @@ class Kvkks {
     }
     static async updateKvkk(req, res) {
         try {
-                const { order, title, desc } = req.body;
-                const kvkk = await Kvkk.findByPk(req.params.id);
-                if (!kvkk) {
-                    return res.status(404).send('Blog not found');
-                }
-                await kvkk.update({
-                    order: order,
-                    title: title,
-                    desc: desc,
-                });
-    
-                req.flash('success', 'Kvkk yazısı başarıyla güncellendi.');
-                res.redirect('/panel/kvkk');
+            const { order, title, desc } = req.body;
+            const kvkk = await Kvkk.findByPk(req.params.id);
+            if (!kvkk) {
+                return res.status(404).send('Blog not found');
+            }
+            await kvkk.update({
+                order: order,
+                title: title,
+                desc: desc,
+            });
+
+            req.flash('success', 'Kvkk yazısı başarıyla güncellendi.');
+            res.redirect('/panel/kvkk');
         } catch (error) {
             console.error(error);
             req.flash('error', 'Bir hata oluştu: ' + error.message);
             res.redirect('/panel/kvkk');
         }
     }
-    
+    static async deleteKvkk(req, res) {
+        try {
+            const kvkk = await Kvkk.findByPk(req.params.id);
+            if (!kvkk) {
+                return res.status(404).send('Not Found');
+            }
+            await kvkk.destroy();
+            res.redirect('/panel/kvkk');
+        } catch (error) {
+            console.error(error);
+            res.status(500).send('Internal Server Error');
+        }
+    }
+
 }
 
 

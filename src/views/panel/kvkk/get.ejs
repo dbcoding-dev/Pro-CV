@@ -43,7 +43,7 @@
                                       </tr>
                                     </thead>
                                     <tbody>
-                                      <% kvkkList.forEach(faq => { %>
+                                      <% kvkkList.forEach(faq=> { %>
                                         <tr>
 
                                           <td>
@@ -79,7 +79,7 @@
 
       <script>
         function deleteBlog(blogId) {
-          const isConfirmed = confirm("Are you sure you want to delete this FAQ?");
+          const isConfirmed = confirm("Are you sure you want to delete this KVKK?");
 
           if (isConfirmed) {
             fetch(`/panel/kvkk/${blogId}`, {
